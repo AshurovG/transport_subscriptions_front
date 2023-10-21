@@ -2,8 +2,10 @@ import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image'
 import Card from 'react-bootstrap/Card';
+import { Link } from 'react-router-dom';
 
 export type CardProps = {
+  id?: number,
   src?: string;
   title: React.ReactNode;
   category?: React.ReactNode;
@@ -12,16 +14,25 @@ export type CardProps = {
   onImageClick?: React.MouseEventHandler;
 };
 
-const OneCard: React.FC<CardProps> = ({title, category, textButton, onButtonClick, onImageClick }) => {
+const OneCard: React.FC<CardProps> = ({id, title, category, textButton, src, onButtonClick, onImageClick }) => {
   return (
-    <Card style={{ width: '25rem' }}>
-      {/* <Card.Img variant="top" src="holder.js/100px180" />
-       */}
-      <Image onClick={onImageClick} src="https://www.solaredge.com/us/sites/nam/files/Placeholders/Placeholder-4-3.jpg" rounded />
-      <Card.Body>
-        <Card.Title>Категория: {category}</Card.Title>
+    <Card>
+      <Link to={`/subscription/${id}`} style={{ display: 'block', textDecoration: 'none' }}>
+        <div style={{ position: 'relative', overflow: 'hidden' }}>
+          <Image
+            style={{ cursor: 'pointer', width: '100%', height: 'auto' }}
+            onClick={onImageClick}
+            src={src ? src : "https://www.solaredge.com/us/sites/nam/files/Placeholders/Placeholder-4-3.jpg"}
+            rounded
+          />
+        </div>
+      </Link>
+      <Card.Body className='d-flex flex-column'>
+        <Card.Title className='pt-3'>Категория: {category}</Card.Title>
         <Card.Text>{title}</Card.Text>
-        <Button onClick={onButtonClick} variant="primary">Добавить</Button>
+        <div className='mt-auto'>
+          <Button style={{ backgroundColor: '#3D348B', padding: '10px 20px' }} onClick={onButtonClick} variant="primary">Добавить</Button>
+        </div>
       </Card.Body>
     </Card>
   );

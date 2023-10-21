@@ -3,12 +3,11 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Header from 'components/Header';
 import OneCard from 'components/Card';
-import styles from './MainPage.module.scss'
+import './MainPage.scss'
 import { useEffect, useState } from 'react';
 import { ChangeEvent } from 'react';
 
 export type Subscription = {
-    id: number,
     title: string,
     price: string,
     info: string,
@@ -40,7 +39,6 @@ const MainPage: React.FC = () => {
         }
         const jsonData = await response.json();
         const newRecipesArr = jsonData.map((raw: ReceivedSubscriptionData) => ({
-            id: raw.id,
             title: raw.title,
             price: raw.price,
             info: raw.info,
@@ -67,23 +65,23 @@ const MainPage: React.FC = () => {
     };
 
     return (
-        <div className={styles['main__page']}>
+        <div className='main__page'>
             <Header/>
             <div className='content'>
                 <h1 className="mb-4">
                     Здесь вы можете подобрать выбрать для себя подходящий абонемент на какой-либо транспорт
                 </h1>
 
-                <Form style={{height: 50}} className="d-flex gap-3" onSubmit={handleFormSubmit}>
+                <Form className="d-flex gap-3" onSubmit={handleFormSubmit}>
                     <Form.Group className='w-100' controlId="search__sub.input__sub">
-                        <Form.Control style={{height: '100%'}} value={inputValue} onChange={handleInputValueChange} type="text" placeholder="Введите вид транспорта..." />
+                        <Form.Control value={inputValue} onChange={handleInputValueChange} type="text" placeholder="Введите вид транспорта..." />
                     </Form.Group>
-                    <Button style={{backgroundColor: "#3D348B", padding: "0 30px"}} onClick={() => handleSearchButtonClick()}>Найти</Button>
+                    <Button onClick={() => handleSearchButtonClick()} className='bg-primary'>Найти</Button>
                 </Form>
 
-                <div className={styles["content__cards"]}>
+                <div className="content__cards pb-5">
                     {subscriptions.map((subscription: Subscription) => (
-                        <OneCard id={subscription.id} src={subscription.src} onButtonClick={() => console.log(111)} title={subscription.title} category={subscription.categoryTitle}></OneCard>
+                        <OneCard src={subscription.src} onButtonClick={() => console.log(111)} title={subscription.title} category={subscription.categoryTitle}></OneCard>
                     ))}
                 </div>
             </div>
