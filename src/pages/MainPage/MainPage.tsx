@@ -69,7 +69,7 @@ const MainPage: React.FC = () => {
     return (
         <div className={styles['main__page']}>
             <Header/>
-            <div className='content'>
+            <div className={styles['content']}>
                 <h1 className="mb-4">
                     Здесь вы можете подобрать выбрать для себя подходящий абонемент на какой-либо транспорт
                 </h1>
@@ -78,7 +78,7 @@ const MainPage: React.FC = () => {
                     <Form.Group className='w-100' controlId="search__sub.input__sub">
                         <Form.Control style={{height: '100%'}} value={inputValue} onChange={handleInputValueChange} type="text" placeholder="Введите вид транспорта..." />
                     </Form.Group>
-                    <Button style={{backgroundColor: "#3D348B", padding: "0 30px"}} onClick={() => handleSearchButtonClick()}>Найти</Button>
+                    <Button style={{backgroundColor: "#3D348B", padding: "0 30px", borderColor: "#000"}} onClick={() => handleSearchButtonClick()}>Найти</Button>
                 </Form>
 
                 <div className={styles["content__cards"]}>
