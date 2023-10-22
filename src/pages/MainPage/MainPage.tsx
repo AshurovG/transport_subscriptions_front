@@ -6,6 +6,7 @@ import OneCard from 'components/Card';
 import styles from './MainPage.module.scss'
 import { useEffect, useState } from 'react';
 import { ChangeEvent } from 'react';
+import Dropdown from 'react-bootstrap/Dropdown';
 
 export type Subscription = {
     id: number,
@@ -27,16 +28,40 @@ export type ReceivedSubscriptionData = {
     category: string,
 }
 
+const categories = [
+    {
+        key: "scooter",
+        value: "Самокаты"
+    },
+    {
+        key: "mcd",
+        value: "МЦД"
+    },
+    {
+        key: "underground",
+        value: "Метро / МЦК"
+    },
+    {
+        key: "bike",
+        value: "Велосипеды"
+    },
+]
+
 const MainPage: React.FC = () => {
     const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
-    const [inputValue, setInputValue] = useState<string>('')
-    // const [isSearchButtonClicked, setIsSearchButtonClicked] = useState<boolean>(false)
+    const [categoryValue, setCategoryValue] = useState<string>('')
+    const [titleValue, setTitleValue] = useState<string>('')
+    const [priceValue, setPriceValue] = useState<number>()
     const fetchSubscriptions = async () => {
         let response = null;
-        if (!inputValue) {
+        if (!titleValue && !categoryValue && !priceValue) {
             response = await fetch('http://127.0.0.1:8000/subscriptions');
+        } else if (titleValue) {
+            response = await fetch(`http://127.0.0.1:8000/subscriptions?title=${titleValue}&category=${categoryValue}&max_price=${priceValue}`);
+        } else if(categoryValue) {
+            response = await fetch(`http://127.0.0.1:8000/subscriptions?category=${categoryValue}&max_price=${priceValue}`);
         } else {
-            response = await fetch(`http://127.0.0.1:8000/subscriptions?value=${inputValue}`);
+            response = await fetch(`http://127.0.0.1:8000/subscriptions?max_price=${priceValue}`);
         }
         const jsonData = await response.json();
         const newRecipesArr = jsonData.map((raw: ReceivedSubscriptionData) => ({
@@ -58,12 +83,25 @@ const MainPage: React.FC = () => {
         fetchSubscriptions();
     }
 
-    const handleInputValueChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setInputValue(event.target.value);
+    const handleTitleValueChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setTitleValue(event.target.value);
+    };
+
+    const handlePriceValueChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setPriceValue(Number(event.target.value));
     };
 
     const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+    };
+
+    const handleCategorySelect = (eventKey: string | null) => {
+        if (eventKey) {
+          const selectedCategory = categories.find(category => category.key === eventKey);
+          if (selectedCategory) {
+            setCategoryValue(selectedCategory.value);
+          }
+        }
     };
 
     return (
@@ -74,11 +112,46 @@ const MainPage: React.FC = () => {
                     Здесь вы можете подобрать выбрать для себя подходящий абонемент на какой-либо транспорт
                 </h1>
 
-                <Form style={{height: 50}} className="d-flex gap-3" onSubmit={handleFormSubmit}>
-                    <Form.Group className='w-100' controlId="search__sub.input__sub">
-                        <Form.Control style={{height: '100%'}} value={inputValue} onChange={handleInputValueChange} type="text" placeholder="Введите вид транспорта..." />
-                    </Form.Group>
-                    <Button style={{backgroundColor: "#3D348B", padding: "0 30px", borderColor: "#000"}} onClick={() => handleSearchButtonClick()}>Найти</Button>
+                <Form className="d-flex gap-3" onSubmit={handleFormSubmit}>
+                    <div className='w-100'>
+                        <Form.Group style={{height: 50}} className='w-100 mb-3' controlId="search__sub.input__sub">
+                            <Form.Control style={{height: '100%', borderColor: '#3D348B',}} value={titleValue} onChange={handleTitleValueChange} type="text" placeholder="Введите название абонемента..." />
+                        </Form.Group>
+                        <div style={{display: 'flex', gap: 10, width: '100%'}}>
+                            <Dropdown style={{minWidth: '40%'}} onSelect={handleCategorySelect}>
+                                <Dropdown.Toggle
+                                    style={{
+                                    height: 50,
+                                    borderColor: '#3D348B',
+                                    backgroundColor: "#fff",
+                                    color: '#000',
+                                    width: '100%',
+                                    textAlign: 'left',
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center',
+                                    paddingRight: '1rem' // Добавляем отступ справа для стрелочки
+                                    }}
+                                    variant="success"
+                                    id="dropdown-basic"
+                                >
+                                    {categoryValue}
+                                    <i className="bi bi-chevron-down"></i> {/* Иконка стрелочки */}
+                                </Dropdown.Toggle>
+                                <Dropdown.Menu style={{width: '100%', textAlign: 'left',}}>
+                                    {categories.map(category => (
+                                    <Dropdown.Item key={category.key} eventKey={category.key}>{category.value}</Dropdown.Item>
+                                    ))}
+                                </Dropdown.Menu>
+                            </Dropdown>
+                            <Form.Group style={{height: 50, width: '35%'}} className='mb-3' controlId="search__sub.input__sub">
+                                <Form.Control style={{height: '100%', borderColor: '#3D348B'}} value={priceValue} onChange={handlePriceValueChange} type="text" placeholder="Введите максимульную стоимость в рублях..." />
+                            </Form.Group>
+                        </div>
+                        
+                    </div>
+                    
+                    <Button style={{backgroundColor: "#3D348B", padding: "0 30px", borderColor: "#000", height: 50}} onClick={() => handleSearchButtonClick()}>Найти</Button>
                 </Form>
 
                 <div className={styles["content__cards"]}>
