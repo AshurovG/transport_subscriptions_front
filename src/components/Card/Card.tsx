@@ -9,12 +9,13 @@ export type CardProps = {
   src?: string;
   title: React.ReactNode;
   category?: React.ReactNode;
+  price?: number,
   textButton?: React.ReactNode;
   onButtonClick?: React.MouseEventHandler;
   onImageClick?: React.MouseEventHandler;
 };
 
-const OneCard: React.FC<CardProps> = ({id, title, category, textButton, src, onButtonClick, onImageClick }) => {
+const OneCard: React.FC<CardProps> = ({id, title, category, price, textButton, src, onButtonClick, onImageClick }) => {
   return (
     <Card>
       <Link to={`/subscription/${id}`} style={{ display: 'block', textDecoration: 'none' }}>
@@ -29,7 +30,8 @@ const OneCard: React.FC<CardProps> = ({id, title, category, textButton, src, onB
       </Link>
       <Card.Body className='d-flex flex-column'>
         <Card.Title className='pt-3'>Категория: {category}</Card.Title>
-        <Card.Text>{title}</Card.Text>
+        <Card.Subtitle>{title}</Card.Subtitle>
+        <Card.Text>Цена: {price}р.</Card.Text>
         <div className='mt-auto'>
           <Button style={{ backgroundColor: '#3D348B', padding: '10px 20px', borderColor: "#000" }} onClick={onButtonClick} variant="primary">Добавить</Button>
         </div>

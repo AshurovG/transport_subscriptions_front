@@ -54,15 +54,27 @@ const MainPage: React.FC = () => {
     const [priceValue, setPriceValue] = useState<number>()
     const fetchSubscriptions = async () => {
         let response = null;
-        if (!titleValue && !categoryValue && !priceValue) {
-            response = await fetch('http://127.0.0.1:8000/subscriptions');
-        } else if (titleValue) {
-            response = await fetch(`http://127.0.0.1:8000/subscriptions?title=${titleValue}&category=${categoryValue}&max_price=${priceValue}`);
+        let url = 'http://127.0.0.1:8000/subscriptions'
+        if (titleValue) {
+            url += `?title=${titleValue}`
+            console.log(url)
+            if (categoryValue) {
+                url += `&category=${categoryValue}`
+            }
+            if (priceValue) {
+                url += `&max_price=${priceValue}`
+            }
         } else if(categoryValue) {
-            response = await fetch(`http://127.0.0.1:8000/subscriptions?category=${categoryValue}&max_price=${priceValue}`);
-        } else {
-            response = await fetch(`http://127.0.0.1:8000/subscriptions?max_price=${priceValue}`);
+            url += `?category=${categoryValue}`
+            if (priceValue) {
+                url += `&max_price=${priceValue}`
+            }
+        } else if (priceValue){
+            url += `?max_price=${priceValue}`
         }
+
+        response = await fetch(url);
+
         const jsonData = await response.json();
         const newRecipesArr = jsonData.map((raw: ReceivedSubscriptionData) => ({
             id: raw.id,
@@ -73,7 +85,6 @@ const MainPage: React.FC = () => {
             categoryTitle: raw.category
         }))
         setSubscriptions(newRecipesArr);
-        // fetchCategory(newRecipesArr)
     };
     useEffect(() => {
         fetchSubscriptions();
@@ -156,7 +167,7 @@ const MainPage: React.FC = () => {
 
                 <div className={styles["content__cards"]}>
                     {subscriptions.map((subscription: Subscription) => (
-                        <OneCard id={subscription.id} src={subscription.src} onButtonClick={() => console.log(111)} title={subscription.title} category={subscription.categoryTitle}></OneCard>
+                        <OneCard id={subscription.id} src={subscription.src} onButtonClick={() => console.log('add to application')} title={subscription.title} category={subscription.categoryTitle} price={Number(subscription.price)}></OneCard>
                     ))}
                 </div>
             </div>
