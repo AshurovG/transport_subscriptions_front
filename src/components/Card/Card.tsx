@@ -9,13 +9,13 @@ export type CardProps = {
   src?: string;
   title: React.ReactNode;
   category?: React.ReactNode;
-  price?: number,
-  textButton?: React.ReactNode;
+  price?: number;
+  // textButton?: React.ReactNode;
   onButtonClick?: React.MouseEventHandler;
   onImageClick?: React.MouseEventHandler;
 };
 
-const OneCard: React.FC<CardProps> = ({id, title, category, price, textButton, src, onButtonClick, onImageClick }) => {
+const OneCard: React.FC<CardProps> = ({id, title, category, price, src, onButtonClick, onImageClick }) => {
   return (
     <Card>
       <Link to={`/subscription/${id}`} style={{ display: 'block', textDecoration: 'none' }}>

@@ -7,6 +7,7 @@ import styles from './MainPage.module.scss'
 import { useEffect, useState } from 'react';
 import { ChangeEvent } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
+import { Link } from 'react-router-dom';
 
 export type Subscription = {
     id: number,
@@ -119,6 +120,13 @@ const MainPage: React.FC = () => {
         <div className={styles['main__page']}>
             <Header/>
             <div className={styles['content']}>
+                <nav aria-label="breadcrumb">
+                    <ol className="breadcrumb">
+                        <li className="breadcrumb-item">
+                            <Link style={{color: '#3D348B'}} to="/">Subscriptions</Link>
+                        </li>
+                    </ol>
+                </nav>
                 <h1 className="mb-4">
                     Здесь вы можете подобрать выбрать для себя подходящий абонемент на какой-либо транспорт
                 </h1>
