@@ -26,62 +26,7 @@ export type ReceivedSubscriptionData = {
     category: string,
 }
 
-const mockSubscriptions = [
-    {
-        id: 5,
-        category: "Велосипеды",
-        title: "30 дней",
-        price: 500,
-        info: "Дополнительная информация об абонементе",
-        src: "https://velobaza.ru/upload/medialibrary/6fe/gornii_velosiped_3.jpg",
-        status: "enabled",
-    },
-    {
-        id: 7,
-        category: "Велосипеды",
-        title: "365 дней",
-        price: 4000,
-        info: "Дополнительная информация об абонементе",
-        src: "https://velobaza.ru/upload/medialibrary/6fe/gornii_velosiped_3.jpg",
-        status: "enabled",
-    },
-    {
-        id: 8,
-        category: "Самокаты",
-        title: "Бесплатный старт 30 дней",
-        price: 400,
-        info: "Дополнительная информация об абонементе",
-        src: "https://girosmart.ru/image/catalog/sw_photos/1231/elektrosamokat-kugoo-m4-pro-chernyy-17ah-new-2020-1.jpg",
-        status: "enabled",
-    },
-    {
-        id: 1,
-        category: "МЦД",
-        title: "5 поездок",
-        price: 1000,
-        info: "информация про мцд",
-        src: "https://myskillsconnect.com/uploads/posts/2023-06/1686528414_myskillsconnect-com-p-mtsd-poezda-vnutri-foto-26.jpg",
-        status: "enabled",
-    },
-    {
-        id: 3,
-        category: "МЦД",
-        title: "15 поездок",
-        price: 1500,
-        info: "информация про мцд",
-        src: "https://myskillsconnect.com/uploads/posts/2023-06/1686528414_myskillsconnect-com-p-mtsd-poezda-vnutri-foto-26.jpg",
-        status: "enabled",
-    },
-    {
-        id: 4,
-        category: "МЦД",
-        title: "30 поездок",
-        price: 2500,
-        info: "информация про мцд",
-        src: "https://myskillsconnect.com/uploads/posts/2023-06/1686528414_myskillsconnect-com-p-mtsd-poezda-vnutri-foto-26.jpg",
-        status: "enabled",
-    }
-]
+
 
 
 
