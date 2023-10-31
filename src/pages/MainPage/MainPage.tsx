@@ -9,6 +9,8 @@ import { ChangeEvent } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { Link } from 'react-router-dom';
 
+import { categories, mockSubscriptions } from '../../../consts';
+
 export type Subscription = {
     id: number,
     title: string,
@@ -30,93 +32,11 @@ export type ReceivedSubscriptionData = {
     category: string,
 }
 
-const categories = [
-    {
-        key: "scooter",
-        value: "Самокаты"
-    },
-    {
-        key: "mcd",
-        value: "МЦД"
-    },
-    {
-        key: "underground",
-        value: "Метро / МЦК"
-    },
-    {
-        key: "bike",
-        value: "Велосипеды"
-    },
-]
 
-
-
-const mockSubscriptions = [
-    {
-        id: 5,
-        categoryTitle: "Велосипеды",
-        title: "30 дней",
-        price: 500,
-        info: "Дополнительная информация об абонементе",
-        src: "https://velobaza.ru/upload/medialibrary/6fe/gornii_velosiped_3.jpg",
-        status: "enabled",
-        idCategory: 1
-    },
-    {
-        id: 7,
-        categoryTitle: "Велосипеды",
-        title: "365 дней",
-        price: 4000,
-        info: "Дополнительная информация об абонементе",
-        src: "https://velobaza.ru/upload/medialibrary/6fe/gornii_velosiped_3.jpg",
-        status: "enabled",
-        idCategory: 1
-    },
-    {
-        id: 8,
-        categoryTitle: "Самокаты",
-        title: "Бесплатный старт 30 дней",
-        price: 400,
-        info: "Дополнительная информация об абонементе",
-        src: "https://girosmart.ru/image/catalog/sw_photos/1231/elektrosamokat-kugoo-m4-pro-chernyy-17ah-new-2020-1.jpg",
-        status: "enabled",
-        idCategory: 1
-    },
-    {
-        id: 1,
-        categoryTitle: "МЦД",
-        title: "5 поездок",
-        price: 1000,
-        info: "информация про мцд",
-        src: "https://myskillsconnect.com/uploads/posts/2023-06/1686528414_myskillsconnect-com-p-mtsd-poezda-vnutri-foto-26.jpg",
-        status: "enabled",
-        idCategory: 1
-    },
-    {
-        id: 3,
-        categoryTitle: "МЦД",
-        title: "15 поездок",
-        price: 1500,
-        info: "информация про мцд",
-        src: "https://myskillsconnect.com/uploads/posts/2023-06/1686528414_myskillsconnect-com-p-mtsd-poezda-vnutri-foto-26.jpg",
-        status: "enabled",
-        idCategory: 1
-    },
-    {
-        id: 4,
-        categoryTitle: "МЦД",
-        title: "30 поездок",
-        price: 2500,
-        info: "информация про мцд",
-        src: "https://myskillsconnect.com/uploads/posts/2023-06/1686528414_myskillsconnect-com-p-mtsd-poezda-vnutri-foto-26.jpg",
-        status: "enabled",
-        idCategory: 1
-    }
-]
 
 const MainPage: React.FC = () => {
     const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
-    const [categoryValue, setCategoryValue] = useState<string>('')
+    const [categoryValue, setCategoryValue] = useState<string>(categories[0].value)
     const [titleValue, setTitleValue] = useState<string>('')
     const [priceValue, setPriceValue] = useState<number>()
     const fetchSubscriptions = async () => {
@@ -125,13 +45,13 @@ const MainPage: React.FC = () => {
         if (titleValue) {
             url += `?title=${titleValue}`
             console.log(url)
-            if (categoryValue) {
+            if (categoryValue && categoryValue !== 'Все категории') {
                 url += `&category=${categoryValue}`
             }
             if (priceValue) {
                 url += `&max_price=${priceValue}`
             }
-        } else if(categoryValue) {
+        } else if(categoryValue && categoryValue !== 'Все категории') {
             url += `?category=${categoryValue}`
             if (priceValue) {
                 url += `&max_price=${priceValue}`
@@ -143,7 +63,7 @@ const MainPage: React.FC = () => {
             response = await fetch(url);
 
             const jsonData = await response.json();
-            const newRecipesArr = jsonData.map((raw: ReceivedSubscriptionData) => ({
+            const newRecipesArr = jsonData.subscriptions.map((raw: ReceivedSubscriptionData) => ({
                 id: raw.id,
                 title: raw.title,
                 price: raw.price,
@@ -151,10 +71,13 @@ const MainPage: React.FC = () => {
                 src: raw.src,
                 categoryTitle: raw.category
             }))
+
+            console.log(newRecipesArr)
             setSubscriptions(newRecipesArr);
         }
         catch {
-            if (categoryValue) {
+            console.log('запрос не прошел !')
+            if (categoryValue && categoryValue !== 'Все категории') {
                 const filteredArray = mockSubscriptions.filter(mockSubscription => mockSubscription.categoryTitle === categoryValue);
                 setSubscriptions(filteredArray);
             } else if (titleValue) {
@@ -164,18 +87,10 @@ const MainPage: React.FC = () => {
                 const filteredArray = mockSubscriptions.filter(mockSubscription => mockSubscription.price <= priceValue);
                 setSubscriptions(filteredArray);
             }
-
-            // if (titleValue) {
-            //     const filteredArray = mockSubscriptions.filter(mockSubscription => mockSubscription.categoryTitle.includes(categoryValue));
-            //     setSubscriptions(filteredArray);
-            // }
             
             else {
                 setSubscriptions(mockSubscriptions);
             }
-            // const filteredArray = mockSubscriptions.filter(mockSubscription => mockSubscription.categoryTitle === categoryValue);
-            // setSubscriptions(mockSubscriptions);
-            // console.log('fjkdlfjkld')
         }
         
     };
@@ -241,13 +156,13 @@ const MainPage: React.FC = () => {
                                     display: 'flex',
                                     justifyContent: 'space-between',
                                     alignItems: 'center',
-                                    paddingRight: '1rem' // Добавляем отступ справа для стрелочки
+                                    paddingRight: '1rem'
                                     }}
                                     variant="success"
                                     id="dropdown-basic"
                                 >
                                     {categoryValue}
-                                    <i className="bi bi-chevron-down"></i> {/* Иконка стрелочки */}
+                                    <i className="bi bi-chevron-down"></i>
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu style={{width: '100%', textAlign: 'left',}}>
                                     {categories.map(category => (
