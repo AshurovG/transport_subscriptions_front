@@ -82,14 +82,7 @@ const MainPage: React.FC = () => {
                         rounded
                     />
                     <div style={{width: '55%'}}>
-                        <div className='d-flex align-self-center justify-content-between gap-2'>
                             <h1 className='mb-4'>{subscription?.categoryTitle} "{subscription?.title}"</h1>
-                            <Link to="/" style={{ color: 'white', textDecoration: 'none' }}>
-                                <Button variant="primary" style={{backgroundColor: "#3D348B", padding: "15px 30px", borderColor: "#000"}}>
-                                        Назад
-                                </Button>
-                            </Link>
-                        </div>
                         <h4>Цена на данный абонемент:  <strong>{subscription?.price}р.</strong></h4>
                         <h4>Описание:
                         <p>{subscription?.info}</p>
