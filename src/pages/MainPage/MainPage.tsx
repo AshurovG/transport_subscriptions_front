@@ -61,9 +61,9 @@ const MainPage: React.FC = () => {
         }
         try {
             response = await fetch(url);
-
             const jsonData = await response.json();
-            const newRecipesArr = jsonData.map((raw: ReceivedSubscriptionData) => ({ // Здесь была проблема с undefined на маке
+            console.log(jsonData)
+            const newRecipesArr = jsonData.subscriptions.map((raw: ReceivedSubscriptionData) => ({ // Здесь была проблема с undefined на маке
                 id: raw.id,
                 title: raw.title,
                 price: raw.price,
