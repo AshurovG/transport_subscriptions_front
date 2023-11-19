@@ -30,10 +30,6 @@ const MainPage: React.FC = () => {
 
     const params = useParams();
     const id = params.id === undefined ? '' : params.id;
-    // const [linksMap, setLinksMap] = useState<Map<string, string>>(
-    //     new Map<string, string>([['Абонементы', '/']])
-    // );
-
 
     const getSubscription = async () => {
         try {
