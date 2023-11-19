@@ -7,8 +7,9 @@ import Image from "react-bootstrap/Image"
 import styles from './DetaliedPage.module.scss'
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-
 import { mockSubscriptions } from '../../../consts'
+import {useDispatch} from "react-redux";
+import {useData, setDataAction, incDataAction, decDataAction} from "../../Slices/DataSlice";
 
 type Subscription = {
     id: number;
@@ -32,6 +33,8 @@ export type ReceivedSubscriptionData = {
 
 
 const MainPage: React.FC = () => {
+    const dispatch = useDispatch()
+    const data = useData()
     const params = useParams();
     const id = params.id === undefined ? '' : params.id;
     const [linksMap, setLinksMap] = useState<Map<string, string>>(
@@ -66,9 +69,6 @@ const MainPage: React.FC = () => {
         }
         
         currentUrl += 'subscription/' + id
-        // if (subscription !== undefined) {
-            
-        // }
     };
     useEffect(() => {
         fetchSubscription();
@@ -95,6 +95,10 @@ const MainPage: React.FC = () => {
                         </div>
                     </div>
                 </div>
+                <h2>{data}</h2>
+                <Button onClick={() => dispatch(setDataAction(7))}>Установить 7</Button>
+                <Button onClick={() => dispatch(decDataAction())}>Уменьшить</Button>
+                <Button onClick={() => dispatch(incDataAction())}>Увеличить</Button>
             </div>
         </div>
     )
