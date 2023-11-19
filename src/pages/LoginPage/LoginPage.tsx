@@ -5,9 +5,9 @@ import Form from 'react-bootstrap/Form';
 import Header from 'components/Header';
 import BreadCrumbs from 'components/BreadCrumbs';
 import Image from "react-bootstrap/Image"
-import styles from './RegistrationPage.module.scss'
+import styles from './LoginPage.module.scss'
 
-const MainPage: React.FC = () => {
+const LoginPage: React.FC = () => {
 
     const handleFormSubmit = () => {
         console.log('Form was submitted')
@@ -21,20 +21,10 @@ const MainPage: React.FC = () => {
                 style={{backgroundColor: '#fff', width: '50%', padding: '60px 40px',
                 margin: '0 auto', display: 'flex', flexDirection: 'column',
                 boxShadow: '0px 4px 10px 0px rgba(0, 0, 0, 0.25)', borderRadius: '10px'}}>
-                    <h3 className={styles.content__title}>Регистрация</h3>
+                    <h3 className={styles.content__title}>Вход</h3>
                     <div className={styles.form__item}>
                         <Form.Group style={{height: 50}} className='w-100 mb-3' controlId="search__sub.input__sub">
                             <Form.Control style={{height: '100%', borderColor: '#3D348B', fontSize: 18}} type="email" placeholder="E-mail..." />
-                        </Form.Group>
-                    </div>
-                    <div className={styles.form__item}>
-                        <Form.Group style={{height: 50}} className='w-100 mb-3' controlId="search__sub.input__sub">
-                            <Form.Control style={{height: '100%', borderColor: '#3D348B', fontSize: 18}} type="text" placeholder="ФИО..." />
-                        </Form.Group>
-                    </div>
-                    <div className={styles.form__item}>
-                        <Form.Group style={{height: 50}} className='w-100 mb-3' controlId="search__sub.input__sub">
-                            <Form.Control style={{height: '100%', borderColor: '#3D348B', fontSize: 18}} type="tel" placeholder="Номер телефона..." />
                         </Form.Group>
                     </div>
                     <div className={styles.form__item}>
@@ -43,12 +33,12 @@ const MainPage: React.FC = () => {
                         </Form.Group>
                     </div>
                     
-                    <Button type='submit' style={{backgroundColor: "#2787F5", padding: "10px 20px", borderColor: "#000", fontSize: 18, height: 50}}>Зарегистрироваться</Button>
-                    <Link className={styles.content__link} to='/login'>У вас уже есть аккаунт?</Link>
+                    <Button type='submit' style={{backgroundColor: "#2787F5", padding: "10px 20px", borderColor: "#000", fontSize: 18, height: 50}}>Войти</Button>
+                    <Link className={styles.content__link} to='/registration'>У вас еще нет аккаунта?</Link>
                 </Form>
             </div>
         </div>
     )
 };
   
-export default MainPage;
+export default LoginPage;

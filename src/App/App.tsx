@@ -3,6 +3,7 @@ import { HashRouter, Routes, Route } from 'react-router-dom'
 import MainPage from 'pages/MainPage';
 import DetaliedPage from 'pages/DetaliedPage';
 import RegistrationPage from 'pages/RegistrationPage';
+import LoginPage from 'pages/LoginPage';
 
 function App() {
     return (
@@ -16,6 +17,7 @@ function App() {
                 </Route>
 
                 <Route path='/registration' element={<RegistrationPage/>}></Route>
+                <Route path='/login' element={<LoginPage/>}></Route>
             </Routes>
         </HashRouter>
       </div>
