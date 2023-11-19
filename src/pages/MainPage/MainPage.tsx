@@ -11,6 +11,8 @@ import { Link } from 'react-router-dom';
 import SliderFilter from 'components/Slider';
 import BreadCrumbs from 'components/BreadCrumbs';
 import { categories, mockSubscriptions } from '../../../consts';
+import {useDispatch} from "react-redux";
+import {useCategories, setCategoriesAction} from "../../Slices/MainSlice";
 import axios from 'axios';
 
 export type Subscription = {
@@ -34,9 +36,22 @@ export type ReceivedSubscriptionData = {
     category: string,
 }
 
+export type ReceivedCategoryData = {
+    id: number,
+    title: string,
+    status: string
+}
+
+export type CategoryData = {
+    id: number,
+    title: string,
+}
 
 
 const MainPage: React.FC = () => {
+    const dispatch = useDispatch()
+    const dropdownCategories = useCategories();
+
     const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
     const [categoryValue, setCategoryValue] = useState<string>(categories[0].value)
     const [titleValue, setTitleValue] = useState<string>('')
@@ -46,7 +61,7 @@ const MainPage: React.FC = () => {
         ['Абонементы', '/']
     ]);
 
-    const fetchSubscriptions = async () => {
+    const getSubscriptions = async () => {
         let url = 'http://127.0.0.1:8000/subscriptions'
         if (titleValue) {
             url += `?title=${titleValue}`
@@ -67,11 +82,6 @@ const MainPage: React.FC = () => {
         try {
             const response = await axios.get(url, { withCredentials: true });
             const jsonData = response.data;
-            // const response = await fetch(url, {
-            //     credentials: 'include'
-            // });
-            // const jsonData = await response.json();
-            // const newRecipesArr = jsonData.subscriptions.map((raw: ReceivedSubscriptionData) => ({
             const newRecipesArr = jsonData.map((raw: ReceivedSubscriptionData) => ({
                 id: raw.id,
                 title: raw.title,
@@ -95,19 +105,33 @@ const MainPage: React.FC = () => {
                 const filteredArray = mockSubscriptions.filter(mockSubscription => mockSubscription.price <= priceValue);
                 setSubscriptions(filteredArray);
             }
-            
             else {
                 setSubscriptions(mockSubscriptions);
             }
         }
-        
     };
+
+    const getCategories = async () => {
+        let url = 'http://127.0.0.1:8000/categories'
+        try {
+            const response = await axios.get(url)
+            const categories = response.data.map((raw: ReceivedCategoryData) => ({
+                id: raw.id,
+                title: raw.title
+            }))
+            console.log(categories)
+            dispatch(setCategoriesAction(categories))
+        } catch {
+            console.log('запрос не прошел !')
+        }
+    }
     useEffect(() => {
-        fetchSubscriptions();
+        getSubscriptions();
+        getCategories();
     }, []);
 
     const handleSearchButtonClick = () => {
-        fetchSubscriptions();
+        getSubscriptions();
     }
 
     const handleTitleValueChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -127,10 +151,10 @@ const MainPage: React.FC = () => {
     };
 
     const handleCategorySelect = (eventKey: string | null) => {
-        if (eventKey) {
-          const selectedCategory = categories.find(category => category.key === eventKey);
+        if (eventKey !== null) {
+          const selectedCategory = dropdownCategories.find(category => category.id === parseInt(eventKey, 10));
           if (selectedCategory) {
-            setCategoryValue(selectedCategory.value);
+            setCategoryValue(selectedCategory.title);
           }
         }
     };
@@ -173,8 +197,8 @@ const MainPage: React.FC = () => {
                                     <i className="bi bi-chevron-down"></i>
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu style={{width: '100%', textAlign: 'left',}}>
-                                    {categories.map(category => (
-                                        <Dropdown.Item key={category.key} eventKey={category.key}>{category.value}</Dropdown.Item>
+                                    {dropdownCategories.map(category => (
+                                        <Dropdown.Item key={category.id} eventKey={category.id}>{category.title}</Dropdown.Item>
                                     ))}
                                 </Dropdown.Menu>
                             </Dropdown>

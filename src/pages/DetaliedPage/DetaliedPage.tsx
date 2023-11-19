@@ -45,12 +45,10 @@ const MainPage: React.FC = () => {
     const [subscription, setSubscription] = useState<Subscription>();
     let currentUrl = '/'
 
-    const fetchSubscription = async () => {
+    const getSubscription = async () => {
         try {
             const response = await axios.get(`http://127.0.0.1:8000/subscriptions/${id}`);
             const jsonData = response.data;
-            // const response = await fetch(`http://127.0.0.1:8000/subscriptions/${id}`);
-            // const jsonData = await response.json();
             setSubscription({
                 id: Number(jsonData.id),
                 title: jsonData.title,
@@ -71,7 +69,7 @@ const MainPage: React.FC = () => {
         currentUrl += 'subscription/' + id
     };
     useEffect(() => {
-        fetchSubscription();
+        getSubscription();
         // console.log(currentUrl)
     }, []);
 
