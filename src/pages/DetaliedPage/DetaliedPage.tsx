@@ -9,7 +9,8 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { mockSubscriptions } from '../../../consts'
 import {useDispatch} from "react-redux";
-import {useData, setDataAction, incDataAction, decDataAction} from "../../Slices/DataSlice";
+import {useData, setDataAction, incDataAction, decDataAction} from "../../Slices/MainSlice";
+import axios from 'axios';
 
 type Subscription = {
     id: number;
@@ -42,15 +43,14 @@ const MainPage: React.FC = () => {
     );
 
     const [subscription, setSubscription] = useState<Subscription>();
-    // const linksMap = new Map<string, string>([
-    //     ['Абонементы', '/']
-    // ]);
     let currentUrl = '/'
 
     const fetchSubscription = async () => {
         try {
-            const response = await fetch(`http://127.0.0.1:8000/subscriptions/${id}`);
-            const jsonData = await response.json();
+            const response = await axios.get(`http://127.0.0.1:8000/subscriptions/${id}`);
+            const jsonData = response.data;
+            // const response = await fetch(`http://127.0.0.1:8000/subscriptions/${id}`);
+            // const jsonData = await response.json();
             setSubscription({
                 id: Number(jsonData.id),
                 title: jsonData.title,

@@ -10,8 +10,8 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import { Link } from 'react-router-dom';
 import SliderFilter from 'components/Slider';
 import BreadCrumbs from 'components/BreadCrumbs';
-
 import { categories, mockSubscriptions } from '../../../consts';
+import axios from 'axios';
 
 export type Subscription = {
     id: number,
@@ -65,10 +65,12 @@ const MainPage: React.FC = () => {
             url += `?max_price=${priceValue}`
         }
         try {
-            const response = await fetch(url, {
-                credentials: 'include'
-            });
-            const jsonData = await response.json();
+            const response = await axios.get(url, { withCredentials: true });
+            const jsonData = response.data;
+            // const response = await fetch(url, {
+            //     credentials: 'include'
+            // });
+            // const jsonData = await response.json();
             // const newRecipesArr = jsonData.subscriptions.map((raw: ReceivedSubscriptionData) => ({
             const newRecipesArr = jsonData.map((raw: ReceivedSubscriptionData) => ({
                 id: raw.id,
