@@ -1,26 +1,15 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
-import Button from 'react-bootstrap/Button';
+// import Button from 'react-bootstrap/Button';
 import Header from 'components/Header';
 import BreadCrumbs from 'components/BreadCrumbs';
 import Image from "react-bootstrap/Image"
 import styles from './DetaliedPage.module.scss'
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { mockSubscriptions } from '../../../consts'
 import {useDispatch} from "react-redux";
-import { useSubscription, setSubscriptionAction } from "../../Slices/DetailedSlice"
-// import {use, incDataAction, decDataAction} from "../../Slices/MainSlice";
+import { useSubscription, useLinksMapData, setSubscriptionAction, setLinksMapDataAction } from "../../Slices/DetailedSlice"
 import axios from 'axios';
-
-type Subscription = {
-    id: number;
-    title: string;
-    price: number;
-    info: string;
-    src: string;
-    categoryTitle: string;
-};
 
 export type ReceivedSubscriptionData = {
     id: number,
@@ -37,14 +26,14 @@ export type ReceivedSubscriptionData = {
 const MainPage: React.FC = () => {
     const dispatch = useDispatch();
     const subscription = useSubscription();
+    const linksMap = useLinksMapData();
+
     const params = useParams();
     const id = params.id === undefined ? '' : params.id;
-    const [linksMap, setLinksMap] = useState<Map<string, string>>(
-        new Map<string, string>([['Абонементы', '/']])
-    );
+    // const [linksMap, setLinksMap] = useState<Map<string, string>>(
+    //     new Map<string, string>([['Абонементы', '/']])
+    // );
 
-    // const [subscription, setSubscription] = useState<Subscription>();
-    let currentUrl = '/'
 
     const getSubscription = async () => {
         try {
@@ -61,19 +50,20 @@ const MainPage: React.FC = () => {
 
             const newLinksMap = new Map<string, string>(linksMap); // Копирование старого Map
             newLinksMap.set(jsonData.title, '/subscription/' + id);
-            setLinksMap(newLinksMap)
+            dispatch(setLinksMapDataAction(newLinksMap))
         } catch {
             const sub = mockSubscriptions.find(item => item.id === Number(id));
             if (sub) {
                 dispatch(setSubscriptionAction(sub))
             }
         }
-        
-        currentUrl += 'subscription/' + id
     };
     useEffect(() => {
         getSubscription();
-        // console.log(currentUrl)
+
+        return () => { // Возможно лучше обобщить для всех страниц в отдельный Slice !!!
+            dispatch(setLinksMapDataAction(new Map<string, string>([['Абонементы', '/']])))
+        }
     }, []);
 
     return (
