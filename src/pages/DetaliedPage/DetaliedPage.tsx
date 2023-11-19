@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Header from 'components/Header';
+import BreadCrumbs from 'components/BreadCrumbs';
 import Image from "react-bootstrap/Image"
 import styles from './DetaliedPage.module.scss'
 import { useEffect, useState } from 'react';
@@ -33,8 +34,14 @@ export type ReceivedSubscriptionData = {
 const MainPage: React.FC = () => {
     const params = useParams();
     const id = params.id === undefined ? '' : params.id;
+    const [linksMap, setLinksMap] = useState<Map<string, string>>(
+        new Map<string, string>([['Абонементы', '/']])
+    );
 
     const [subscription, setSubscription] = useState<Subscription>();
+    // const linksMap = new Map<string, string>([
+    //     ['Абонементы', '/']
+    // ]);
     let currentUrl = '/'
 
     const fetchSubscription = async () => {
@@ -49,12 +56,19 @@ const MainPage: React.FC = () => {
                 src: jsonData.src,
                 categoryTitle: jsonData.category
             })
+
+            const newLinksMap = new Map<string, string>(linksMap); // Копирование старого Map
+            newLinksMap.set(jsonData.title, '/subscription/' + id);
+            setLinksMap(newLinksMap)
         } catch {
             const subscription = mockSubscriptions.find(item => item.id === Number(id));
             setSubscription(subscription)
         }
         
         currentUrl += 'subscription/' + id
+        // if (subscription !== undefined) {
+            
+        // }
     };
     useEffect(() => {
         fetchSubscription();
@@ -65,7 +79,7 @@ const MainPage: React.FC = () => {
         <div className='main__page'>
             <Header/>
             <div className={styles.content} style={{paddingTop: "90px"}}>
-                <nav aria-label="breadcrumb">
+                {/* <nav aria-label="breadcrumb">
                     <ol className="breadcrumb">
                         <li className="breadcrumb-item">
                             <Link style={{color: '#3D348B'}} to="/">Subscriptions</Link>
@@ -74,7 +88,9 @@ const MainPage: React.FC = () => {
                             <Link style={{color: '#3D348B'}} to={`/subscription/${subscription?.id}`}>{subscription?.categoryTitle} {subscription?.title}</Link>
                         </li>
                     </ol>
-                </nav>
+                </nav> */}
+
+                <BreadCrumbs links={linksMap}/>
                 <div className='d-flex gap-5'>
                     <Image
                         style={{ width: '45%' }}

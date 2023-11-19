@@ -9,6 +9,7 @@ import { ChangeEvent } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { Link } from 'react-router-dom';
 import SliderFilter from 'components/Slider';
+import BreadCrumbs from 'components/BreadCrumbs';
 
 import { categories, mockSubscriptions } from '../../../consts';
 
@@ -41,6 +42,10 @@ const MainPage: React.FC = () => {
     const [titleValue, setTitleValue] = useState<string>('')
     const [priceValue, setPriceValue] = useState<number>()
     const [sliderValues, setSliderValues] = useState([0, 10000]);
+    const linksMap = new Map<string, string>([
+        ['Абонементы', '/']
+    ]);
+
     const fetchSubscriptions = async () => {
         let response = null;
         let url = 'http://127.0.0.1:8000/subscriptions'
@@ -136,33 +141,30 @@ const MainPage: React.FC = () => {
         <div className={styles['main__page']}>
             <Header/>
             <div className={styles['content']}>
-                <nav aria-label="breadcrumb">
+                {/* <nav aria-label="breadcrumb">
                     <ol className="breadcrumb">
                         <li className="breadcrumb-item">
                             <Link style={{color: '#3D348B'}} to="/">Абонементы</Link>
                         </li>
                     </ol>
-                </nav>
+                </nav> */}
+
+                <BreadCrumbs links={linksMap}></BreadCrumbs>
+
                 <h1 className="mb-4">
                     Здесь вы можете подобрать выбрать для себя подходящий абонемент на какой-либо транспорт
                 </h1>
 
                 <Form className="d-flex gap-3" onSubmit={handleFormSubmit}>
                     <div className='w-100'>
-                        <Form.Group style={{height: 50}} className='w-100 mb-3' controlId="search__sub.input__sub">
-                            <Form.Control style={{height: '100%', borderColor: '#3D348B',}} value={titleValue} onChange={handleTitleValueChange} type="text" placeholder="Введите название абонемента..." />
+                        <Form.Group style={{height: 60}} className='w-100 mb-3' controlId="search__sub.input__sub">
+                            <Form.Control style={{height: '100%', borderColor: '#3D348B', fontSize: 18}} value={titleValue} onChange={handleTitleValueChange} type="text" placeholder="Введите название абонемента..." />
                         </Form.Group>
-                        <div style={{display: 'flex', gap: 10, width: '100%', alignItems: 'flex-end'}}>
-                            <SliderFilter
-                                onChangeValues={handleSliderChange}
-                                minimum={0}
-                                maximum={10000}
-                                title="Диапазон цен"
-                            />
+                        <div style={{display: 'flex', gap: 10, width: '100%', justifyContent: 'space-between', alignItems: 'flex-end'}}>
                             <Dropdown style={{minWidth: '40%'}} onSelect={handleCategorySelect}>
                                 <Dropdown.Toggle
                                     style={{
-                                    height: 50,
+                                    height: 60,
                                     borderColor: '#3D348B',
                                     backgroundColor: "#fff",
                                     color: '#000',
@@ -171,7 +173,8 @@ const MainPage: React.FC = () => {
                                     display: 'flex',
                                     justifyContent: 'space-between',
                                     alignItems: 'center',
-                                    paddingRight: '1rem'
+                                    paddingRight: '1rem',
+                                    fontSize: 18
                                     }}
                                     variant="success"
                                     id="dropdown-basic"
@@ -185,11 +188,17 @@ const MainPage: React.FC = () => {
                                     ))}
                                 </Dropdown.Menu>
                             </Dropdown>
+                            <SliderFilter
+                                onChangeValues={handleSliderChange}
+                                minimum={0}
+                                maximum={10000}
+                                title="Диапазон цен"
+                            />
                         </div>
                         
                     </div>
                     
-                    <Button style={{backgroundColor: "#3D348B", padding: "0 30px", borderColor: "#000", height: 50}} onClick={() => handleSearchButtonClick()}>Найти</Button>
+                    <Button style={{backgroundColor: "#2787F5", padding: "15px 40px", borderColor: "#000", fontSize: 18, height: 60}} onClick={() => handleSearchButtonClick()}>Найти</Button>
                 </Form>
 
                 <div className={styles["content__cards"]}>
