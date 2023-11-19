@@ -12,7 +12,7 @@ import SliderFilter from 'components/Slider';
 import BreadCrumbs from 'components/BreadCrumbs';
 import { categories, mockSubscriptions } from '../../../consts';
 import {useDispatch} from "react-redux";
-import {useCategories, setCategoriesAction} from "../../Slices/MainSlice";
+import {useCategories, useCategoryValue, setCategoriesAction, setCategoryValueAction} from "../../Slices/MainSlice";
 import axios from 'axios';
 
 export type Subscription = {
@@ -51,9 +51,10 @@ export type CategoryData = {
 const MainPage: React.FC = () => {
     const dispatch = useDispatch()
     const dropdownCategories = useCategories();
+    const categoryValue = useCategoryValue();
 
     const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
-    const [categoryValue, setCategoryValue] = useState<string>(categories[0].value)
+    // const [categoryValue, setCategoryValue] = useState<string>(categories[0].value)
     const [titleValue, setTitleValue] = useState<string>('')
     const [priceValue, setPriceValue] = useState<number>()
     const [sliderValues, setSliderValues] = useState([0, 10000]);
@@ -119,6 +120,7 @@ const MainPage: React.FC = () => {
                 id: raw.id,
                 title: raw.title
             }))
+            categories.unshift({ id: 100000, title: 'Все категории' });
             console.log(categories)
             dispatch(setCategoriesAction(categories))
         } catch {
@@ -154,7 +156,7 @@ const MainPage: React.FC = () => {
         if (eventKey !== null) {
           const selectedCategory = dropdownCategories.find(category => category.id === parseInt(eventKey, 10));
           if (selectedCategory) {
-            setCategoryValue(selectedCategory.title);
+            dispatch(setCategoryValueAction(selectedCategory.title));
           }
         }
     };

@@ -8,14 +8,16 @@ interface CategoryData {
 
 interface DataState {
   Data: number;
-  categories: CategoryData[]
+  categories: CategoryData[];
+  categoryValue: string;
 }
 
 const dataSlice = createSlice({
   name: "data",
   initialState: {
     Data: 1,
-    categories: []
+    categories: [],
+    categoryValue: 'Все категории'
   } as DataState,
   reducers: {
     setData(state, action: PayloadAction<number>) {
@@ -25,8 +27,11 @@ const dataSlice = createSlice({
       console.log('state is', state.Data)
     },
     setCategories(state, action: PayloadAction<CategoryData[]>) {
-      console.log('pay is', action.payload)
       state.categories = action.payload
+    },
+    setCategoryValue(state, action: PayloadAction<string>) {
+      console.log('pay is', action.payload)
+      state.categoryValue = action.payload
     },
     incData(state) {
         state.Data++
@@ -44,12 +49,16 @@ export const useData = () =>
 export const useCategories = () =>
   useSelector((state: { ourData: DataState }) => state.ourData.categories);
 
+export const useCategoryValue = () =>
+  useSelector((state: { ourData: DataState }) => state.ourData.categoryValue);
+
 // Action, который будем применять в различных обработках
-export const { 
+export const {
     setData: setDataAction,
     incData: incDataAction,
     decData: decDataAction,
-    setCategories: setCategoriesAction
+    setCategories: setCategoriesAction,
+    setCategoryValue: setCategoryValueAction
 } = dataSlice.actions;
 
 export default dataSlice.reducer;
