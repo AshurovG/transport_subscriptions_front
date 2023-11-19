@@ -2,27 +2,44 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
 
 interface DataState {
-  LinksMapData: Map<string, string>
+    emailValue: string;
+    fullnameValue: string;
+    phoneNumberValue: string;
+    passwordValue: string;
 }
 
 const dataSlice = createSlice({
   name: "data",
   initialState: {
-    LinksMapData: new Map<string, string>([['Абонементы', '/']])
+    emailValue: '',
+    fullnameValue: '',
+    phoneNumberValue: '',
+    passwordValue: ''
   } as DataState,
   reducers: {
-    setLinksMapData(state, action: PayloadAction<Map<string, string>>) {
-      console.log(action.payload)
-      state.LinksMapData = action.payload
-  },
+    setEmailValue(state, action: PayloadAction<string>) {
+        state.emailValue = action.payload
+    },
+    setFullnameValue(state, action: PayloadAction<string>) {
+        state.fullnameValue = action.payload
+    },
+    setPhoneNumberValue(state, action: PayloadAction<string>) {
+        state.phoneNumberValue = action.payload
+    },
+    setPasswordValue(state, action: PayloadAction<string>) {
+        state.passwordValue = action.payload
+    },
   },
 });
 
 export const useLinksMapData = () =>
-  useSelector((state: { authDataReducer: DataState }) => state.authDataReducer.LinksMapData);
+  useSelector((state: { authDataReducer: DataState }) => state.authDataReducer.emailValue);
 
 export const {
-    setLinksMapData: setLinksMapDataAction
+    setEmailValue: setEmailValueAction,
+    setFullnameValue: setFullnameValueAction,
+    setPhoneNumberValue: setPhoneNumberValueAction,
+    setPasswordValue: setPasswordValueAction
 } = dataSlice.actions;
 
 export default dataSlice.reducer;
