@@ -10,7 +10,6 @@ export type CardProps = {
   title: React.ReactNode;
   category?: React.ReactNode;
   price?: number;
-  // textButton?: React.ReactNode;
   onButtonClick?: React.MouseEventHandler;
   onImageClick?: React.MouseEventHandler;
 };

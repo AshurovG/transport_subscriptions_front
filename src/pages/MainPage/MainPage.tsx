@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { ChangeEvent } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { Link } from 'react-router-dom';
+import SliderFilter from 'components/Slider';
 
 import { categories, mockSubscriptions } from '../../../consts';
 
@@ -39,6 +40,7 @@ const MainPage: React.FC = () => {
     const [categoryValue, setCategoryValue] = useState<string>(categories[0].value)
     const [titleValue, setTitleValue] = useState<string>('')
     const [priceValue, setPriceValue] = useState<number>()
+    const [sliderValues, setSliderValues] = useState([0, 10000]);
     const fetchSubscriptions = async () => {
         let response = null;
         let url = 'http://127.0.0.1:8000/subscriptions'
@@ -60,19 +62,22 @@ const MainPage: React.FC = () => {
             url += `?max_price=${priceValue}`
         }
         try {
-            response = await fetch(url);
+            const response = await fetch(url, {
+                credentials: 'include'
+            });
             const jsonData = await response.json();
-            console.log(jsonData)
-            const newRecipesArr = jsonData.subscriptions.map((raw: ReceivedSubscriptionData) => ({ // Здесь была проблема с undefined на маке
+            console.log(jsonData);
+            // const newRecipesArr = jsonData.subscriptions.map((raw: ReceivedSubscriptionData) => ({
+            const newRecipesArr = jsonData.map((raw: ReceivedSubscriptionData) => ({
                 id: raw.id,
                 title: raw.title,
                 price: raw.price,
                 info: raw.info,
                 src: raw.src,
                 categoryTitle: raw.category
-            }))
-
-            console.log(newRecipesArr)
+            }));
+        
+            console.log(newRecipesArr);
             setSubscriptions(newRecipesArr);
         }
         catch {
@@ -110,6 +115,10 @@ const MainPage: React.FC = () => {
         setPriceValue(Number(event.target.value));
     };
 
+    const handleSliderChange = (values: number[]) => {
+        setSliderValues(values);
+    };
+
     const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
     };
@@ -130,7 +139,7 @@ const MainPage: React.FC = () => {
                 <nav aria-label="breadcrumb">
                     <ol className="breadcrumb">
                         <li className="breadcrumb-item">
-                            <Link style={{color: '#3D348B'}} to="/">Subscriptions</Link>
+                            <Link style={{color: '#3D348B'}} to="/">Абонементы</Link>
                         </li>
                     </ol>
                 </nav>
@@ -143,7 +152,13 @@ const MainPage: React.FC = () => {
                         <Form.Group style={{height: 50}} className='w-100 mb-3' controlId="search__sub.input__sub">
                             <Form.Control style={{height: '100%', borderColor: '#3D348B',}} value={titleValue} onChange={handleTitleValueChange} type="text" placeholder="Введите название абонемента..." />
                         </Form.Group>
-                        <div style={{display: 'flex', gap: 10, width: '100%'}}>
+                        <div style={{display: 'flex', gap: 10, width: '100%', alignItems: 'flex-end'}}>
+                            <SliderFilter
+                                onChangeValues={handleSliderChange}
+                                minimum={0}
+                                maximum={10000}
+                                title="Диапазон цен"
+                            />
                             <Dropdown style={{minWidth: '40%'}} onSelect={handleCategorySelect}>
                                 <Dropdown.Toggle
                                     style={{
@@ -166,13 +181,10 @@ const MainPage: React.FC = () => {
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu style={{width: '100%', textAlign: 'left',}}>
                                     {categories.map(category => (
-                                    <Dropdown.Item key={category.key} eventKey={category.key}>{category.value}</Dropdown.Item>
+                                        <Dropdown.Item key={category.key} eventKey={category.key}>{category.value}</Dropdown.Item>
                                     ))}
                                 </Dropdown.Menu>
                             </Dropdown>
-                            <Form.Group style={{height: 50, width: '35%'}} className='mb-3' controlId="search__sub.input__sub">
-                                <Form.Control style={{height: '100%', borderColor: '#3D348B'}} value={priceValue} onChange={handlePriceValueChange} type="text" placeholder="Введите максимульную стоимость в рублях..." />
-                            </Form.Group>
                         </div>
                         
                     </div>
