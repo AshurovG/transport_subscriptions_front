@@ -35,16 +35,18 @@ const SliderFilter: React.FC<SliderProps> = ({
   return (
     <div className="filter">
       <div className="filter__title">{title}</div>
-      <div className="filter__range">
-        {values[0]}₽ - {values[1]}₽
+      <div>
+        <div className="filter__range">
+          {values[0]}₽ - {values[1]}₽
+        </div>
+        <Slider
+          className="filter__slider"
+          onChange={handleSliderChange}
+          value={values}
+          min={minimum}
+          max={maximum}
+        />
       </div>
-      <Slider
-        className="filter__slider"
-        onChange={handleSliderChange}
-        value={values}
-        min={minimum}
-        max={maximum}
-      />
     </div>
   );
 };

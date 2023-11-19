@@ -79,17 +79,6 @@ const MainPage: React.FC = () => {
         <div className='main__page'>
             <Header/>
             <div className={styles.content} style={{paddingTop: "90px"}}>
-                {/* <nav aria-label="breadcrumb">
-                    <ol className="breadcrumb">
-                        <li className="breadcrumb-item">
-                            <Link style={{color: '#3D348B'}} to="/">Subscriptions</Link>
-                        </li>
-                        <li className="breadcrumb-item">
-                            <Link style={{color: '#3D348B'}} to={`/subscription/${subscription?.id}`}>{subscription?.categoryTitle} {subscription?.title}</Link>
-                        </li>
-                    </ol>
-                </nav> */}
-
                 <BreadCrumbs links={linksMap}/>
                 <div className='d-flex gap-5'>
                     <Image
@@ -98,11 +87,12 @@ const MainPage: React.FC = () => {
                         rounded
                     />
                     <div style={{width: '55%'}}>
-                            <h1 className='mb-4'>{subscription?.categoryTitle} "{subscription?.title}"</h1>
+                            <h1 className='mb-4' style={{fontSize: 30}}>{subscription?.categoryTitle} "{subscription?.title}"</h1>
                         <h4>Цена на данный абонемент:  <strong>{subscription?.price}р.</strong></h4>
-                        <h4>Описание:
-                        <p>{subscription?.info}</p>
-                        </h4>
+                        <div className={styles.content__description}>
+                            <h4>Описание:</h4>
+                            <p>{subscription?.info}</p>
+                        </div>
                     </div>
                 </div>
             </div>

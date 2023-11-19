@@ -8,10 +8,6 @@ export type BreadCrumbsProps = {
 }
 
 const BreadCrumbs: React.FC<BreadCrumbsProps> = ({links}) => {
-  React.useEffect(() => {
-    console.log(links)
-  }, [links])
-
   return (
     <div className={styles.breadcrumbs}>
     {Array.from(links.entries()).map(([key, value], index) => (

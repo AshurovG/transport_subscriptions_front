@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
 import styles from './Header.module.scss'
+import ProfileIcon from 'components/Icons/ProfileIcon';
 
 const Header: React.FC = () => {
     return (
@@ -10,12 +11,11 @@ const Header: React.FC = () => {
 
                 <div className={styles.header__blocks}>
                     <Link className={styles.header__block} to='/'>Виды абонементов</Link>
-                    <Link className={styles.header__block} to='/'>Выгодные предложения</Link>
-                    <Link className={styles.header__block} to='/'>О нас</Link>
+                    <Link className={styles.header__block} to='/'>Мои заявки</Link>
                     <Link className={styles.header__block} to='/'>Поддержка</Link>
                 </div>
 
-                <Link to='/' className={styles.header__profile}>Личный кабинет</Link>
+                <Link to='/registration' className={styles.header__profile}><ProfileIcon/></Link>
             </div>
         </div>
     )

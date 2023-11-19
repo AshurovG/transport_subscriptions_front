@@ -1,8 +1,8 @@
 .filter {
     display: flex;
-    flex-direction: column;
-    width: 400px;
-    align-items: start;
+    width: 500px;
+    align-items: center;
+    justify-content: space-between;
   }
   
   .filter__slider {

@@ -47,11 +47,9 @@ const MainPage: React.FC = () => {
     ]);
 
     const fetchSubscriptions = async () => {
-        let response = null;
         let url = 'http://127.0.0.1:8000/subscriptions'
         if (titleValue) {
             url += `?title=${titleValue}`
-            console.log(url)
             if (categoryValue && categoryValue !== 'Все категории') {
                 url += `&category=${categoryValue}`
             }
@@ -71,7 +69,6 @@ const MainPage: React.FC = () => {
                 credentials: 'include'
             });
             const jsonData = await response.json();
-            console.log(jsonData);
             // const newRecipesArr = jsonData.subscriptions.map((raw: ReceivedSubscriptionData) => ({
             const newRecipesArr = jsonData.map((raw: ReceivedSubscriptionData) => ({
                 id: raw.id,
@@ -82,7 +79,6 @@ const MainPage: React.FC = () => {
                 categoryTitle: raw.category
             }));
         
-            console.log(newRecipesArr);
             setSubscriptions(newRecipesArr);
         }
         catch {
@@ -141,17 +137,9 @@ const MainPage: React.FC = () => {
         <div className={styles['main__page']}>
             <Header/>
             <div className={styles['content']}>
-                {/* <nav aria-label="breadcrumb">
-                    <ol className="breadcrumb">
-                        <li className="breadcrumb-item">
-                            <Link style={{color: '#3D348B'}} to="/">Абонементы</Link>
-                        </li>
-                    </ol>
-                </nav> */}
-
                 <BreadCrumbs links={linksMap}></BreadCrumbs>
 
-                <h1 className="mb-4">
+                <h1 className="mb-4" style={{fontSize: 30}}>
                     Здесь вы можете подобрать выбрать для себя подходящий абонемент на какой-либо транспорт
                 </h1>
 
@@ -192,7 +180,7 @@ const MainPage: React.FC = () => {
                                 onChangeValues={handleSliderChange}
                                 minimum={0}
                                 maximum={10000}
-                                title="Диапазон цен"
+                                title="Диапазон цен:"
                             />
                         </div>
                         
