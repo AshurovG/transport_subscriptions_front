@@ -1,9 +1,11 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit"
-import dataReducer from "./Slices/MainSlice"
+import mainDataReducer from "./Slices/MainSlice"
+import detailedDataReducer from './Slices/DetailedSlice'
 
 
 export default configureStore({
     reducer: combineReducers({
-        ourData: dataReducer
+        mainData: mainDataReducer,
+        detailedData: detailedDataReducer
     })
 })

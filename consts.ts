@@ -31,8 +31,6 @@ export const mockSubscriptions = [
         price: 500,
         info: "Дополнительная информация об абонементе",
         src: "https://velobaza.ru/upload/medialibrary/6fe/gornii_velosiped_3.jpg",
-        status: "enabled",
-        idCategory: 1
     },
     {
         id: 7,
@@ -41,8 +39,6 @@ export const mockSubscriptions = [
         price: 4000,
         info: "Дополнительная информация об абонементе",
         src: "https://velobaza.ru/upload/medialibrary/6fe/gornii_velosiped_3.jpg",
-        status: "enabled",
-        idCategory: 1
     },
     {
         id: 8,
@@ -51,8 +47,6 @@ export const mockSubscriptions = [
         price: 400,
         info: "Дополнительная информация об абонементе",
         src: "https://girosmart.ru/image/catalog/sw_photos/1231/elektrosamokat-kugoo-m4-pro-chernyy-17ah-new-2020-1.jpg",
-        status: "enabled",
-        idCategory: 1
     },
     {
         id: 1,
@@ -61,8 +55,6 @@ export const mockSubscriptions = [
         price: 1000,
         info: "информация про мцд",
         src: "https://myskillsconnect.com/uploads/posts/2023-06/1686528414_myskillsconnect-com-p-mtsd-poezda-vnutri-foto-26.jpg",
-        status: "enabled",
-        idCategory: 1
     },
     {
         id: 3,
@@ -71,8 +63,6 @@ export const mockSubscriptions = [
         price: 1500,
         info: "информация про мцд",
         src: "https://myskillsconnect.com/uploads/posts/2023-06/1686528414_myskillsconnect-com-p-mtsd-poezda-vnutri-foto-26.jpg",
-        status: "enabled",
-        idCategory: 1
     },
     {
         id: 4,
@@ -81,7 +71,5 @@ export const mockSubscriptions = [
         price: 2500,
         info: "информация про мцд",
         src: "https://myskillsconnect.com/uploads/posts/2023-06/1686528414_myskillsconnect-com-p-mtsd-poezda-vnutri-foto-26.jpg",
-        status: "enabled",
-        idCategory: 1
     }
 ]

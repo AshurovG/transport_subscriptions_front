@@ -4,13 +4,12 @@ import Button from 'react-bootstrap/Button';
 import Header from 'components/Header';
 import OneCard from 'components/Card';
 import styles from './MainPage.module.scss'
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { ChangeEvent } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
-import { Link } from 'react-router-dom';
 import SliderFilter from 'components/Slider';
 import BreadCrumbs from 'components/BreadCrumbs';
-import { categories, mockSubscriptions } from '../../../consts';
+import { mockSubscriptions } from '../../../consts';
 import {useDispatch} from "react-redux";
 import {useCategories, useCategoryValue, useTitleValue, useSubscriptions, usePriceValues,
     setCategoriesAction, setCategoryValueAction, setTitleValueAction, setSubscriptionsAction, setPriceValuesAction} from "../../Slices/MainSlice";
@@ -22,9 +21,7 @@ export type Subscription = {
     price: number,
     info: string,
     src: string,
-    // idCategory: number,
     categoryTitle: string,
-    // status: string
 }
 
 export type ReceivedSubscriptionData = {
@@ -57,9 +54,6 @@ const MainPage: React.FC = () => {
     const subscriptions = useSubscriptions();
     const priceValues = usePriceValues();
 
-
-    const [priceValue, setPriceValue] = useState<number>()
-    // const [sliderValues, setSliderValues] = useState([0, 10000]);
     const linksMap = new Map<string, string>([
         ['Абонементы', '/']
     ]);
@@ -142,10 +136,6 @@ const MainPage: React.FC = () => {
         dispatch(setTitleValueAction(event.target.value));
     };
 
-    const handlePriceValueChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setPriceValue(Number(event.target.value));
-    };
-
     const handleSliderChange = (values: number[]) => {
         console.log('djfkdfjkd')
         console.log(values[0], values[1])
@@ -215,9 +205,7 @@ const MainPage: React.FC = () => {
                                 title="Диапазон цен:"
                             />
                         </div>
-                        
                     </div>
-                    
                     <Button style={{backgroundColor: "#2787F5", padding: "15px 40px", borderColor: "#000", fontSize: 18, height: 60}} onClick={() => handleSearchButtonClick()}>Найти</Button>
                 </Form>
 

@@ -16,7 +16,6 @@ interface SubscriptionData {
 }
 
 interface DataState {
-  Data: number;
   categories: CategoryData[];
   categoryValue: string;
   titleValue: string;
@@ -27,7 +26,6 @@ interface DataState {
 const dataSlice = createSlice({
   name: "data",
   initialState: {
-    Data: 1,
     categories: [],
     categoryValue: 'Все категории',
     titleValue: '',
@@ -55,23 +53,20 @@ const dataSlice = createSlice({
 });
 
 // Состояние, которое будем отображать в компонентах
-export const useData = () =>
-  useSelector((state: { ourData: DataState }) => state.ourData.Data);
-
 export const useCategories = () =>
-  useSelector((state: { ourData: DataState }) => state.ourData.categories);
+  useSelector((state: { mainData: DataState }) => state.mainData.categories);
 
 export const useCategoryValue = () =>
-  useSelector((state: { ourData: DataState }) => state.ourData.categoryValue);
+  useSelector((state: { mainData: DataState }) => state.mainData.categoryValue);
   
 export const useTitleValue = () =>
-  useSelector((state: { ourData: DataState }) => state.ourData.titleValue);
+  useSelector((state: { mainData: DataState }) => state.mainData.titleValue);
 
 export const useSubscriptions = () =>
-  useSelector((state: { ourData: DataState }) => state.ourData.subscriptions);
+  useSelector((state: { mainData: DataState }) => state.mainData.subscriptions);
 
 export const usePriceValues = () =>
-  useSelector((state: { ourData: DataState }) => state.ourData.priceValues);
+  useSelector((state: { mainData: DataState }) => state.mainData.priceValues);
 
 // Action, который будем применять в различных обработках
 export const {

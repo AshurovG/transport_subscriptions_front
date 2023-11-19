@@ -9,7 +9,8 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { mockSubscriptions } from '../../../consts'
 import {useDispatch} from "react-redux";
-// import {useData, incDataAction, decDataAction} from "../../Slices/MainSlice";
+import { useSubscription, setSubscriptionAction } from "../../Slices/DetailedSlice"
+// import {use, incDataAction, decDataAction} from "../../Slices/MainSlice";
 import axios from 'axios';
 
 type Subscription = {
@@ -34,35 +35,38 @@ export type ReceivedSubscriptionData = {
 
 
 const MainPage: React.FC = () => {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+    const subscription = useSubscription();
     const params = useParams();
     const id = params.id === undefined ? '' : params.id;
     const [linksMap, setLinksMap] = useState<Map<string, string>>(
         new Map<string, string>([['Абонементы', '/']])
     );
 
-    const [subscription, setSubscription] = useState<Subscription>();
+    // const [subscription, setSubscription] = useState<Subscription>();
     let currentUrl = '/'
 
     const getSubscription = async () => {
         try {
             const response = await axios.get(`http://127.0.0.1:8000/subscriptions/${id}`);
             const jsonData = response.data;
-            setSubscription({
+            dispatch(setSubscriptionAction({
                 id: Number(jsonData.id),
                 title: jsonData.title,
                 price: jsonData.price,
                 info: jsonData.info,
                 src: jsonData.src,
                 categoryTitle: jsonData.category
-            })
+            }))
 
             const newLinksMap = new Map<string, string>(linksMap); // Копирование старого Map
             newLinksMap.set(jsonData.title, '/subscription/' + id);
             setLinksMap(newLinksMap)
         } catch {
-            const subscription = mockSubscriptions.find(item => item.id === Number(id));
-            setSubscription(subscription)
+            const sub = mockSubscriptions.find(item => item.id === Number(id));
+            if (sub) {
+                dispatch(setSubscriptionAction(sub))
+            }
         }
         
         currentUrl += 'subscription/' + id
