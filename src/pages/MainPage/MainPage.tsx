@@ -12,7 +12,8 @@ import SliderFilter from 'components/Slider';
 import BreadCrumbs from 'components/BreadCrumbs';
 import { categories, mockSubscriptions } from '../../../consts';
 import {useDispatch} from "react-redux";
-import {useCategories, useCategoryValue, setCategoriesAction, setCategoryValueAction} from "../../Slices/MainSlice";
+import {useCategories, useCategoryValue, useTitleValue,
+    setCategoriesAction, setCategoryValueAction, setTitleValueAction} from "../../Slices/MainSlice";
 import axios from 'axios';
 
 export type Subscription = {
@@ -52,10 +53,10 @@ const MainPage: React.FC = () => {
     const dispatch = useDispatch()
     const dropdownCategories = useCategories();
     const categoryValue = useCategoryValue();
-
+    const titleValue = useTitleValue();
     const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
     // const [categoryValue, setCategoryValue] = useState<string>(categories[0].value)
-    const [titleValue, setTitleValue] = useState<string>('')
+    // const [titleValue, setTitleValue] = useState<string>('')
     const [priceValue, setPriceValue] = useState<number>()
     const [sliderValues, setSliderValues] = useState([0, 10000]);
     const linksMap = new Map<string, string>([
@@ -137,7 +138,7 @@ const MainPage: React.FC = () => {
     }
 
     const handleTitleValueChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setTitleValue(event.target.value);
+        dispatch(setTitleValueAction(event.target.value));
     };
 
     const handlePriceValueChange = (event: ChangeEvent<HTMLInputElement>) => {

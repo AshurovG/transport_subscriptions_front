@@ -3,13 +3,14 @@ import { useSelector } from "react-redux";
 
 interface CategoryData {
   id: number,
-  title: string
+  title: string,
 }
 
 interface DataState {
   Data: number;
   categories: CategoryData[];
   categoryValue: string;
+  titleValue: string;
 }
 
 const dataSlice = createSlice({
@@ -17,27 +18,19 @@ const dataSlice = createSlice({
   initialState: {
     Data: 1,
     categories: [],
-    categoryValue: 'Все категории'
+    categoryValue: 'Все категории',
+    titleValue: ''
   } as DataState,
   reducers: {
-    setData(state, action: PayloadAction<number>) {
-      state.Data = action.payload;
-      console.log('action is', action)
-      console.log('payload is', action.payload)
-      console.log('state is', state.Data)
-    },
     setCategories(state, action: PayloadAction<CategoryData[]>) {
       state.categories = action.payload
     },
     setCategoryValue(state, action: PayloadAction<string>) {
-      console.log('pay is', action.payload)
       state.categoryValue = action.payload
     },
-    incData(state) {
-        state.Data++
-    },
-    decData(state) {
-        state.Data--
+    setTitleValue(state, action: PayloadAction<string>) {
+      console.log('pay is', action.payload)
+      state.titleValue = action.payload
     }
   },
 });
@@ -51,14 +44,15 @@ export const useCategories = () =>
 
 export const useCategoryValue = () =>
   useSelector((state: { ourData: DataState }) => state.ourData.categoryValue);
+  
+export const useTitleValue = () =>
+  useSelector((state: { ourData: DataState }) => state.ourData.titleValue);
 
 // Action, который будем применять в различных обработках
 export const {
-    setData: setDataAction,
-    incData: incDataAction,
-    decData: decDataAction,
     setCategories: setCategoriesAction,
-    setCategoryValue: setCategoryValueAction
+    setCategoryValue: setCategoryValueAction,
+    setTitleValue: setTitleValueAction
 } = dataSlice.actions;
 
 export default dataSlice.reducer;
