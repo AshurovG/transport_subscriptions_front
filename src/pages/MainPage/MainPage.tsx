@@ -12,8 +12,8 @@ import SliderFilter from 'components/Slider';
 import BreadCrumbs from 'components/BreadCrumbs';
 import { categories, mockSubscriptions } from '../../../consts';
 import {useDispatch} from "react-redux";
-import {useCategories, useCategoryValue, useTitleValue,
-    setCategoriesAction, setCategoryValueAction, setTitleValueAction} from "../../Slices/MainSlice";
+import {useCategories, useCategoryValue, useTitleValue, useSubscriptions, usePriceValues,
+    setCategoriesAction, setCategoryValueAction, setTitleValueAction, setSubscriptionsAction, setPriceValuesAction} from "../../Slices/MainSlice";
 import axios from 'axios';
 
 export type Subscription = {
@@ -22,9 +22,9 @@ export type Subscription = {
     price: number,
     info: string,
     src: string,
-    idCategory: number,
+    // idCategory: number,
     categoryTitle: string,
-    status: string
+    // status: string
 }
 
 export type ReceivedSubscriptionData = {
@@ -54,11 +54,12 @@ const MainPage: React.FC = () => {
     const dropdownCategories = useCategories();
     const categoryValue = useCategoryValue();
     const titleValue = useTitleValue();
-    const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
-    // const [categoryValue, setCategoryValue] = useState<string>(categories[0].value)
-    // const [titleValue, setTitleValue] = useState<string>('')
+    const subscriptions = useSubscriptions();
+    const priceValues = usePriceValues();
+
+
     const [priceValue, setPriceValue] = useState<number>()
-    const [sliderValues, setSliderValues] = useState([0, 10000]);
+    // const [sliderValues, setSliderValues] = useState([0, 10000]);
     const linksMap = new Map<string, string>([
         ['Абонементы', '/']
     ]);
@@ -70,16 +71,16 @@ const MainPage: React.FC = () => {
             if (categoryValue && categoryValue !== 'Все категории') {
                 url += `&category=${categoryValue}`
             }
-            if (priceValue) {
-                url += `&max_price=${priceValue}`
+            if (priceValues) {
+                url += `&min_price=${priceValues[0]}&max_price=${priceValues[1]}`
             }
         } else if(categoryValue && categoryValue !== 'Все категории') {
             url += `?category=${categoryValue}`
-            if (priceValue) {
-                url += `&max_price=${priceValue}`
+            if (priceValues) {
+                url += `&min_price=${priceValues[0]}&max_price=${priceValues[1]}`
             }
-        } else if (priceValue){
-            url += `?max_price=${priceValue}`
+        } else if (priceValues){
+            url += `?min_price=${priceValues[0]}&max_price=${priceValues[1]}`
         }
         try {
             const response = await axios.get(url, { withCredentials: true });
@@ -93,22 +94,22 @@ const MainPage: React.FC = () => {
                 categoryTitle: raw.category
             }));
         
-            setSubscriptions(newRecipesArr);
+            dispatch(setSubscriptionsAction(newRecipesArr));
         }
         catch {
             console.log('запрос не прошел !')
             if (categoryValue && categoryValue !== 'Все категории') {
                 const filteredArray = mockSubscriptions.filter(mockSubscription => mockSubscription.categoryTitle === categoryValue);
-                setSubscriptions(filteredArray);
+                dispatch(setSubscriptionsAction(filteredArray));
             } else if (titleValue) {
                 const filteredArray = mockSubscriptions.filter(mockSubscription => mockSubscription.title.includes(titleValue));
-                setSubscriptions(filteredArray);
-            } else if (priceValue) {
-                const filteredArray = mockSubscriptions.filter(mockSubscription => mockSubscription.price <= priceValue);
-                setSubscriptions(filteredArray);
+                dispatch(setSubscriptionsAction(filteredArray));
+            } else if (priceValues) {
+                const filteredArray = mockSubscriptions.filter(mockSubscription => mockSubscription.price <= priceValues[1]);
+                dispatch(setSubscriptionsAction(filteredArray));
             }
             else {
-                setSubscriptions(mockSubscriptions);
+                dispatch(setSubscriptionsAction(mockSubscriptions));
             }
         }
     };
@@ -146,7 +147,9 @@ const MainPage: React.FC = () => {
     };
 
     const handleSliderChange = (values: number[]) => {
-        setSliderValues(values);
+        console.log('djfkdfjkd')
+        console.log(values[0], values[1])
+        dispatch(setPriceValuesAction(values));
     };
 
     const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {

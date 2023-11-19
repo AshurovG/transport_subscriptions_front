@@ -6,11 +6,22 @@ interface CategoryData {
   title: string,
 }
 
+interface SubscriptionData {
+  id: number,
+  title: string,
+  price: number,
+  info: string,
+  src: string,
+  categoryTitle: string
+}
+
 interface DataState {
   Data: number;
   categories: CategoryData[];
   categoryValue: string;
   titleValue: string;
+  subscriptions: SubscriptionData[],
+  priceValues: number[]
 }
 
 const dataSlice = createSlice({
@@ -19,7 +30,9 @@ const dataSlice = createSlice({
     Data: 1,
     categories: [],
     categoryValue: 'Все категории',
-    titleValue: ''
+    titleValue: '',
+    subscriptions: [],
+    priceValues: [0, 9980]
   } as DataState,
   reducers: {
     setCategories(state, action: PayloadAction<CategoryData[]>) {
@@ -29,8 +42,14 @@ const dataSlice = createSlice({
       state.categoryValue = action.payload
     },
     setTitleValue(state, action: PayloadAction<string>) {
-      console.log('pay is', action.payload)
       state.titleValue = action.payload
+    },
+    setSubscriptions(state, action: PayloadAction<SubscriptionData[]>) {
+      state.subscriptions = action.payload
+    },
+    setPriceValues(state, action: PayloadAction<number[]>) {
+      console.log('pay is', action.payload)
+      state.priceValues = action.payload
     }
   },
 });
@@ -48,11 +67,19 @@ export const useCategoryValue = () =>
 export const useTitleValue = () =>
   useSelector((state: { ourData: DataState }) => state.ourData.titleValue);
 
+export const useSubscriptions = () =>
+  useSelector((state: { ourData: DataState }) => state.ourData.subscriptions);
+
+export const usePriceValues = () =>
+  useSelector((state: { ourData: DataState }) => state.ourData.priceValues);
+
 // Action, который будем применять в различных обработках
 export const {
     setCategories: setCategoriesAction,
     setCategoryValue: setCategoryValueAction,
-    setTitleValue: setTitleValueAction
+    setTitleValue: setTitleValueAction,
+    setSubscriptions: setSubscriptionsAction,
+    setPriceValues: setPriceValuesAction
 } = dataSlice.actions;
 
 export default dataSlice.reducer;
