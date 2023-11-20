@@ -6,12 +6,26 @@ import Header from 'components/Header';
 import BreadCrumbs from 'components/BreadCrumbs';
 import Image from "react-bootstrap/Image"
 import styles from './RegistrationPage.module.scss'
+import axios, { AxiosResponse } from 'axios';
 
 const MainPage: React.FC = () => {
-
-    const handleFormSubmit = () => {
-        console.log('Form was submitted')
-    }
+    const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      try {
+        const formData = new FormData();
+        formData.append('email', 'aaa@mail.ru');
+        formData.append('password', 'password123');
+    
+        const response: AxiosResponse = await axios.post('http://localhost:8000/login', formData, {
+          withCredentials: true, // Включаем передачу кук в запросах
+        });
+    
+        // Выводим куки
+        console.log('Полученные куки:', response.headers['set-cookie']);
+      } catch (error) {
+        console.error('Ошибка при выполнении запроса:', error);
+      }
+    };
 
     return (
         <div className='main__page'>
