@@ -12,6 +12,7 @@ interface UserData {
 
 interface DataState {
     user: UserData,
+    isAuth: boolean,
     emailInputValue: string;
     fullnameInputValue: string;
     phoneNumberInputValue: string;
@@ -21,9 +22,21 @@ interface DataState {
 const dataSlice = createSlice({
   name: "data",
   initialState: {
-    user: {}
+    user: {},
+    isAuth: false,
+    emailInputValue: '',
+    fullnameInputValue: '',
+    phoneNumberInputValue: '',
+    passwordInputValue: '',
   } as DataState,
   reducers: {
+    setUser(state, action: PayloadAction<UserData>) {
+      state.user = action.payload
+    },
+    setIsAuth(state, action: PayloadAction<boolean>) {
+      state.isAuth = action.payload
+      console.log(`is auth: ${action.payload}`)
+    },
     setEmailInputValue(state, action: PayloadAction<string>) {
         state.emailInputValue = action.payload
     },
@@ -35,9 +48,6 @@ const dataSlice = createSlice({
     },
     setPasswordInputValue(state, action: PayloadAction<string>) {
         state.passwordInputValue = action.payload
-    },
-    setUser(state, action: PayloadAction<UserData>) {
-      state.user = action.payload
     },
   },
 });
@@ -58,11 +68,12 @@ export const useUser = () =>
   useSelector((state: { authData: DataState }) => state.authData.user);
 
 export const {
-    setEmailInputValue: setEmailValueAction,
-    setFullnameInputValue: setFullnameValueAction,
-    setPhoneNumberInputValue: setPhoneNumberValueAction,
-    setPasswordInputValue: setPasswordValueAction,
-    setUser: setUserAction
+  setUser: setUserAction,
+  setIsAuth: setIsAuthAction,
+  setEmailInputValue: setEmailValueAction,
+  setFullnameInputValue: setFullnameValueAction,
+  setPhoneNumberInputValue: setPhoneNumberValueAction,
+  setPasswordInputValue: setPasswordValueAction,
 } = dataSlice.actions;
 
 export default dataSlice.reducer;

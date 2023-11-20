@@ -9,7 +9,8 @@ import styles from './LoginPage.module.scss'
 import axios, { AxiosResponse } from 'axios';
 import { ChangeEvent } from 'react';
 import {useDispatch} from "react-redux";
-import {useEmailInputValue, usePasswordInputValue, setEmailValueAction, setPasswordValueAction, setUserAction} from "../../Slices/AuthSlice";
+import {useEmailInputValue, usePasswordInputValue, setEmailValueAction, 
+    setPasswordValueAction, setUserAction, setIsAuthAction} from "../../Slices/AuthSlice";
 
 const LoginPage: React.FC = () => {
     const dispatch = useDispatch();
@@ -29,6 +30,8 @@ const LoginPage: React.FC = () => {
                 withCredentials: true
             });
             console.log(response.data)
+
+            dispatch(setIsAuthAction(true))
 
             dispatch(setUserAction({
                 id: response.data.id,
