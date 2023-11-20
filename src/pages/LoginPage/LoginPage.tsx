@@ -17,6 +17,13 @@ const LoginPage: React.FC = () => {
     const emailValue = useEmailInputValue();
     const passwordValue = usePasswordInputValue();
 
+    // React.useEffect(() => {
+    //     return () => {
+    //         dispatch(setEmailValueAction(''))
+    //         dispatch(setPasswordValueAction(''))
+    //     }
+    // }, [])
+
     const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         try {
@@ -38,7 +45,6 @@ const LoginPage: React.FC = () => {
                 email: response.data.email,
                 fullname: response.data.full_name,
                 phoneNumber: response.data.phone_number,
-                password: response.data.password,
                 isSuperuser: response.data.is_superuser
             }));
 

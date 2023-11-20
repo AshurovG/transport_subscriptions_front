@@ -6,8 +6,7 @@ interface UserData {
   email: string;
   fullname: string;
   phoneNumber: string;
-  password: string;
-  isSuperuser?: boolean
+  isSuperuser: boolean
 }
 
 interface DataState {
@@ -32,6 +31,7 @@ const dataSlice = createSlice({
   reducers: {
     setUser(state, action: PayloadAction<UserData>) {
       state.user = action.payload
+      console.log(`user is ${action.payload.email}`)
     },
     setIsAuth(state, action: PayloadAction<boolean>) {
       state.isAuth = action.payload

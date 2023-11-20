@@ -26,6 +26,7 @@
     "react-slider": "^2.0.6",
     "sass": "^1.69.4",
     "slick-carousel": "^1.8.1",
+    "universal-cookie": "^6.1.1",
     "use-react-router-breadcrumbs": "^4.0.1"
   },
   "devDependencies": {
