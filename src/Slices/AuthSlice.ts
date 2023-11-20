@@ -11,6 +11,7 @@ interface UserData {
 interface DataState {
     user: UserData,
     isAuth: boolean,
+    isProfileButtonClicked: boolean,
     emailInputValue: string;
     fullnameInputValue: string;
     phoneNumberInputValue: string;
@@ -22,6 +23,7 @@ const dataSlice = createSlice({
   initialState: {
     user: {},
     isAuth: false,
+    isProfileButtonClicked: false,
     emailInputValue: '',
     fullnameInputValue: '',
     phoneNumberInputValue: '',
@@ -48,6 +50,9 @@ const dataSlice = createSlice({
     setPasswordInputValue(state, action: PayloadAction<string>) {
         state.passwordInputValue = action.payload
     },
+    setIsProfileButtonClicked(state, action: PayloadAction<boolean>) {
+      state.isProfileButtonClicked = action.payload;
+    }
   },
 });
 
@@ -66,6 +71,12 @@ export const usePasswordInputValue = () =>
 export const useUser = () =>
   useSelector((state: { authData: DataState }) => state.authData.user);
 
+export const useIsAuth = () =>
+  useSelector((state: { authData: DataState }) => state.authData.isAuth);
+
+export const useIsProfileButtonclicked = () =>
+  useSelector((state: { authData: DataState }) => state.authData.isProfileButtonClicked);
+
 export const {
   setUser: setUserAction,
   setIsAuth: setIsAuthAction,
@@ -73,6 +84,7 @@ export const {
   setFullnameInputValue: setFullnameValueAction,
   setPhoneNumberInputValue: setPhoneNumberValueAction,
   setPasswordInputValue: setPasswordValueAction,
+  setIsProfileButtonClicked: setIsProfileButtonClickedAction
 } = dataSlice.actions;
 
 export default dataSlice.reducer;

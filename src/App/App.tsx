@@ -29,7 +29,6 @@ function App() {
 
       dispatch(setIsAuthAction(true))
       dispatch(setUserAction({
-        id: response.data.id,
         email: response.data.email,
         fullname: response.data.full_name,
         phoneNumber: response.data.phone_number,
@@ -43,7 +42,9 @@ function App() {
   }
 
   React.useEffect(() => {
-    getInitialUserInfo()
+    if (cookies.get("session_id")) {
+      getInitialUserInfo()
+    }
   }, [])
 
   return (
