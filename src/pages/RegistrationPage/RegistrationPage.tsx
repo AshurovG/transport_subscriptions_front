@@ -23,12 +23,20 @@ const RegistrationPage: React.FC = () => {
       event.preventDefault();
       try {
         const formData = new FormData();
-        formData.append('email', 'aaa@mail.ru');
-        formData.append('password', 'password123');
-    
-        const response: AxiosResponse = await axios.post('http://localhost:8000/login', formData, {
+        formData.append('email', emailValue);
+        formData.append('full_name', fullnameValue)
+        formData.append('phone_number', phoneNumberValue)
+        formData.append('password', passwordValue);
+        const response: AxiosResponse = await axios.post('http://localhost:8000/user/', formData, {
           withCredentials: true, // Включаем передачу кук в запросах
         });
+
+        dispatch(setUserAction({
+            email: response.data.email,
+            fullname: response.data.full_name,
+            phoneNumber: response.data.phone_number,
+            isSuperuser: response.data.is_superuser
+        }));
       } catch (error) {
         console.error('Ошибка при выполнении запроса:', error);
         throw(error)
@@ -48,7 +56,7 @@ const RegistrationPage: React.FC = () => {
     };
 
     const handlePhoneNumberValueChange = (event: ChangeEvent<HTMLInputElement>) => {
-        dispatch(setPasswordValueAction(event.target.value));
+        dispatch(setPhoneNumberValueAction(event.target.value));
     };
 
     return (

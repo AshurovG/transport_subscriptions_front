@@ -41,7 +41,6 @@ const LoginPage: React.FC = () => {
             dispatch(setIsAuthAction(true))
 
             dispatch(setUserAction({
-                id: response.data.id,
                 email: response.data.email,
                 fullname: response.data.full_name,
                 phoneNumber: response.data.phone_number,
