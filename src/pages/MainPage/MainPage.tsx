@@ -45,6 +45,15 @@ export type CategoryData = {
     title: string,
 }
 
+export type ReceivedUserData = {
+    id: number,
+    email: string,
+    full_name: string,
+    phone_number: string,
+    password: string,
+    is_superuser: boolean,
+}
+
 
 const MainPage: React.FC = () => {
     const dispatch = useDispatch()

@@ -6,12 +6,51 @@ import Header from 'components/Header';
 import BreadCrumbs from 'components/BreadCrumbs';
 import Image from "react-bootstrap/Image"
 import styles from './LoginPage.module.scss'
+import axios, { AxiosResponse } from 'axios';
+import { ChangeEvent } from 'react';
+import {useDispatch} from "react-redux";
+import {useEmailInputValue, usePasswordInputValue, setEmailValueAction, setPasswordValueAction, setUserAction} from "../../Slices/AuthSlice";
 
 const LoginPage: React.FC = () => {
+    const dispatch = useDispatch();
+    const emailValue = useEmailInputValue();
+    const passwordValue = usePasswordInputValue();
 
-    const handleFormSubmit = () => {
-        console.log('Form was submitted')
-    }
+    const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        try {
+            const formData = new FormData();
+            formData.append('email', emailValue);
+            formData.append('password', passwordValue);
+
+            console.log('formdata is', formData)
+        
+            const response: AxiosResponse = await axios.post('http://localhost:8000/login', formData, {
+                withCredentials: true
+            });
+            console.log(response.data)
+
+            dispatch(setUserAction({
+                id: response.data.id,
+                email: response.data.email,
+                fullname: response.data.full_name,
+                phoneNumber: response.data.phone_number,
+                password: response.data.password,
+                isSuperuser: response.data.is_superuser
+            }));
+
+        } catch (error) {
+            throw error
+        }
+    };
+
+    const handleEmailValueChange = (event: ChangeEvent<HTMLInputElement>) => {
+        dispatch(setEmailValueAction(event.target.value));
+    };
+
+    const handlePasswordValueChange = (event: ChangeEvent<HTMLInputElement>) => {
+        dispatch(setPasswordValueAction(event.target.value));
+    };
 
     return (
         <div className='main__page'>
@@ -24,12 +63,12 @@ const LoginPage: React.FC = () => {
                     <h3 className={styles.content__title}>Вход</h3>
                     <div className={styles.form__item}>
                         <Form.Group style={{height: 50}} className='w-100 mb-3' controlId="search__sub.input__sub">
-                            <Form.Control style={{height: '100%', borderColor: '#3D348B', fontSize: 18}} type="email" placeholder="E-mail..." />
+                            <Form.Control value={emailValue} onChange={handleEmailValueChange} style={{height: '100%', borderColor: '#3D348B', fontSize: 18}} type="email" placeholder="E-mail..." />
                         </Form.Group>
                     </div>
                     <div className={styles.form__item}>
                         <Form.Group style={{height: 50}} className='w-100 mb-3' controlId="search__sub.input__sub">
-                            <Form.Control style={{height: '100%', borderColor: '#3D348B', fontSize: 18}} type="password" placeholder="Пароль..." />
+                            <Form.Control value={passwordValue} onChange={handlePasswordValueChange} style={{height: '100%', borderColor: '#3D348B', fontSize: 18}} type="password" placeholder="Пароль..." />
                         </Form.Group>
                     </div>
                     

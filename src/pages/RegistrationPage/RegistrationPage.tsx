@@ -8,7 +8,7 @@ import Image from "react-bootstrap/Image"
 import styles from './RegistrationPage.module.scss'
 import axios, { AxiosResponse } from 'axios';
 
-const MainPage: React.FC = () => {
+const RegistrationPage: React.FC = () => {
     const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       try {
@@ -19,11 +19,9 @@ const MainPage: React.FC = () => {
         const response: AxiosResponse = await axios.post('http://localhost:8000/login', formData, {
           withCredentials: true, // Включаем передачу кук в запросах
         });
-    
-        // Выводим куки
-        console.log('Полученные куки:', response.headers['set-cookie']);
       } catch (error) {
         console.error('Ошибка при выполнении запроса:', error);
+        throw(error)
       }
     };
 
@@ -65,4 +63,4 @@ const MainPage: React.FC = () => {
     )
 };
   
-export default MainPage;
+export default RegistrationPage;
