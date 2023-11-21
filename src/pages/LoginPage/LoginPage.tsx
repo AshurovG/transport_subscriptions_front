@@ -12,6 +12,7 @@ import { ChangeEvent } from 'react';
 import {useDispatch} from "react-redux";
 import { setUserAction, setIsAuthAction } from "../../Slices/AuthSlice";
 import {toast } from 'react-toastify';
+import { isElement } from 'react-dom/test-utils';
 
 
 
@@ -19,8 +20,9 @@ const LoginPage: React.FC = () => {
     const dispatch = useDispatch();
     const [emailValue, setEmailValue] = useState('')
     const [passwordValue, setPasswordValue] = useState('')
-    const [passwordError, setPasswordError] = useState('')
-    const [emailError, setEmailError] = useState('')
+    const [passwordError, setPasswordError] = useState('init')
+    const [emailError, setEmailError] = useState('init')
+    const [isDataValid, setIsDataValid] = useState(false)
 
     const emailValidation = (value: string): void => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -83,6 +85,14 @@ const LoginPage: React.FC = () => {
         setPasswordValue(event.target.value)
     };
 
+    React.useEffect(() => {
+        if (!emailError && !passwordError) {
+            setIsDataValid(true)
+        } else {
+            setIsDataValid(false)
+        }
+    }, [emailError, passwordError])
+
     return (
         <div className='main__page'>
             <Header/>
@@ -95,17 +105,20 @@ const LoginPage: React.FC = () => {
                     <div className={styles.form__item}>
                         <Form.Group style={{height: 50}} className='w-100 mb-3' controlId="search__sub.input__sub">
                             <Form.Control value={emailValue} onChange={handleEmailValueChange} style={{height: '100%', borderColor: '#3D348B', fontSize: 18}} type="email" placeholder="E-mail..." />
-                            <span className={styles['form__item-error']}>{emailError}</span>
+                            <span className={styles['form__item-error']}>{emailError !== "init" && emailError}</span>
                         </Form.Group>
                     </div>
                     <div className={styles.form__item}>
                         <Form.Group style={{height: 50}} className='w-100 mb-3' controlId="search__sub.input__sub">
                             <Form.Control value={passwordValue} onChange={handlePasswordValueChange} style={{height: '100%', borderColor: '#3D348B', fontSize: 18}} type="password" placeholder="Пароль..." />
-                            <span className={styles['form__item-error']}>{passwordError}</span>
+                            <span className={styles['form__item-error']}>{passwordError !== 'init' && passwordError}</span>
                         </Form.Group>
                     </div>
                     
-                    <Button type='submit' style={{backgroundColor: "#2787F5", padding: "10px 20px", borderColor: "#000", fontSize: 18, height: 50}}>Войти</Button>
+                    {
+                    isDataValid ? <Button type='submit' style={{backgroundColor: "#2787F5", padding: "10px 20px", borderColor: "#000", fontSize: 18, height: 50}}>Войти</Button>
+                    : <Button disabled type='submit' style={{backgroundColor: "#2787F5", padding: "10px 20px", borderColor: "#000", fontSize: 18, height: 50}}>Войти</Button>
+                    }
                     <Link className={styles.content__link} to='/registration'>У вас еще нет аккаунта?</Link>
                 </Form>
             </div>

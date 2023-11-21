@@ -19,10 +19,11 @@ const RegistrationPage: React.FC = () => {
     const [passwordValue, setPasswordValue] = useState('')
     const [fullnameValue, setFullnameValue] = useState('')
     const [phoneNumberValue, setPhoneNumberValue] = useState('')
-    const [passwordError, setPasswordError] = useState('')
-    const [emailError, setEmailError] = useState('')
-    const [fullnameError, setFullnameError] = useState('')
-    const [phoneNumberError, setPhoneNumberError] = useState('')
+    const [passwordError, setPasswordError] = useState('init')
+    const [emailError, setEmailError] = useState('init')
+    const [fullnameError, setFullnameError] = useState('init')
+    const [phoneNumberError, setPhoneNumberError] = useState('init')
+    const [isDataValid, setIsDataValid] = useState(false)
 
     const emailValidation = (value: string): void => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -56,16 +57,24 @@ const RegistrationPage: React.FC = () => {
         }
     };
 
-      const phoneNumberValidation = (value: string): void => {
+    const phoneNumberValidation = (value: string): void => {
         const phoneRegex = /^\+?\d{11}$/;
         if (value.length === 0) {
-          setPhoneNumberError('Это обязательное поле!');
+            setPhoneNumberError('Это обязательное поле!');
         } else if (!phoneRegex.test(value)) {
-          setPhoneNumberError('Неправильный формат номера телефона!');
+            setPhoneNumberError('Неправильный формат номера телефона!');
         } else {
-          setPhoneNumberError('');
+            setPhoneNumberError('');
         }
-      };
+    };
+
+    React.useEffect(() => {
+        if (!emailError && !passwordError && !fullnameError && !phoneNumberError) {
+            setIsDataValid(true)
+        } else {
+            setIsDataValid(false)
+        }
+    }, [emailError, passwordError, fullnameError, phoneNumberError])
 
     const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
@@ -127,29 +136,32 @@ const RegistrationPage: React.FC = () => {
                     <div className={styles.form__item}>
                         <Form.Group style={{height: 50}} className='w-100 mb-3' controlId="search__sub.input__sub">
                             <Form.Control onChange={handleEmailValueChange} value={emailValue} style={{height: '100%', borderColor: '#3D348B', fontSize: 18}} type="email" placeholder="E-mail..." />
-                            <span className={styles['form__item-error']}>{emailError}</span>
+                            <span className={styles['form__item-error']}>{emailError !== 'init' && emailError}</span>
                         </Form.Group>
                     </div>
                     <div className={styles.form__item}>
                         <Form.Group style={{height: 50}} className='w-100 mb-3' controlId="search__sub.input__sub">
                             <Form.Control onChange={handleFullnameValueChange} value={fullnameValue} style={{height: '100%', borderColor: '#3D348B', fontSize: 18}} type="text" placeholder="ФИО..." />
-                            <span className={styles['form__item-error']}>{fullnameError}</span>
+                            <span className={styles['form__item-error']}>{fullnameError !== 'init' && fullnameError}</span>
                         </Form.Group>
                     </div>
                     <div className={styles.form__item}>
                         <Form.Group style={{height: 50}} className='w-100 mb-3' controlId="search__sub.input__sub">
                             <Form.Control onChange={handlePhoneNumberValueChange} value={phoneNumberValue} style={{height: '100%', borderColor: '#3D348B', fontSize: 18}} type="tel" placeholder="Номер телефона..." />
-                            <div className={styles['form__item-error']}>{phoneNumberError}</div>
+                            <span className={styles['form__item-error']}>{phoneNumberError !== 'init' && phoneNumberError}</span>
                         </Form.Group>
                     </div>
                     <div className={styles.form__item}>
                         <Form.Group style={{height: 50}} className='w-100 mb-3' controlId="search__sub.input__sub">
                             <Form.Control onChange={handlePasswordValueChange} value={passwordValue} style={{height: '100%', borderColor: '#3D348B', fontSize: 18}} type="password" placeholder="Пароль..." />
-                            <span className={styles['form__item-error']}>{passwordError}</span>
+                            <span className={styles['form__item-error']}>{passwordError !== 'init' && passwordError}</span>
                         </Form.Group>
                     </div>
                     
-                    <Button type='submit' style={{backgroundColor: "#2787F5", padding: "10px 20px", borderColor: "#000", fontSize: 18, height: 50}}>Зарегистрироваться</Button>
+                    {
+                        isDataValid ? <Button type='submit' style={{backgroundColor: "#2787F5", padding: "10px 20px", borderColor: "#000", fontSize: 18, height: 50}}>Зарегистрироваться</Button>
+                        : <Button disabled type='submit' style={{backgroundColor: "#2787F5", padding: "10px 20px", borderColor: "#000", fontSize: 18, height: 50}}>Зарегистрироваться</Button>
+                    }
                     <Link className={styles.content__link} to='/login'>У вас уже есть аккаунт?</Link>
                 </Form>
             </div>
