@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import { ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button'
@@ -8,17 +9,16 @@ import BreadCrumbs from 'components/BreadCrumbs';
 import Image from "react-bootstrap/Image"
 import styles from './RegistrationPage.module.scss'
 import axios, { AxiosResponse } from 'axios';
-import {useDispatch} from "react-redux";
-import {useEmailInputValue, usePasswordInputValue, useFullnameInputValue, usePhoneNumberInputValue, setEmailValueAction, 
-    setPasswordValueAction, setFullnameValueAction, setPhoneNumberValueAction, setUserAction, setIsAuthAction} from "../../Slices/AuthSlice";
-import {toast } from 'react-toastify';
+import { useDispatch } from "react-redux";
+import { setUserAction, setIsAuthAction } from "../../Slices/AuthSlice";
+import { toast } from 'react-toastify';
 
 const RegistrationPage: React.FC = () => {
     const dispatch = useDispatch();
-    const emailValue = useEmailInputValue();
-    const passwordValue = usePasswordInputValue();
-    const fullnameValue = useFullnameInputValue();
-    const phoneNumberValue = usePhoneNumberInputValue();
+    const [emailValue, setEmailValue] = useState('')
+    const [passwordValue, setPasswordValue] = useState('')
+    const [fullnameValue, setFullnameValue] = useState('')
+    const [phoneNumberValue, setPhoneNumberValue] = useState('')
 
     const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
@@ -48,29 +48,20 @@ const RegistrationPage: React.FC = () => {
       }
     };
 
-    React.useEffect(() => {
-        return () => {
-            dispatch(setEmailValueAction(''))
-            dispatch(setPasswordValueAction(''))
-            dispatch(setFullnameValueAction(''))
-            dispatch(setPhoneNumberValueAction(''))
-        }
-    }, [])
-
     const handleEmailValueChange = (event: ChangeEvent<HTMLInputElement>) => {
-        dispatch(setEmailValueAction(event.target.value));
+       setEmailValue(event.target.value)
     };
 
     const handlePasswordValueChange = (event: ChangeEvent<HTMLInputElement>) => {
-        dispatch(setPasswordValueAction(event.target.value));
+        setPasswordValue(event.target.value)
     };
 
     const handleFullnameValueChange = (event: ChangeEvent<HTMLInputElement>) => {
-        dispatch(setFullnameValueAction(event.target.value));
+        setFullnameValue(event.target.value)
     };
 
     const handlePhoneNumberValueChange = (event: ChangeEvent<HTMLInputElement>) => {
-        dispatch(setPhoneNumberValueAction(event.target.value));
+        setPhoneNumberValue(event.target.value)
     };
 
     return (

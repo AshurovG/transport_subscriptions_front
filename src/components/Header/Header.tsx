@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom'
 import styles from './Header.module.scss'
 import ProfileIcon from 'components/Icons/ProfileIcon';
@@ -6,19 +7,19 @@ import ProfileWindow from "components/ProfileWindow";
 import { motion, AnimatePresence } from "framer-motion";
 import axios, {AxiosResponse} from 'axios';
 import {useDispatch} from "react-redux";
-import {useUser, useIsProfileButtonclicked, useIsAuth, setIsAuthAction, setUserAction, setIsProfileButtonClickedAction} from "../../Slices/AuthSlice";
+import {useUser, useIsAuth, setIsAuthAction, setUserAction} from "../../Slices/AuthSlice";
 import Cookies from "universal-cookie";
 
 const cookies = new Cookies();
 
 const Header: React.FC = () => {
     const dispatch = useDispatch();
+    const [isProfileButtonClicked, setIsProfileButtonClicked] = useState(false)
     const isUserAuth = useIsAuth();
     let user = useUser();
-    const isProfileButtonClicked = useIsProfileButtonclicked();
 
     const handleProfileButtonClick = () => {
-        dispatch(setIsProfileButtonClickedAction(!isProfileButtonClicked));
+        setIsProfileButtonClicked(!isProfileButtonClicked);
     };
 
     const logout = async () => {
@@ -42,7 +43,7 @@ const Header: React.FC = () => {
                 phoneNumber: "",
                 isSuperuser: false
             }))
-            dispatch(setIsProfileButtonClickedAction(false))
+            setIsProfileButtonClicked(false);
         }
         catch(error) {
             console.log(error)

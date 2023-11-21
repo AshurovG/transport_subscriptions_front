@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form';
@@ -9,21 +10,46 @@ import styles from './LoginPage.module.scss'
 import axios, { AxiosResponse } from 'axios';
 import { ChangeEvent } from 'react';
 import {useDispatch} from "react-redux";
-import {useEmailInputValue, usePasswordInputValue, setEmailValueAction, 
-    setPasswordValueAction, setUserAction, setIsAuthAction} from "../../Slices/AuthSlice";
+import { setUserAction, setIsAuthAction } from "../../Slices/AuthSlice";
 import {toast } from 'react-toastify';
+
+
 
 const LoginPage: React.FC = () => {
     const dispatch = useDispatch();
-    const emailValue = useEmailInputValue();
-    const passwordValue = usePasswordInputValue();
+    const [emailValue, setEmailValue] = useState('')
+    const [passwordValue, setPasswordValue] = useState('')
+    
 
-    React.useEffect(() => {
-        return () => {
-            dispatch(setEmailValueAction(''))
-            dispatch(setPasswordValueAction(''))
+    const [passwordError, setPasswordError] = useState('')
+
+    const [emailError, setEmailError] = useState('')
+    const emailValidation = (): void => {
+        if (!emailValue) {
+          setEmailError('Это обязательное поле!');
+        } else {
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!emailRegex.test(emailValue)) {
+            setEmailError('Неправильный формат email!');
+          } else {
+            setEmailError(''); // Сброс ошибки, если email валиден
+          }
         }
-    }, [])
+    };
+
+    // React.useEffect(() => {
+    //     emailValidation()
+    // }, [[emailValue]])
+
+    // const  passwordValidation = (): void => {
+    //     if ((this._passwordValue.length < 8 || this._passwordValue.length > 20) && this._passwordValue.length !== 0) {
+    //         this._passwordValid = 'Password must be between 8 and 20 characters';
+    //     } else if (this._passwordValue.length === 0) {
+    //         this._passwordValid = 'This is a required field';
+    //     } else {
+    //         this._passwordValid = '';
+    //     }
+    // }
 
     const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -56,11 +82,11 @@ const LoginPage: React.FC = () => {
     };
 
     const handleEmailValueChange = (event: ChangeEvent<HTMLInputElement>) => {
-        dispatch(setEmailValueAction(event.target.value));
+        setEmailValue(event.target.value)
     };
 
     const handlePasswordValueChange = (event: ChangeEvent<HTMLInputElement>) => {
-        dispatch(setPasswordValueAction(event.target.value));
+        setPasswordValue(event.target.value)
     };
 
     return (
@@ -75,6 +101,7 @@ const LoginPage: React.FC = () => {
                     <div className={styles.form__item}>
                         <Form.Group style={{height: 50}} className='w-100 mb-3' controlId="search__sub.input__sub">
                             <Form.Control value={emailValue} onChange={handleEmailValueChange} style={{height: '100%', borderColor: '#3D348B', fontSize: 18}} type="email" placeholder="E-mail..." />
+                            {emailError && emailError}
                         </Form.Group>
                     </div>
                     <div className={styles.form__item}>
