@@ -19,10 +19,7 @@ const LoginPage: React.FC = () => {
     const dispatch = useDispatch();
     const [emailValue, setEmailValue] = useState('')
     const [passwordValue, setPasswordValue] = useState('')
-    
-
     const [passwordError, setPasswordError] = useState('')
-
     const [emailError, setEmailError] = useState('')
 
     const emailValidation = (value: string): void => {
@@ -35,8 +32,6 @@ const LoginPage: React.FC = () => {
             setEmailError('');
         }
     };
-
-
 
     const  passwordValidation = (value: string): void => {
         if ((value.length < 8 || value.length > 20) && value.length !== 0) {
@@ -100,13 +95,13 @@ const LoginPage: React.FC = () => {
                     <div className={styles.form__item}>
                         <Form.Group style={{height: 50}} className='w-100 mb-3' controlId="search__sub.input__sub">
                             <Form.Control value={emailValue} onChange={handleEmailValueChange} style={{height: '100%', borderColor: '#3D348B', fontSize: 18}} type="email" placeholder="E-mail..." />
-                            {emailError}
+                            <span className={styles['form__item-error']}>{emailError}</span>
                         </Form.Group>
                     </div>
                     <div className={styles.form__item}>
                         <Form.Group style={{height: 50}} className='w-100 mb-3' controlId="search__sub.input__sub">
                             <Form.Control value={passwordValue} onChange={handlePasswordValueChange} style={{height: '100%', borderColor: '#3D348B', fontSize: 18}} type="password" placeholder="Пароль..." />
-                            {passwordError}
+                            <span className={styles['form__item-error']}>{passwordError}</span>
                         </Form.Group>
                     </div>
                     

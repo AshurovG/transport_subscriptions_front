@@ -17,6 +17,12 @@
     }
 }
 
-// .form__item {
-//     margin-bottom: 10px;
-// }
+.form__item {
+    margin-bottom: 15px;
+
+    &-error {
+        color: red;
+        margin-top: 20px;
+        font-size: 14px;
+    }
+}

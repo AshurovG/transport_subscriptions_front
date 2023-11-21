@@ -19,6 +19,53 @@ const RegistrationPage: React.FC = () => {
     const [passwordValue, setPasswordValue] = useState('')
     const [fullnameValue, setFullnameValue] = useState('')
     const [phoneNumberValue, setPhoneNumberValue] = useState('')
+    const [passwordError, setPasswordError] = useState('')
+    const [emailError, setEmailError] = useState('')
+    const [fullnameError, setFullnameError] = useState('')
+    const [phoneNumberError, setPhoneNumberError] = useState('')
+
+    const emailValidation = (value: string): void => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(value) && value.length !== 0) {
+            setEmailError('Неправильный формат email!');
+        } else if(value.length === 0)  {
+            setEmailError('Это обязательное поле!');
+        } else {
+            setEmailError('');
+        }
+    };
+
+    const  passwordValidation = (value: string): void => {
+        if ((value.length < 8 || value.length > 20) && value.length !== 0) {
+            setPasswordError('Пароль должен быть от 8 до 20 символов!');
+        } else if (value.length === 0) {
+            setPasswordError('Это обязательное поле!');
+        } else {
+            setPasswordError('');
+        }
+    }
+
+    const fullnameValidation = (value: string): void => {
+        const words = value.trim().split(/\s+/);
+        if ((words.length < 2 || words.length > 5) && value.length !== 0) {
+            setFullnameError('ФИО быть от 2 до 5 слов!');
+        } else if (value.length === 0) {
+            setFullnameError('Это обязательное поле!');
+        } else {
+            setFullnameError('');
+        }
+    };
+
+      const phoneNumberValidation = (value: string): void => {
+        const phoneRegex = /^\+?\d{11}$/;
+        if (value.length === 0) {
+          setPhoneNumberError('Это обязательное поле!');
+        } else if (!phoneRegex.test(value)) {
+          setPhoneNumberError('Неправильный формат номера телефона!');
+        } else {
+          setPhoneNumberError('');
+        }
+      };
 
     const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
@@ -41,7 +88,7 @@ const RegistrationPage: React.FC = () => {
             isSuperuser: response.data.is_superuser
         }));
 
-        toast.success("You have successfully registered");
+        toast.success("Вы успешно зарегистрировались");
       } catch (error) {
         console.error('Ошибка при выполнении запроса:', error);
         throw(error)
@@ -49,18 +96,22 @@ const RegistrationPage: React.FC = () => {
     };
 
     const handleEmailValueChange = (event: ChangeEvent<HTMLInputElement>) => {
-       setEmailValue(event.target.value)
+        emailValidation(event.target.value)
+        setEmailValue(event.target.value)
     };
 
     const handlePasswordValueChange = (event: ChangeEvent<HTMLInputElement>) => {
+        passwordValidation(event.target.value)
         setPasswordValue(event.target.value)
     };
 
     const handleFullnameValueChange = (event: ChangeEvent<HTMLInputElement>) => {
+        fullnameValidation(event.target.value)
         setFullnameValue(event.target.value)
     };
 
     const handlePhoneNumberValueChange = (event: ChangeEvent<HTMLInputElement>) => {
+        phoneNumberValidation(event.target.value)
         setPhoneNumberValue(event.target.value)
     };
 
@@ -76,21 +127,25 @@ const RegistrationPage: React.FC = () => {
                     <div className={styles.form__item}>
                         <Form.Group style={{height: 50}} className='w-100 mb-3' controlId="search__sub.input__sub">
                             <Form.Control onChange={handleEmailValueChange} value={emailValue} style={{height: '100%', borderColor: '#3D348B', fontSize: 18}} type="email" placeholder="E-mail..." />
+                            <span className={styles['form__item-error']}>{emailError}</span>
                         </Form.Group>
                     </div>
                     <div className={styles.form__item}>
                         <Form.Group style={{height: 50}} className='w-100 mb-3' controlId="search__sub.input__sub">
                             <Form.Control onChange={handleFullnameValueChange} value={fullnameValue} style={{height: '100%', borderColor: '#3D348B', fontSize: 18}} type="text" placeholder="ФИО..." />
+                            <span className={styles['form__item-error']}>{fullnameError}</span>
                         </Form.Group>
                     </div>
                     <div className={styles.form__item}>
                         <Form.Group style={{height: 50}} className='w-100 mb-3' controlId="search__sub.input__sub">
                             <Form.Control onChange={handlePhoneNumberValueChange} value={phoneNumberValue} style={{height: '100%', borderColor: '#3D348B', fontSize: 18}} type="tel" placeholder="Номер телефона..." />
+                            <div className={styles['form__item-error']}>{phoneNumberError}</div>
                         </Form.Group>
                     </div>
                     <div className={styles.form__item}>
                         <Form.Group style={{height: 50}} className='w-100 mb-3' controlId="search__sub.input__sub">
                             <Form.Control onChange={handlePasswordValueChange} value={passwordValue} style={{height: '100%', borderColor: '#3D348B', fontSize: 18}} type="password" placeholder="Пароль..." />
+                            <span className={styles['form__item-error']}>{passwordError}</span>
                         </Form.Group>
                     </div>
                     
