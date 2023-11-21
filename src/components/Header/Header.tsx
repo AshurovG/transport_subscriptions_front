@@ -9,6 +9,7 @@ import axios, {AxiosResponse} from 'axios';
 import {useDispatch} from "react-redux";
 import {useUser, useIsAuth, setIsAuthAction, setUserAction} from "../../Slices/AuthSlice";
 import Cookies from "universal-cookie";
+import { toast } from 'react-toastify';
 
 const cookies = new Cookies();
 
@@ -44,6 +45,7 @@ const Header: React.FC = () => {
                 isSuperuser: false
             }))
             setIsProfileButtonClicked(false);
+            toast.success("Выход выполнен  успешно");
         }
         catch(error) {
             console.log(error)

@@ -97,10 +97,10 @@ const RegistrationPage: React.FC = () => {
             isSuperuser: response.data.is_superuser
         }));
 
-        toast.success("Вы успешно зарегистрировались");
+        toast.success("Регистрация пройдена успешно!");
       } catch (error) {
-        console.error('Ошибка при выполнении запроса:', error);
-        throw(error)
+        toast.error("Такой пользователь уже существует!");
+        throw error
       }
     };
 

@@ -68,9 +68,10 @@ const LoginPage: React.FC = () => {
                 isSuperuser: response.data.is_superuser
             }));
 
-            toast.success("You have successfully registered");
+            toast.success("Вход выполнен успешно");
 
         } catch (error) {
+            toast.error("Неверный логин или пароль");
             throw error
         }
     };
