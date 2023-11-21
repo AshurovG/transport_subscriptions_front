@@ -24,32 +24,29 @@ const LoginPage: React.FC = () => {
     const [passwordError, setPasswordError] = useState('')
 
     const [emailError, setEmailError] = useState('')
-    const emailValidation = (): void => {
-        if (!emailValue) {
-          setEmailError('Это обязательное поле!');
-        } else {
-          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-          if (!emailRegex.test(emailValue)) {
+
+    const emailValidation = (value: string): void => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(value) && value.length !== 0) {
             setEmailError('Неправильный формат email!');
-          } else {
-            setEmailError(''); // Сброс ошибки, если email валиден
-          }
+        } else if(value.length === 0)  {
+            setEmailError('Это обязательное поле!');
+        } else {
+            setEmailError('');
         }
     };
 
-    // React.useEffect(() => {
-    //     emailValidation()
-    // }, [[emailValue]])
 
-    // const  passwordValidation = (): void => {
-    //     if ((this._passwordValue.length < 8 || this._passwordValue.length > 20) && this._passwordValue.length !== 0) {
-    //         this._passwordValid = 'Password must be between 8 and 20 characters';
-    //     } else if (this._passwordValue.length === 0) {
-    //         this._passwordValid = 'This is a required field';
-    //     } else {
-    //         this._passwordValid = '';
-    //     }
-    // }
+
+    const  passwordValidation = (value: string): void => {
+        if ((value.length < 8 || value.length > 20) && value.length !== 0) {
+            setPasswordError('Пароль должен быть от 8 до 20 символов!');
+        } else if (value.length === 0) {
+            setPasswordError('Это обязательное поле!');
+        } else {
+            setPasswordError('');
+        }
+    }
 
     const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -82,10 +79,12 @@ const LoginPage: React.FC = () => {
     };
 
     const handleEmailValueChange = (event: ChangeEvent<HTMLInputElement>) => {
+        emailValidation(event.target.value);
         setEmailValue(event.target.value)
     };
 
     const handlePasswordValueChange = (event: ChangeEvent<HTMLInputElement>) => {
+        passwordValidation(event.target.value)
         setPasswordValue(event.target.value)
     };
 
@@ -94,19 +93,20 @@ const LoginPage: React.FC = () => {
             <Header/>
             <div style={{position: 'relative'}}className={styles['content']}>
                 <Form onSubmit={handleFormSubmit}
-                style={{backgroundColor: '#fff', width: '50%', padding: '60px 40px',
+                style={{backgroundColor: '#fff', width: '40%', padding: '60px 40px',
                 margin: '0 auto', display: 'flex', flexDirection: 'column',
                 boxShadow: '0px 4px 10px 0px rgba(0, 0, 0, 0.25)', borderRadius: '10px'}}>
                     <h3 className={styles.content__title}>Вход</h3>
                     <div className={styles.form__item}>
                         <Form.Group style={{height: 50}} className='w-100 mb-3' controlId="search__sub.input__sub">
                             <Form.Control value={emailValue} onChange={handleEmailValueChange} style={{height: '100%', borderColor: '#3D348B', fontSize: 18}} type="email" placeholder="E-mail..." />
-                            {emailError && emailError}
+                            {emailError}
                         </Form.Group>
                     </div>
                     <div className={styles.form__item}>
                         <Form.Group style={{height: 50}} className='w-100 mb-3' controlId="search__sub.input__sub">
                             <Form.Control value={passwordValue} onChange={handlePasswordValueChange} style={{height: '100%', borderColor: '#3D348B', fontSize: 18}} type="password" placeholder="Пароль..." />
+                            {passwordError}
                         </Form.Group>
                     </div>
                     
