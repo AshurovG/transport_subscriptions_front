@@ -11,7 +11,7 @@ import axios, { AxiosResponse } from 'axios';
 import {useDispatch} from "react-redux";
 import {useEmailInputValue, usePasswordInputValue, useFullnameInputValue, usePhoneNumberInputValue, setEmailValueAction, 
     setPasswordValueAction, setFullnameValueAction, setPhoneNumberValueAction, setUserAction, setIsAuthAction} from "../../Slices/AuthSlice";
-import { ToastContainer } from 'react-toastify';
+import {toast } from 'react-toastify';
 
 const RegistrationPage: React.FC = () => {
     const dispatch = useDispatch();
@@ -40,6 +40,8 @@ const RegistrationPage: React.FC = () => {
             phoneNumber: response.data.phone_number,
             isSuperuser: response.data.is_superuser
         }));
+
+        toast.success("You have successfully registered");
       } catch (error) {
         console.error('Ошибка при выполнении запроса:', error);
         throw(error)
@@ -104,19 +106,7 @@ const RegistrationPage: React.FC = () => {
                     <Button type='submit' style={{backgroundColor: "#2787F5", padding: "10px 20px", borderColor: "#000", fontSize: 18, height: 50}}>Зарегистрироваться</Button>
                     <Link className={styles.content__link} to='/login'>У вас уже есть аккаунт?</Link>
                 </Form>
-                
             </div>
-            <ToastContainer 
-                    position="top-center"
-                    autoClose={5000}
-                    hideProgressBar={false}
-                    newestOnTop={false}
-                    closeOnClick
-                    rtl={false}
-                    pauseOnFocusLoss
-                    draggable
-                    pauseOnHover
-                />
         </div>
     )
 };

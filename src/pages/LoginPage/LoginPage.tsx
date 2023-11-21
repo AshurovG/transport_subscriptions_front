@@ -11,6 +11,7 @@ import { ChangeEvent } from 'react';
 import {useDispatch} from "react-redux";
 import {useEmailInputValue, usePasswordInputValue, setEmailValueAction, 
     setPasswordValueAction, setUserAction, setIsAuthAction} from "../../Slices/AuthSlice";
+import {toast } from 'react-toastify';
 
 const LoginPage: React.FC = () => {
     const dispatch = useDispatch();
@@ -46,6 +47,8 @@ const LoginPage: React.FC = () => {
                 phoneNumber: response.data.phone_number,
                 isSuperuser: response.data.is_superuser
             }));
+
+            toast.success("You have successfully registered");
 
         } catch (error) {
             throw error

@@ -9,6 +9,8 @@ import axios, {AxiosResponse} from 'axios';
 import Cookies from "universal-cookie";
 import {useDispatch} from "react-redux";
 import {setUserAction, setIsAuthAction, useIsAuth} from "../Slices/AuthSlice";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const cookies = new Cookies();
 
@@ -57,10 +59,12 @@ function App() {
                 <Route path=":id" element={<DetaliedPage />} />
               </Route>
               {!isAuth && <Route path='/registration' element={<RegistrationPage/>}></Route>}
+              {/* {<Route path='/registration' element={<RegistrationPage/>}></Route>} */}
               {!isAuth && <Route path='/login' element={<LoginPage/>}></Route>}
               <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
       </HashRouter>
+      <ToastContainer />
     </div>
     );
   }
