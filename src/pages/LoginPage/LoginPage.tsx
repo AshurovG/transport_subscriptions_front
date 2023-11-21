@@ -17,12 +17,12 @@ const LoginPage: React.FC = () => {
     const emailValue = useEmailInputValue();
     const passwordValue = usePasswordInputValue();
 
-    // React.useEffect(() => {
-    //     return () => {
-    //         dispatch(setEmailValueAction(''))
-    //         dispatch(setPasswordValueAction(''))
-    //     }
-    // }, [])
+    React.useEffect(() => {
+        return () => {
+            dispatch(setEmailValueAction(''))
+            dispatch(setPasswordValueAction(''))
+        }
+    }, [])
 
     const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();

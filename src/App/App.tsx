@@ -1,4 +1,4 @@
-import { HashRouter, Routes, Route } from 'react-router-dom'
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom'
 // import styles from './App.module.scss'
 import React from 'react';
 import MainPage from 'pages/MainPage';
@@ -8,12 +8,13 @@ import LoginPage from 'pages/LoginPage';
 import axios, {AxiosResponse} from 'axios';
 import Cookies from "universal-cookie";
 import {useDispatch} from "react-redux";
-import {setUserAction, setIsAuthAction} from "../Slices/AuthSlice";
+import {setUserAction, setIsAuthAction, useIsAuth} from "../Slices/AuthSlice";
 
 const cookies = new Cookies();
 
 function App() {
   const dispatch = useDispatch();
+  const isAuth = useIsAuth();
 
   const getInitialUserInfo = async () => {
     console.log(cookies.get("session_id"))
@@ -26,7 +27,6 @@ function App() {
           Authorization: cookies.get("session_id"),
         },
       })
-
       dispatch(setIsAuthAction(true))
       dispatch(setUserAction({
         email: response.data.email,
@@ -43,6 +43,7 @@ function App() {
 
   React.useEffect(() => {
     if (cookies.get("session_id")) {
+      console.log(isAuth)
       getInitialUserInfo()
     }
   }, [])
@@ -52,13 +53,12 @@ function App() {
       <HashRouter>
           <Routes>
               <Route path="/" element={<MainPage />} />
-
               <Route path="/subscription">
                 <Route path=":id" element={<DetaliedPage />} />
               </Route>
-
-              <Route path='/registration' element={<RegistrationPage/>}></Route>
-              <Route path='/login' element={<LoginPage/>}></Route>
+              {!isAuth && <Route path='/registration' element={<RegistrationPage/>}></Route>}
+              {!isAuth && <Route path='/login' element={<LoginPage/>}></Route>}
+              <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
       </HashRouter>
     </div>

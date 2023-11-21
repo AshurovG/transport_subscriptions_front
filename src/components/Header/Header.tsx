@@ -42,6 +42,7 @@ const Header: React.FC = () => {
                 phoneNumber: "",
                 isSuperuser: false
             }))
+            dispatch(setIsProfileButtonClickedAction(false))
         }
         catch(error) {
             console.log(error)
