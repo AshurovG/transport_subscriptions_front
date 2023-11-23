@@ -38,6 +38,11 @@
         color: inherit;
     }
 
+    &__icons {
+        display: flex;
+        gap: 10px;
+    }
+
     &__profile {
         text-decoration: none;
         color: inherit;
@@ -45,5 +50,27 @@
         &-icon {
             cursor: pointer;
         }
+    }
+}
+
+.application__icon {
+    &-wrapper {
+        position: relative;
+    }
+    
+    &-circle {
+        position: absolute;
+        top: -7px;
+        left: -7px;
+        background-color: #2787F5;
+        font-size: 13px;
+        color: #fff;
+        display: flex;
+        justify-content: center; /* Выравнивание по горизонтали */
+        align-items: center; 
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+
     }
 }

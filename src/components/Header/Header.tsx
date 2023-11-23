@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom'
 import styles from './Header.module.scss'
 import ProfileIcon from 'components/Icons/ProfileIcon';
+import ApplicationIcon from 'components/Icons/ApplicationIcon';
 import ProfileWindow from "components/ProfileWindow";
 import { motion, AnimatePresence } from "framer-motion";
 import axios, {AxiosResponse} from 'axios';
@@ -67,7 +68,13 @@ const Header: React.FC = () => {
                     <Link className={styles.header__block} to='/'>Поддержка</Link>
                 </div>
 
-                {isUserAuth ? <ProfileIcon className={styles['header__profile-icon']} onClick={handleProfileButtonClick}/> : <Link to='/registration' className={styles.header__profile}><ProfileIcon/></Link>}
+                <div className={styles.header__icons}>
+                    <div className={styles['application__icon-wrapper']}>
+                        <div className={styles['application__icon-circle']}>0</div>
+                        {isUserAuth && <ApplicationIcon/>}
+                    </div>
+                    {isUserAuth ? <ProfileIcon className={styles['header__profile-icon']} onClick={handleProfileButtonClick}/> : <Link to='/registration' className={styles.header__profile}><ProfileIcon/></Link>}
+                </div>
 
                 <AnimatePresence>
                 {isUserAuth && isProfileButtonClicked && (
