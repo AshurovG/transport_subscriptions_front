@@ -137,26 +137,26 @@ const MainPage: React.FC = () => {
         }
     }
 
-    const getCategories = async () => {
-        let url = 'http://127.0.0.1:8000/categories'
-        try {
-            const response = await axios.get(url)
-            const categories = response.data.map((raw: ReceivedCategoryData) => ({
-                id: raw.id,
-                title: raw.title
-            }))
-            categories.unshift({ id: 100000, title: 'Все категории' });
-            console.log(categories)
-            dispatch(setCategoriesAction(categories))
-        } catch {
-            console.log('запрос не прошел !')
-        }
-    }
-    useEffect(() => {
-        getSubscriptions();
-        console.log('get suubs')
-        getCategories();
-    }, []);
+    // const getCategories = async () => {
+    //     let url = 'http://127.0.0.1:8000/categories'
+    //     try {
+    //         const response = await axios.get(url)
+    //         const categories = response.data.map((raw: ReceivedCategoryData) => ({
+    //             id: raw.id,
+    //             title: raw.title
+    //         }))
+    //         categories.unshift({ id: 100000, title: 'Все категории' });
+    //         console.log(categories)
+    //         dispatch(setCategoriesAction(categories))
+    //     } catch {
+    //         console.log('запрос не прошел !')
+    //     }
+    // }
+    // useEffect(() => {
+    //     getSubscriptions();
+    //     console.log('get suubs')
+    //     getCategories();
+    // }, []);
 
     const handleSearchButtonClick = () => {
         getSubscriptions();

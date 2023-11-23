@@ -2,11 +2,14 @@ import React from 'react'
 import axios from 'axios'
 import styles from './CurrentApplicationPage.module.scss'
 import Header from 'components/Header'
+import { useCurrentApplicationId } from 'Slices/ApplicationsSlice'
 
 const CurrentApplicationPage = () => {
+  const currentApplicationId = useCurrentApplicationId()
+
   const getCurrentApplication = async () => {
     try {
-      const response = await axios('http://localhost:8000/applications', {
+      const response = await axios(`http://localhost:8000/applications/${currentApplicationId}`, {
         method: 'GET',
         withCredentials: true,
         params: {

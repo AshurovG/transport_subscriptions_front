@@ -10,10 +10,29 @@ import axios, {AxiosResponse} from 'axios';
 import Cookies from "universal-cookie";
 import {useDispatch} from "react-redux";
 import {setUserAction, setIsAuthAction, useIsAuth} from "../Slices/AuthSlice";
+import {setCategoriesAction, setSubscriptionsAction} from "Slices/MainSlice";
+import { setCurrentApplicationIdAction } from 'Slices/ApplicationsSlice'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { mockSubscriptions } from '../../consts';
 
 const cookies = new Cookies();
+
+export type ReceivedCategoryData = {
+  id: number,
+  title: string,
+  status: string
+}
+
+export type ReceivedSubscriptionData = {
+  id: number,
+  title: string,
+  price: number,
+  info: string,
+  src: string,
+  id_category: number,
+  category: string,
+}
 
 function App() {
   const dispatch = useDispatch();
@@ -56,10 +75,59 @@ function App() {
     }
   }
 
+  const getCategories = async () => {
+    let url = 'http://127.0.0.1:8000/categories'
+    try {
+        const response = await axios.get(url)
+        const categories = response.data.map((raw: ReceivedCategoryData) => ({
+            id: raw.id,
+            title: raw.title
+        }))
+        categories.unshift({ id: 100000, title: 'Все категории' });
+        console.log(categories)
+        dispatch(setCategoriesAction(categories))
+    } catch {
+        console.log('запрос не прошел !')
+    }
+  }
+
+  const getSubscriptions = async () => {
+    try {
+        const response = await axios('http://localhost:8000/subscriptions', {
+            method: 'GET',
+            withCredentials: true 
+        });
+        const subscriptions = response.data.subscriptions;
+        console.log('beforeeeeeeeeeeeee')
+        if (response.data.application_id) {
+          console.log('success', response.data.application_id)
+          dispatch(setCurrentApplicationIdAction(response.data.application_id))
+        }
+        const newRecipesArr = subscriptions.map((raw: ReceivedSubscriptionData) => ({
+            id: raw.id,
+            title: raw.title,
+            price: raw.price,
+            info: raw.info,
+            src: raw.src,
+            categoryTitle: raw.category
+        }));
+        console.log(newRecipesArr)
+        dispatch(setSubscriptionsAction(newRecipesArr));
+    }
+    catch {
+      dispatch(setSubscriptionsAction(mockSubscriptions));
+    }
+};
+
+  React.useEffect(() => {
+    getSubscriptions();
+  }, [isAuth])
+
   React.useEffect(() => {
     if (cookies.get("session_id")) {
       getInitialUserInfo()
       getAllApplications()
+      getCategories();
     }
   }, [])
 
