@@ -71,8 +71,10 @@ const Header: React.FC = () => {
                 <div className={styles.header__icons}>
                     {isUserAuth && 
                         <div className={styles['application__icon-wrapper']}>
-                            <div className={styles['application__icon-circle']}>0</div>
-                            <ApplicationIcon/>
+                            <Link to={'/application'}>
+                                <div className={styles['application__icon-circle']}>0</div>
+                                <ApplicationIcon/>
+                            </Link>
                         </div>
                     }
                     {isUserAuth ? <ProfileIcon className={styles['header__profile-icon']} onClick={handleProfileButtonClick}/> : <Link to='/registration' className={styles.header__profile}><ProfileIcon/></Link>}

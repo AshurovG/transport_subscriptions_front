@@ -5,6 +5,7 @@ import MainPage from 'pages/MainPage';
 import DetaliedPage from 'pages/DetaliedPage';
 import RegistrationPage from 'pages/RegistrationPage';
 import LoginPage from 'pages/LoginPage';
+import CurrentApplicationPage from 'pages/CurrentApplicationPage';
 import axios, {AxiosResponse} from 'axios';
 import Cookies from "universal-cookie";
 import {useDispatch} from "react-redux";
@@ -43,10 +44,22 @@ function App() {
     }
   }
 
+  const getAllApplications = async () => {
+    try {
+      const response = await axios('http://localhost:8000/applications', {
+        method: 'GET',
+        withCredentials: true
+      })
+      console.log(response.data)
+    } catch {
+
+    }
+  }
+
   React.useEffect(() => {
     if (cookies.get("session_id")) {
-      console.log(isAuth)
       getInitialUserInfo()
+      getAllApplications()
     }
   }, [])
 
@@ -61,6 +74,7 @@ function App() {
               {!isAuth && <Route path='/registration' element={<RegistrationPage/>}></Route>}
               {/* {<Route path='/registration' element={<RegistrationPage/>}></Route>} */}
               {!isAuth && <Route path='/login' element={<LoginPage/>}></Route>}
+              {isAuth && <Route path='/application' element={<CurrentApplicationPage/>}/>}
               <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
       </HashRouter>
