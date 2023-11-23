@@ -122,11 +122,20 @@ const MainPage: React.FC = () => {
         }
     };
 
-    // const postSubscriptionToApplication = async (id: number) => {
-    //     const response = axios(`http://127.0.0.1:8000/subscriptions/${id}/post`, {
-            
-    //     })
-    // }
+    const postSubscriptionToApplication = async (id: number) => {
+        const response = await axios(`http://localhost:8000/subscriptions/${id}/post`, {
+            method: 'POST',
+            withCredentials: true,
+        })
+        const addedSubscription = {
+            id: response.data.id,
+            title: response.data.title,
+            price: response.data.price,
+            info: response.data.info,
+            src: response.data.src,
+            categoryTitle: response.data.category
+        }
+    }
 
     const getCategories = async () => {
         let url = 'http://127.0.0.1:8000/categories'
@@ -227,7 +236,7 @@ const MainPage: React.FC = () => {
 
                 <div className={styles["main__page-cards"]}>
                     {subscriptions.map((subscription: Subscription) => (
-                        <OneCard id={subscription.id} src={subscription.src} onButtonClick={() => console.log('add to application')} title={subscription.title} category={subscription.categoryTitle} price={Number(subscription.price)}></OneCard>
+                        <OneCard id={subscription.id} src={subscription.src} onButtonClick={() => postSubscriptionToApplication(subscription.id)} title={subscription.title} category={subscription.categoryTitle} price={Number(subscription.price)}></OneCard>
                     ))}
                 </div>
             </div>
