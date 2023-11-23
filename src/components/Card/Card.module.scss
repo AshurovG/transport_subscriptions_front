@@ -1,0 +1,33 @@
+// style={{ backgroundColor: '#2787F5', padding: '15px 30px', borderColor: "#000", position: 'absolute', right: 0, marginBottom: 50, fontSize: 18 }}
+
+.card {
+    &__image {
+        cursor: pointer;
+        width: 100%;
+        height: auto;
+        &-wrapper {
+            position: relative;
+            overflow: hidden;
+        }
+
+        &-link {
+            display: block;
+            text-decoration: none;
+        }
+    }
+
+    &__button {
+        background-color: #2787F5;
+        padding: 15px 30px;
+        border-color: #000;
+        position: absolute;
+        right: 0;
+        margin-bottom: 50px;
+        font-size: 18px;
+
+        &-wrapper {
+            position: relative;
+            height: 60px;
+        }
+    }
+}

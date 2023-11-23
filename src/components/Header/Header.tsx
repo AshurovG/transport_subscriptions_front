@@ -63,7 +63,7 @@ const Header: React.FC = () => {
 
                 <div className={styles.header__blocks}>
                     <Link className={styles.header__block} to='/'>Виды абонементов</Link>
-                    <Link className={styles.header__block} to='/'>Мои заявки</Link>
+                    {isUserAuth && <Link className={styles.header__block} to='/'>Мои заявки</Link>}
                     <Link className={styles.header__block} to='/'>Поддержка</Link>
                 </div>
 

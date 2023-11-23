@@ -1,4 +1,5 @@
 import * as React from 'react';
+import axios from 'axios';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Header from 'components/Header';
@@ -13,7 +14,6 @@ import { mockSubscriptions } from '../../../consts';
 import {useDispatch} from "react-redux";
 import {useCategories, useCategoryValue, useTitleValue, useSubscriptions, usePriceValues,
     setCategoriesAction, setCategoryValueAction, setTitleValueAction, setSubscriptionsAction, setPriceValuesAction} from "../../Slices/MainSlice";
-import axios from 'axios';
 
 export type Subscription = {
     id: number,
@@ -170,41 +170,35 @@ const MainPage: React.FC = () => {
     return (
         <div className={styles['main__page']}>
             <Header/>
-            <div className={styles['content']}>
+            <div className={styles['main__page-wrapper']}>
                 <BreadCrumbs links={linksMap}></BreadCrumbs>
 
-                <h1 className="mb-4" style={{fontSize: 30}}>
-                    Здесь вы можете подобрать выбрать для себя подходящий абонемент на какой-либо транспорт
+                <h1 className={styles['main__page-title']}>
+                    Список всех доступных абонементов на транспорт, которые вы можете приобрести
                 </h1>
+                <h5 className={styles['main__page-subtitle']}>
+                    Также вы может найти абонемент по определенным фильтрам, которые представлены ниже!
+                </h5>
 
-                <Form className="d-flex gap-3" onSubmit={handleFormSubmit}>
+                <Form className={styles['form']} onSubmit={handleFormSubmit}>
                     <div className='w-100'>
-                        <Form.Group style={{height: 60}} className='w-100 mb-3' controlId="search__sub.input__sub">
-                            <Form.Control style={{height: '100%', borderColor: '#3D348B', fontSize: 18}} value={titleValue} onChange={handleTitleValueChange} type="text" placeholder="Введите название абонемента..." />
+                        <Form.Group controlId="search__sub.input__sub">
+                            <Form.Control className={styles.form__input} value={titleValue} onChange={handleTitleValueChange} type="text" placeholder="Введите название абонемента..." />
                         </Form.Group>
-                        <div style={{display: 'flex', gap: 10, width: '100%', justifyContent: 'space-between', alignItems: 'flex-end'}}>
-                            <Dropdown style={{minWidth: '40%'}} onSelect={handleCategorySelect}>
+                        <div className={styles['form__dropdown-wrapper']}>
+                            <Dropdown className={styles.form__dropdown} style={{minWidth: '40%'}} onSelect={handleCategorySelect}>
                                 <Dropdown.Toggle
+                                    className={styles['form__dropdown-toggle']}
                                     style={{
-                                    height: 60,
-                                    borderColor: '#3D348B',
-                                    backgroundColor: "#fff",
-                                    color: '#000',
-                                    width: '100%',
-                                    textAlign: 'left',
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    alignItems: 'center',
-                                    paddingRight: '1rem',
-                                    fontSize: 18
+                                        borderColor: '#000',
+                                        backgroundColor: "#fff",
+                                        color: '#000',
                                     }}
-                                    variant="success"
-                                    id="dropdown-basic"
                                 >
                                     {categoryValue}
                                     <i className="bi bi-chevron-down"></i>
                                 </Dropdown.Toggle>
-                                <Dropdown.Menu style={{width: '100%', textAlign: 'left',}}>
+                                <Dropdown.Menu className={styles['form__dropdown-menu']}>
                                     {dropdownCategories.map(category => (
                                         <Dropdown.Item key={category.id} eventKey={category.id}>{category.title}</Dropdown.Item>
                                     ))}
@@ -219,10 +213,10 @@ const MainPage: React.FC = () => {
                             />
                         </div>
                     </div>
-                    <Button style={{backgroundColor: "#2787F5", padding: "15px 40px", borderColor: "#000", fontSize: 18, height: 60}} onClick={() => handleSearchButtonClick()}>Найти</Button>
+                    <Button className={styles.form__button} onClick={() => handleSearchButtonClick()}>Найти</Button>
                 </Form>
 
-                <div className={styles["content__cards"]}>
+                <div className={styles["main__page-cards"]}>
                     {subscriptions.map((subscription: Subscription) => (
                         <OneCard id={subscription.id} src={subscription.src} onButtonClick={() => console.log('add to application')} title={subscription.title} category={subscription.categoryTitle} price={Number(subscription.price)}></OneCard>
                     ))}
