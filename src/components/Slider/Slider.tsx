@@ -8,6 +8,7 @@ import "./Slider.css";
 export type SliderProps = {
   minimum: number;
   maximum: number;
+  currentValues: number[]
   title?: string;
   onChangeValues: (values: number[]) => void;
 };
@@ -15,10 +16,11 @@ export type SliderProps = {
 const SliderFilter: React.FC<SliderProps> = ({
   minimum,
   maximum,
+  currentValues,
   title,
   onChangeValues,
 }) => {
-  const [values, setValues] = useState([minimum, maximum]);
+  const [values, setValues] = useState(currentValues);
 
   const onUpdateValues = useCallback(
     debounce((newValues) => {

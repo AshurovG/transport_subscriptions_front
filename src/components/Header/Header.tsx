@@ -67,7 +67,7 @@ const Header: React.FC = () => {
                     <Link className={styles.header__block} to='/'>Поддержка</Link>
                 </div>
 
-                {isUserAuth ? <ProfileIcon onClick={handleProfileButtonClick}/> : <Link to='/registration' className={styles.header__profile}><ProfileIcon/></Link>}
+                {isUserAuth ? <ProfileIcon className={styles['header__profile-icon']} onClick={handleProfileButtonClick}/> : <Link to='/registration' className={styles.header__profile}><ProfileIcon/></Link>}
 
                 <AnimatePresence>
                 {isUserAuth && isProfileButtonClicked && (

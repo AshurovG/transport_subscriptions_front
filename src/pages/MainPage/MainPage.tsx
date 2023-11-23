@@ -68,6 +68,7 @@ const MainPage: React.FC = () => {
     ]);
 
     const getSubscriptions = async () => {
+        console.log(categoryValue)
         let url = 'http://127.0.0.1:8000/subscriptions'
         if (titleValue) {
             url += `?title=${titleValue}`
@@ -96,7 +97,8 @@ const MainPage: React.FC = () => {
                 src: raw.src,
                 categoryTitle: raw.category
             }));
-        
+            console.log(newRecipesArr)
+            console.log(priceValues)
             dispatch(setSubscriptionsAction(newRecipesArr));
         }
         catch {
@@ -134,6 +136,7 @@ const MainPage: React.FC = () => {
     }
     useEffect(() => {
         getSubscriptions();
+        console.log('get suubs')
         getCategories();
     }, []);
 
@@ -211,6 +214,7 @@ const MainPage: React.FC = () => {
                                 onChangeValues={handleSliderChange}
                                 minimum={0}
                                 maximum={10000}
+                                currentValues={priceValues}
                                 title="Диапазон цен:"
                             />
                         </div>

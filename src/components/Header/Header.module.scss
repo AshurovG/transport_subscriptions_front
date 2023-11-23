@@ -41,5 +41,9 @@
     &__profile {
         text-decoration: none;
         color: inherit;
+
+        &-icon {
+            cursor: pointer;
+        }
     }
 }

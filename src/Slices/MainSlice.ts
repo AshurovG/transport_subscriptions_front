@@ -30,7 +30,7 @@ const dataSlice = createSlice({
     categoryValue: 'Все категории',
     titleValue: '',
     subscriptions: [],
-    priceValues: [0, 9980]
+    priceValues: [0, 10000]
   } as DataState,
   reducers: {
     setCategories(state, action: PayloadAction<CategoryData[]>) {

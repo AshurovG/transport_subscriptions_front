@@ -64,7 +64,7 @@ function App() {
               <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
       </HashRouter>
-      <ToastContainer />
+      <ToastContainer autoClose={1500} pauseOnHover={false} />
     </div>
     );
   }
