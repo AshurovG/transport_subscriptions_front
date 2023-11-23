@@ -21,8 +21,9 @@ function App() {
   const getInitialUserInfo = async () => {
     console.log(cookies.get("session_id"))
     try {
-      const response: AxiosResponse = await axios.get('http://127.0.0.1:8000/user_info',
+      const response: AxiosResponse = await axios('http://localhost:8000/user_info',
       { 
+        method: 'GET',
         withCredentials: true, 
         headers: {
           "Content-type": "application/json; charset=UTF-8",

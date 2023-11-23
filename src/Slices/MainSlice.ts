@@ -43,10 +43,10 @@ const dataSlice = createSlice({
       state.titleValue = action.payload
     },
     setSubscriptions(state, action: PayloadAction<SubscriptionData[]>) {
+      console.log('pay is', action.payload)
       state.subscriptions = action.payload
     },
     setPriceValues(state, action: PayloadAction<number[]>) {
-      console.log('pay is', action.payload)
       state.priceValues = action.payload
     }
   },

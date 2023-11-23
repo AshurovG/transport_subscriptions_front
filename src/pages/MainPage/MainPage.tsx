@@ -69,7 +69,7 @@ const MainPage: React.FC = () => {
 
     const getSubscriptions = async () => {
         console.log(categoryValue)
-        let url = 'http://127.0.0.1:8000/subscriptions'
+        let url = 'http://localhost:8000/subscriptions'
         if (titleValue) {
             url += `?title=${titleValue}`
             if (categoryValue && categoryValue !== 'Все категории') {
@@ -87,8 +87,11 @@ const MainPage: React.FC = () => {
             url += `?min_price=${priceValues[0]}&max_price=${priceValues[1]}`
         }
         try {
-            const response = await axios.get(url, { withCredentials: true });
-            const jsonData = response.data;
+            const response = await axios(url, {
+                method: 'GET',
+                withCredentials: true 
+            });
+            const jsonData = response.data.subscriptions;
             const newRecipesArr = jsonData.map((raw: ReceivedSubscriptionData) => ({
                 id: raw.id,
                 title: raw.title,
@@ -118,6 +121,12 @@ const MainPage: React.FC = () => {
             }
         }
     };
+
+    // const postSubscriptionToApplication = async (id: number) => {
+    //     const response = axios(`http://127.0.0.1:8000/subscriptions/${id}/post`, {
+            
+    //     })
+    // }
 
     const getCategories = async () => {
         let url = 'http://127.0.0.1:8000/categories'

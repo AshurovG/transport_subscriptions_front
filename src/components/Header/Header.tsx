@@ -30,6 +30,7 @@ const Header: React.FC = () => {
             const response: AxiosResponse = await axios('http://localhost:8000/logout',
             {
                 method: "POST",
+                withCredentials: true,
                 headers: { 
                     "Content-type": "application/json; charset=UTF-8",
                     Authorization: cookies.get("session_id"),
@@ -69,10 +70,12 @@ const Header: React.FC = () => {
                 </div>
 
                 <div className={styles.header__icons}>
-                    <div className={styles['application__icon-wrapper']}>
-                        <div className={styles['application__icon-circle']}>0</div>
-                        {isUserAuth && <ApplicationIcon/>}
-                    </div>
+                    {isUserAuth && 
+                        <div className={styles['application__icon-wrapper']}>
+                            <div className={styles['application__icon-circle']}>0</div>
+                            <ApplicationIcon/>
+                        </div>
+                    }
                     {isUserAuth ? <ProfileIcon className={styles['header__profile-icon']} onClick={handleProfileButtonClick}/> : <Link to='/registration' className={styles.header__profile}><ProfileIcon/></Link>}
                 </div>
 
