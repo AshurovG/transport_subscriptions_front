@@ -26,8 +26,7 @@ function App() {
         method: 'GET',
         withCredentials: true, 
         headers: {
-          "Content-type": "application/json; charset=UTF-8",
-          Authorization: cookies.get("session_id"),
+          "Content-type": "application/json; charset=UTF-8"
         },
       })
       dispatch(setIsAuthAction(true))
