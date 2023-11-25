@@ -8,7 +8,7 @@ import SubscriptionsTable from 'components/SubscriptionsTable'
 import { mockSubscriptions } from '../../../consts';
 import { useDispatch } from 'react-redux'
 import { useCurrentApplicationDate, useSubscripitonsFromApplication,
-  setCurrentApplicationDateAction, setSubscriptionsFromApplicationAction } from 'Slices/ApplicationsSlice'
+  setCurrentApplicationDateAction, setSubscriptionsFromApplicationAction, setCurrentApplicationIdAction } from 'Slices/ApplicationsSlice'
 
 
 export type ReceivedSubscriptionData = {
@@ -26,32 +26,6 @@ const CurrentApplicationPage = () => {
   const subscriptions = useSubscripitonsFromApplication();
   const applicationDate = useCurrentApplicationDate();
   const currentApplicationId = useCurrentApplicationId()
-
-  // const getCurrentApplication = async () => {
-  //   try {
-  //     const response = await axios(`http://localhost:8000/applications/${currentApplicationId}`, {
-  //       method: 'GET',
-  //       withCredentials: true,
-  //     })
-  //     dispatch(setCurrentApplicationDateAction(response.data.application.creation_date))
-  //     const newArr = response.data.subscriptions.map((raw: ReceivedSubscriptionData) => ({
-  //       id: raw.id,
-  //       title: raw.title,
-  //       price: raw.price,
-  //       info: raw.info,
-  //       src: raw.src,
-  //       categoryTitle: raw.category
-  //   }));
-
-  //   dispatch(setSubscriptionsFromApplicationAction(newArr))
-  //   } catch(error) {
-  //     throw error
-  //   }
-  // }
-
-  // React.useEffect(() => {
-  //   getCurrentApplication();
-  // }, [])
 
   return (
     <div className={styles.application__page}>
