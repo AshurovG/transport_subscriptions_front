@@ -3,6 +3,8 @@ import axios from 'axios'
 import styles from './CurrentApplicationPage.module.scss'
 import Header from 'components/Header'
 import { useCurrentApplicationId } from 'Slices/ApplicationsSlice'
+import SubscriptionsTable from 'components/SubscriptionsTable'
+import { mockSubscriptions } from '../../../consts';
 
 const CurrentApplicationPage = () => {
   const currentApplicationId = useCurrentApplicationId()
@@ -31,8 +33,12 @@ const CurrentApplicationPage = () => {
       <Header/>
       <div className={styles['application__page-wrapper']}>
         <h1 className={styles['application__page-title']}>
-          Ваша текущая заявка
+          Текущая заявка
         </h1>
+        <div className={styles['application__page-info']}>
+          <h3 className={styles['application__page-info-title']}>Дата создания заявки: <b>2023-01-20</b></h3>
+          <SubscriptionsTable subscriptions={mockSubscriptions} className={styles['application__page-info-table']}/>
+        </div>
       </div>
     </div>
   )

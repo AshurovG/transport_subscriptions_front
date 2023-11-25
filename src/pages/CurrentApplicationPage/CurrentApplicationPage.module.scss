@@ -1,11 +1,31 @@
+@import 'styles/variables.scss';
+@import 'styles/mixins.scss';
+
 .application__page {
     &-wrapper {
-        padding-top: 100px;
+        padding-top: 90px;
+        max-width: 1240px;
+        margin: 0 auto;
     }
 
     &-title {
         font-size: 30px;
         margin-bottom: 5px;
         text-align: center;
+    }
+
+    &-info {
+        margin: 0 auto;
+        margin-top: 50px;
+        width: 70vw;
+        
+        &-title {
+            display: inline-block;
+            background-color: #3D348B;
+            border-radius: 10px 10px 0 0;
+            padding: 10px 25px;
+            font-size: 18px;
+            color: #fff;
+        }
     }
 }
