@@ -5,15 +5,17 @@ import Button from 'react-bootstrap/Button';
 import Header from 'components/Header';
 import OneCard from 'components/Card';
 import styles from './MainPage.module.scss'
-import { useEffect } from 'react';
 import { ChangeEvent } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import SliderFilter from 'components/Slider';
 import BreadCrumbs from 'components/BreadCrumbs';
+import { toast } from 'react-toastify';
 import { mockSubscriptions } from '../../../consts';
 import {useDispatch} from "react-redux";
 import {useCategories, useCategoryValue, useTitleValue, useSubscriptions, usePriceValues,
-    setCategoriesAction, setCategoryValueAction, setTitleValueAction, setSubscriptionsAction, setPriceValuesAction} from "../../Slices/MainSlice";
+     setCategoryValueAction, setTitleValueAction, setSubscriptionsAction, setPriceValuesAction} from "../../Slices/MainSlice";
+
+import { useSubscripitonsFromApplication, setSubscriptionsFromApplicationAction } from 'Slices/ApplicationsSlice';
 
 export type Subscription = {
     id: number,
@@ -62,6 +64,7 @@ const MainPage: React.FC = () => {
     const titleValue = useTitleValue();
     const subscriptions = useSubscriptions();
     const priceValues = usePriceValues();
+    const subscripitonsFromApplication = useSubscripitonsFromApplication();
 
     const linksMap = new Map<string, string>([
         ['Абонементы', '/']
@@ -120,17 +123,23 @@ const MainPage: React.FC = () => {
     };
 
     const postSubscriptionToApplication = async (id: number) => {
-        const response = await axios(`http://localhost:8000/subscriptions/${id}/post`, {
-            method: 'POST',
-            withCredentials: true,
-        })
-        const addedSubscription = {
-            id: response.data.id,
-            title: response.data.title,
-            price: response.data.price,
-            info: response.data.info,
-            src: response.data.src,
-            categoryTitle: response.data.category
+        try {
+            const response = await axios(`http://localhost:8000/subscriptions/${id}/post`, {
+                method: 'POST',
+                withCredentials: true,
+            })
+            const addedSubscription = {
+                id: response.data.id,
+                title: response.data.title,
+                price: response.data.price,
+                info: response.data.info,
+                src: response.data.src,
+                categoryTitle: response.data.category
+            }
+            dispatch(setSubscriptionsFromApplicationAction([...subscripitonsFromApplication, addedSubscription]))
+            toast.success("Абонемент успешно добавлен в заявку!");
+        } catch {
+            toast.error("Абонемент данной категории уже добавлен в заявку!");
         }
     }
 
