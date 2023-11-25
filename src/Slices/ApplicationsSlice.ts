@@ -10,10 +10,19 @@ interface SubscriptionData {
   categoryTitle: string;
 }
 
+interface ApplicationData {
+  id: number;
+  status: string;
+  creationDate: string;
+  publicationDate: string;
+  approvingDate: string;
+}
+
 interface DataState {
   currentApplicationId: number | null;
   currentApplicationDate: string;
   subscriptionsFromApplication: SubscriptionData[];
+  applications: ApplicationData[];
 }
 
 const dataSlice = createSlice({
@@ -21,7 +30,8 @@ const dataSlice = createSlice({
   initialState: {
     currentApplicationId: null,
     currentApplicationDate: '',
-    subscriptionsFromApplication: []
+    subscriptionsFromApplication: [],
+    applications: []
   } as DataState,
   reducers: {
     setCurrentApplicationId(state, action: PayloadAction<number>) {
@@ -29,11 +39,13 @@ const dataSlice = createSlice({
     },
     setCurrentApplicationDate(state, action: PayloadAction<string>) {
       state.currentApplicationDate = action.payload;
-      console.log('application date is', action.payload)
     },
     setSubscriptionsFromApplication(state, action: PayloadAction<SubscriptionData[]>) {
       state.subscriptionsFromApplication = action.payload;
-      console.log('subs is', action.payload)
+    },
+    setApplications(state, action: PayloadAction<ApplicationData[]>) {
+      state.applications = action.payload;
+      console.log('applications is', action.payload)
     }
   },
 });
@@ -47,10 +59,14 @@ export const useCurrentApplicationDate = () =>
 export const useSubscripitonsFromApplication = () =>
   useSelector((state: { applicationsData: DataState }) => state.applicationsData.subscriptionsFromApplication);
 
+export const useApplications = () =>
+  useSelector((state: { applicationsData: DataState }) => state.applicationsData.applications);
+
 export const {
     setCurrentApplicationId: setCurrentApplicationIdAction,
     setCurrentApplicationDate: setCurrentApplicationDateAction,
-    setSubscriptionsFromApplication: setSubscriptionsFromApplicationAction
+    setSubscriptionsFromApplication: setSubscriptionsFromApplicationAction,
+    setApplications: setApplicationsAction
 
 } = dataSlice.actions;
 

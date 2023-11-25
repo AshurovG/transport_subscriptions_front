@@ -16,26 +16,33 @@ import { setCurrentApplicationIdAction } from 'Slices/ApplicationsSlice'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { mockSubscriptions } from '../../consts';
-import { useCurrentApplicationDate, useSubscripitonsFromApplication,
-  setCurrentApplicationDateAction, setSubscriptionsFromApplicationAction } from 'Slices/ApplicationsSlice'
+import { setApplicationsAction, setCurrentApplicationDateAction, setSubscriptionsFromApplicationAction } from 'Slices/ApplicationsSlice'
 import { useCurrentApplicationId } from 'Slices/ApplicationsSlice'
 
 const cookies = new Cookies();
 
 export type ReceivedCategoryData = {
-  id: number,
-  title: string,
-  status: string
+  id: number;
+  title: string;
+  status: string;
 }
 
 export type ReceivedSubscriptionData = {
-  id: number,
-  title: string,
-  price: number,
-  info: string,
-  src: string,
-  id_category: number,
-  category: string,
+  id: number;
+  title: string;
+  price: number;
+  info: string;
+  src: string;
+  id_category: number;
+  category: string;
+}
+
+export type ReceivedApplicationData = {
+  id: number;
+  status: string;
+  creation_date: string;
+  publication_date: string;
+  approving_date: string;
 }
 
 function App() {
@@ -74,7 +81,14 @@ function App() {
         method: 'GET',
         withCredentials: true
       })
-      console.log(response.data)
+      const newArr = response.data.map((raw: ReceivedApplicationData) => ({
+        id: raw.id,
+        status: raw.status,
+        creationData: raw.creation_date,
+        publicationDate: raw.publication_date,
+        approvingDate: raw.approving_date,
+    }));
+    dispatch(setApplicationsAction(newArr))
     } catch {
 
     }
@@ -107,7 +121,7 @@ function App() {
           getCurrentApplication(response.data.application_id);
           dispatch(setCurrentApplicationIdAction(response.data.application_id))
         }
-        const newRecipesArr = subscriptions.map((raw: ReceivedSubscriptionData) => ({
+        const newArr = subscriptions.map((raw: ReceivedSubscriptionData) => ({
             id: raw.id,
             title: raw.title,
             price: raw.price,
@@ -115,7 +129,7 @@ function App() {
             src: raw.src,
             categoryTitle: raw.category
         }));
-        dispatch(setSubscriptionsAction(newRecipesArr));
+        dispatch(setSubscriptionsAction(newArr));
     }
     catch {
       dispatch(setSubscriptionsAction(mockSubscriptions));
@@ -166,7 +180,6 @@ const getCurrentApplication = async (id: number) => {
                 <Route path=":id" element={<DetaliedPage />} />
               </Route>
               {!isAuth && <Route path='/registration' element={<RegistrationPage/>}></Route>}
-              {/* {<Route path='/registration' element={<RegistrationPage/>}></Route>} */}
               {!isAuth && <Route path='/login' element={<LoginPage/>}></Route>}
               {isAuth && <Route path='/application' element={<CurrentApplicationPage/>}/>}
               {isAuth && <Route path='/applications' element={<ApplicationsListPage/>}/>}
