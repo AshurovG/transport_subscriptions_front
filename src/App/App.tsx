@@ -15,6 +15,9 @@ import { setCurrentApplicationIdAction } from 'Slices/ApplicationsSlice'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { mockSubscriptions } from '../../consts';
+import { useCurrentApplicationDate, useSubscripitonsFromApplication,
+  setCurrentApplicationDateAction, setSubscriptionsFromApplicationAction } from 'Slices/ApplicationsSlice'
+import { useCurrentApplicationId } from 'Slices/ApplicationsSlice'
 
 const cookies = new Cookies();
 
@@ -37,6 +40,7 @@ export type ReceivedSubscriptionData = {
 function App() {
   const dispatch = useDispatch();
   const isAuth = useIsAuth();
+  const currentApplicationId = useCurrentApplicationId()
 
   const getInitialUserInfo = async () => {
     console.log(cookies.get("session_id"))
@@ -98,9 +102,8 @@ function App() {
             withCredentials: true 
         });
         const subscriptions = response.data.subscriptions;
-        console.log('beforeeeeeeeeeeeee')
         if (response.data.application_id) {
-          console.log('success', response.data.application_id)
+          getCurrentApplication(response.data.application_id);
           dispatch(setCurrentApplicationIdAction(response.data.application_id))
         }
         const newRecipesArr = subscriptions.map((raw: ReceivedSubscriptionData) => ({
@@ -111,7 +114,6 @@ function App() {
             src: raw.src,
             categoryTitle: raw.category
         }));
-        console.log(newRecipesArr)
         dispatch(setSubscriptionsAction(newRecipesArr));
     }
     catch {
@@ -119,16 +121,39 @@ function App() {
     }
 };
 
-  React.useEffect(() => {
-    getSubscriptions();
-  }, [isAuth])
+const getCurrentApplication = async (id: number) => {
+  try {
+    const response = await axios(`http://localhost:8000/applications/${id}`, {
+      method: 'GET',
+      withCredentials: true,
+    })
+    dispatch(setCurrentApplicationDateAction(response.data.application.creation_date))
+    const newArr = response.data.subscriptions.map((raw: ReceivedSubscriptionData) => ({
+      id: raw.id,
+      title: raw.title,
+      price: raw.price,
+      info: raw.info,
+      src: raw.src,
+      categoryTitle: raw.category
+  }));
+
+  dispatch(setSubscriptionsFromApplicationAction(newArr))
+  } catch(error) {
+    throw error;
+  }
+}
+
+  // React.useEffect(() => {
+    
+  // }, [isAuth])
 
   React.useEffect(() => {
     if (cookies.get("session_id")) {
-      getInitialUserInfo()
-      getAllApplications()
-      getCategories();
+      getInitialUserInfo();
+      getAllApplications();
     }
+    getCategories();
+    getSubscriptions();
   }, [])
 
   return (

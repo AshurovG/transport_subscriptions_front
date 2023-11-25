@@ -11,13 +11,15 @@ import {useDispatch} from "react-redux";
 import {useUser, useIsAuth, setIsAuthAction, setUserAction} from "../../Slices/AuthSlice";
 import Cookies from "universal-cookie";
 import { toast } from 'react-toastify';
+import { useSubscripitonsFromApplication } from 'Slices/ApplicationsSlice';
 
 const cookies = new Cookies();
 
 const Header: React.FC = () => {
     const dispatch = useDispatch();
-    const [isProfileButtonClicked, setIsProfileButtonClicked] = useState(false)
+    const [isProfileButtonClicked, setIsProfileButtonClicked] = useState(false);
     const isUserAuth = useIsAuth();
+    const subscriptionsFromApplications = useSubscripitonsFromApplication();
     let user = useUser();
 
     const handleProfileButtonClick = () => {
@@ -72,7 +74,7 @@ const Header: React.FC = () => {
                     {isUserAuth && 
                         <div className={styles['application__icon-wrapper']}>
                             <Link to={'/application'}>
-                                <div className={styles['application__icon-circle']}>0</div>
+                                <div className={styles['application__icon-circle']}>{subscriptionsFromApplications.length}</div>
                                 <ApplicationIcon/>
                             </Link>
                         </div>

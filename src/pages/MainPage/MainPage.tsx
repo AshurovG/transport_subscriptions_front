@@ -25,13 +25,13 @@ export type Subscription = {
 }
 
 export type ReceivedSubscriptionData = {
-    id: number,
-    title: string,
-    price: number,
-    info: string,
-    src: string,
-    id_category: number,
-    category: string,
+    id: number;
+    title: string;
+    price: number;
+    info: string;
+    src: string;
+    id_category: number;
+    category: string;
 }
 
 export type ReceivedCategoryData = {
@@ -68,7 +68,6 @@ const MainPage: React.FC = () => {
     ]);
 
     const getSubscriptions = async () => {
-        console.log(categoryValue)
         let url = 'http://localhost:8000/subscriptions'
         if (titleValue) {
             url += `?title=${titleValue}`
@@ -92,7 +91,7 @@ const MainPage: React.FC = () => {
                 withCredentials: true 
             });
             const jsonData = response.data.subscriptions;
-            const newRecipesArr = jsonData.map((raw: ReceivedSubscriptionData) => ({
+            const newArr = jsonData.map((raw: ReceivedSubscriptionData) => ({
                 id: raw.id,
                 title: raw.title,
                 price: raw.price,
@@ -100,9 +99,7 @@ const MainPage: React.FC = () => {
                 src: raw.src,
                 categoryTitle: raw.category
             }));
-            console.log(newRecipesArr)
-            console.log(priceValues)
-            dispatch(setSubscriptionsAction(newRecipesArr));
+            dispatch(setSubscriptionsAction(newArr));
         }
         catch {
             console.log('запрос не прошел !')
@@ -137,27 +134,6 @@ const MainPage: React.FC = () => {
         }
     }
 
-    // const getCategories = async () => {
-    //     let url = 'http://127.0.0.1:8000/categories'
-    //     try {
-    //         const response = await axios.get(url)
-    //         const categories = response.data.map((raw: ReceivedCategoryData) => ({
-    //             id: raw.id,
-    //             title: raw.title
-    //         }))
-    //         categories.unshift({ id: 100000, title: 'Все категории' });
-    //         console.log(categories)
-    //         dispatch(setCategoriesAction(categories))
-    //     } catch {
-    //         console.log('запрос не прошел !')
-    //     }
-    // }
-    // useEffect(() => {
-    //     getSubscriptions();
-    //     console.log('get suubs')
-    //     getCategories();
-    // }, []);
-
     const handleSearchButtonClick = () => {
         getSubscriptions();
     }
@@ -167,8 +143,6 @@ const MainPage: React.FC = () => {
     };
 
     const handleSliderChange = (values: number[]) => {
-        console.log('djfkdfjkd')
-        console.log(values[0], values[1])
         dispatch(setPriceValuesAction(values));
     };
 

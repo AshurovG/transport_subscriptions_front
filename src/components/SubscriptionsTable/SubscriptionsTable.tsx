@@ -35,7 +35,7 @@ const SubscriptionsTable: React.FC<SubscriptionsTableProps> = ({subscriptions, c
               <td>{++index}</td>
               <td>{subscription.categoryTitle}</td>
               <td>{subscription.title}</td>
-              <td className={styles.table__action}>{subscription.price} <Button style={{backgroundColor: '#2787F5'}}>Удалить</Button></td>
+              <td className={styles.table__action}>{subscription.price} <Button className={styles.table__btn} style={{backgroundColor: '#2787F5'}}>Удалить</Button></td>
             </tr>
           ))}
         </tbody>

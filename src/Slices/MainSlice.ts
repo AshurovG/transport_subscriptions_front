@@ -2,25 +2,25 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
 
 interface CategoryData {
-  id: number,
-  title: string,
+  id: number;
+  title: string;
 }
 
 interface SubscriptionData {
-  id: number,
-  title: string,
-  price: number,
-  info: string,
-  src: string,
-  categoryTitle: string
+  id: number;
+  title: string;
+  price: number;
+  info: string;
+  src: string;
+  categoryTitle: string;
 }
 
 interface DataState {
   categories: CategoryData[];
   categoryValue: string;
   titleValue: string;
-  subscriptions: SubscriptionData[],
-  priceValues: number[]
+  subscriptions: SubscriptionData[];
+  priceValues: number[];
 }
 
 const dataSlice = createSlice({

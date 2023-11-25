@@ -14,6 +14,15 @@
         text-align: center;
     }
 
+    &-subtitle {
+        font-size: 18px;
+        max-width: 60%;
+        text-align: center;
+        margin: 0 auto;
+        color: gray;
+        margin-bottom: 50px;
+    }
+
     &-info {
         margin: 0 auto;
         margin-top: 50px;
@@ -26,6 +35,18 @@
             padding: 10px 25px;
             font-size: 18px;
             color: #fff;
+        }
+
+        &-btns {
+            display: flex;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        &-btn {
+            width: 130px;
+            height: 50px;
+            background-color: #2787F5;
         }
     }
 }

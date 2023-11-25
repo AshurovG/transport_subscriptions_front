@@ -1,27 +1,25 @@
 @import 'styles/variables.scss';
 @import 'styles/mixins.scss';
 
-Table {
-    border-radius: 10px 10px 10px 0 !important;
-}
-
 th {
-    // background-color: #3D348B !important;
     background-color: #3D348B !important;
     color: #fff !important;
 }
 
 td {
     background-color: #efefef !important;
-    // background-color: #f0ecec !important;\
 }
 
 .table {
     width: 70vw;
-}
 
-.table__action {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    &__action {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &__btn:hover {
+        background-color: #0b5ed7 !important;
+    }
 }
