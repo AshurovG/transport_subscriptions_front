@@ -4,7 +4,6 @@
     &__image {
         cursor: pointer;
         width: 100%;
-        height: auto;
         &-wrapper {
             position: relative;
             overflow: hidden;
@@ -14,6 +13,10 @@
             display: block;
             text-decoration: none;
         }
+    }
+
+    &__info {
+        min-height: 150px;
     }
 
     &__button {

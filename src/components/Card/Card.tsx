@@ -31,7 +31,7 @@ const OneCard: React.FC<CardProps> = ({id, title, category, price, src, onButton
           />
         </div>
       </Link>
-      <Card.Body className='d-flex flex-column'>
+      <Card.Body className={`d-flex flex-column ${styles.card__info}`}>
         <Card.Title className='pt-3'>Категория: {category}</Card.Title>
         <Card.Subtitle>{title}</Card.Subtitle>
         <Card.Text>Цена: {price}р.</Card.Text>
