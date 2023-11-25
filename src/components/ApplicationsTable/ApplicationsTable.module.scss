@@ -13,11 +13,10 @@ td {
 }
 
 .table {
-    width: 70vw;
 
     &__action {
         display: flex;
-        justify-content: flex-end;
+        justify-content: center;
         align-items: center;
     }
 

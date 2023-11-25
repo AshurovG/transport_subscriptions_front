@@ -84,13 +84,13 @@ function App() {
       const newArr = response.data.map((raw: ReceivedApplicationData) => ({
         id: raw.id,
         status: raw.status,
-        creationData: raw.creation_date,
+        creationDate: raw.creation_date,
         publicationDate: raw.publication_date,
         approvingDate: raw.approving_date,
     }));
     dispatch(setApplicationsAction(newArr))
-    } catch {
-
+    } catch(error) {
+      throw error
     }
   }
 
