@@ -1,0 +1,16 @@
+@import 'styles/variables.scss';
+@import 'styles/mixins.scss';
+
+.applications__page {
+    &-wrapper {
+        padding-top: 90px;
+        max-width: 1240px;
+        margin: 0 auto;
+    }
+
+    &-title {
+        font-size: 30px;
+        margin-bottom: 5px;
+        text-align: center;
+    }
+}

@@ -49,13 +49,14 @@ const SubscriptionsTable: React.FC<SubscriptionsTableProps> = ({subscriptions, c
   }
 
   return (
-      <Table borderless className={!className ? styles.table : cn(styles.table, className)}>
+      <Table responsive borderless className={!className ? styles.table : cn(styles.table, className)}>
         <thead>
           <tr className={styles.tableHead}>
             <th>№</th>
             <th>Категория</th>
             <th>Название</th>
             <th>Цена</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -64,7 +65,8 @@ const SubscriptionsTable: React.FC<SubscriptionsTableProps> = ({subscriptions, c
               <td>{++index}</td>
               <td>{subscription.categoryTitle}</td>
               <td>{subscription.title}</td>
-              <td className={styles.table__action}>{subscription.price} <Button onClick={() => handleDeleteButtonClick(subscription.id)}  className={styles.table__btn} style={{backgroundColor: '#2787F5'}}>Удалить</Button></td>
+              <td>{subscription.price} ₽</td>
+              <td className={styles.table__action}><Button onClick={() => handleDeleteButtonClick(subscription.id)}  className={styles.table__btn} style={{backgroundColor: '#2787F5'}}>Удалить</Button></td>
             </tr>
           ))}
         </tbody>

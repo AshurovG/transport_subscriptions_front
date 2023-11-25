@@ -7,7 +7,9 @@ th {
 }
 
 td {
-    background-color: #efefef !important;
+    // background-color: #aaaaaa !important;
+    background-color: #dddce4 !important;
+
 }
 
 .table {
@@ -15,11 +17,20 @@ td {
 
     &__action {
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-end;
         align-items: center;
     }
 
     &__btn:hover {
         background-color: #0b5ed7 !important;
     }
+}
+
+// Table {
+//     border-radius: 10px !important;
+// }
+
+.test {
+    border-radius: 10px;
+    z-index: 100000;
 }
