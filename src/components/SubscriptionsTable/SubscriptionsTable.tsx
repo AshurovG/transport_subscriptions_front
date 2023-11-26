@@ -16,15 +16,16 @@ interface SubscriptionData {
   price: number,
   info: string,
   src: string,
-  categoryTitle: string
+  categoryTitle: string,
 }
 
 export type SubscriptionsTableProps = {
   subscriptions: SubscriptionData[];
   className?: string;
+  flag?: boolean;
 };
 
-const SubscriptionsTable: React.FC<SubscriptionsTableProps> = ({subscriptions, className}) => {
+const SubscriptionsTable: React.FC<SubscriptionsTableProps> = ({subscriptions, className, flag}) => {
   const dispatch = useDispatch();
   const subscripions = useSubscripitonsFromApplication()
 
@@ -57,7 +58,7 @@ const SubscriptionsTable: React.FC<SubscriptionsTableProps> = ({subscriptions, c
             <th>Категория</th>
             <th>Название</th>
             <th>Цена</th>
-            <th></th>
+            {!flag && <th></th>}
           </tr>
         </thead>
         <tbody>
@@ -67,7 +68,7 @@ const SubscriptionsTable: React.FC<SubscriptionsTableProps> = ({subscriptions, c
               <td>{subscription.categoryTitle}</td>
               <td>{subscription.title}</td>
               <td>{subscription.price} ₽</td>
-              <td className={styles.table__action}><BasketIcon onClick={() => handleDeleteButtonClick(subscription.id)}/></td>
+              {!flag && <td className={styles.table__action}><BasketIcon onClick={() => handleDeleteButtonClick(subscription.id)}/></td>}
             </tr>
           ))}
         </tbody>

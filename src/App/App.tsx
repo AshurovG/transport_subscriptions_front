@@ -7,6 +7,7 @@ import RegistrationPage from 'pages/RegistrationPage';
 import LoginPage from 'pages/LoginPage';
 import CurrentApplicationPage from 'pages/CurrentApplicationPage';
 import ApplicationsListPage from 'pages/ApplicationsListPage';
+import SelectedApplicationPage from 'pages/SelectedApplicationPage';
 import axios, {AxiosResponse} from 'axios';
 import Cookies from "universal-cookie";
 import {useDispatch} from "react-redux";
@@ -149,7 +150,10 @@ const getCurrentApplication = async (id: number) => {
               {!isAuth && <Route path='/registration' element={<RegistrationPage/>}></Route>}
               {!isAuth && <Route path='/login' element={<LoginPage/>}></Route>}
               {isAuth && <Route path='/application' element={<CurrentApplicationPage/>}/>}
-              {isAuth && <Route path='/applications' element={<ApplicationsListPage/>}/>}
+              {isAuth && <Route path='/applications' element={<ApplicationsListPage/>}></Route>}
+              {isAuth && <Route path="/applications">
+                <Route path=":id" element={<SelectedApplicationPage />} />
+              </Route>}
               <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
       </HashRouter>

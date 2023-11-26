@@ -10,6 +10,7 @@ import cn from 'classnames';
 import { useDispatch } from 'react-redux';
 import { useCurrentApplicationDate, useSubscripitonsFromApplication,
   setCurrentApplicationDateAction, setSubscriptionsFromApplicationAction, setCurrentApplicationIdAction } from 'Slices/ApplicationsSlice'
+import { Link } from 'react-router-dom';
 
 interface ApplicationData {
   id: number;
@@ -96,7 +97,7 @@ const ApplicationsTable: React.FC<SubscriptionsTableProps> = ({applications, cla
               <td>{application.creationDate}</td>
               <td>{application.publicationDate ? application.publicationDate : '-'}</td>
               <td>{application.approvingDate ? application.approvingDate : '-'}</td>
-              <td className={styles.table__action}><Button onClick={() => handleDetailedButtonClick(application.id)}>Подробнее</Button></td>
+              <td className={styles.table__action}><Link to={`/applications/${application.id}`}>dfsaf</Link><Button onClick={() => handleDetailedButtonClick(application.id)}>Подробнее</Button></td>
             </tr>
           ))}
         </tbody>
