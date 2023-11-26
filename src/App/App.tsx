@@ -40,7 +40,6 @@ export type ReceivedSubscriptionData = {
 function App() {
   const dispatch = useDispatch();
   const isAuth = useIsAuth();
-  const currentApplicationId = useCurrentApplicationId()
 
   const getInitialUserInfo = async () => {
     console.log(cookies.get("session_id"))

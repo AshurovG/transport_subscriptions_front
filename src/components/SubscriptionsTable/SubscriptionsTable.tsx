@@ -6,6 +6,7 @@ import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import cn from 'classnames';
 import { useDispatch } from 'react-redux';
+import BasketIcon from 'components/Icons/BasketIcon';
 import { useCurrentApplicationDate, useSubscripitonsFromApplication,
   setCurrentApplicationDateAction, setSubscriptionsFromApplicationAction, setCurrentApplicationIdAction } from 'Slices/ApplicationsSlice'
 
@@ -66,7 +67,7 @@ const SubscriptionsTable: React.FC<SubscriptionsTableProps> = ({subscriptions, c
               <td>{subscription.categoryTitle}</td>
               <td>{subscription.title}</td>
               <td>{subscription.price} ₽</td>
-              <td className={styles.table__action}><Button onClick={() => handleDeleteButtonClick(subscription.id)}  className={styles.table__btn} style={{backgroundColor: '#2787F5'}}>Удалить</Button></td>
+              <td className={styles.table__action}><BasketIcon onClick={() => handleDeleteButtonClick(subscription.id)}/></td>
             </tr>
           ))}
         </tbody>
