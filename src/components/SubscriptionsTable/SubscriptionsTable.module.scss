@@ -15,6 +15,12 @@ td {
 .table {
     width: 70vw;
 
+    &__container {
+        max-height: 400px;
+        overflow-y: auto;
+        border-radius: 10px;
+    }
+
     &__action {
         display: flex;
         justify-content: center;

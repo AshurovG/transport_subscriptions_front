@@ -77,7 +77,8 @@ const ApplicationsTable: React.FC<SubscriptionsTableProps> = ({applications, cla
 
   return (
     <>
-      <Table responsive borderless className={!className ? styles.table : cn(styles.table, className)}>
+    <div className={styles.table__container}>
+    <Table responsive borderless className={!className ? styles.table : cn(styles.table, className)}>
         <thead>
           <tr className={styles.tableHead}>
             <th>№</th>
@@ -96,11 +97,17 @@ const ApplicationsTable: React.FC<SubscriptionsTableProps> = ({applications, cla
               <td>{application.creationDate}</td>
               <td>{application.publicationDate ? application.publicationDate : '-'}</td>
               <td>{application.approvingDate ? application.approvingDate : '-'}</td>
-              <td className={styles.table__action}><Link to={`/applications/${application.id}`}>dfsaf</Link><Button onClick={() => handleDetailedButtonClick(application.id)}>Подробнее</Button></td>
+              <td className={styles.table__action}>
+                <Link to={`/applications/${application.id}`}>
+                <Button>Подробнее</Button>
+                </Link>
+                {/* <Button onClick={() => handleDetailedButtonClick(application.id)}>Подробнее</Button> */}
+              </td>
             </tr>
           ))}
         </tbody>
       </Table>
+    </div>
 
       <ModalWindow handleBackdropClick={() => setIsModalWindowOpened(false)} className={styles.modal} active={isModalWindowOpened}>
       <h3 className={styles.modal__title}>Добавленные абонементы</h3>

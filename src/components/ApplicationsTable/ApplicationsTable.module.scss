@@ -7,12 +7,29 @@ th {
 }
 
 td {
-    // background-color: #aaaaaa !important;
     background-color: #dddce4 !important;
 
 }
 
+thead {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: red;
+  }
+
 .table {
+    &__container {
+        max-height: 400px;
+        overflow-y: auto;
+        border-radius: 10px;
+    }
+
+    padding: 20px;
+
+    &__head {
+        padding: 20px;
+    }
 
     &__action {
         display: flex;
