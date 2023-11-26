@@ -1,0 +1,98 @@
+@import 'styles/variables.scss';
+@import 'styles/mixins.scss';
+
+.main__page {
+    &-wrapper {
+        padding-top: 90px;
+        max-width: 1240px;
+        margin: 0 auto;
+    }
+
+    &-title {
+        font-size: 30px;
+        margin-bottom: 5px;
+        text-align: center;
+    }
+
+    &-subtitle {
+        font-size: 18px;
+        max-width: 500px;
+        text-align: center;
+        margin: 0 auto;
+        color: gray;
+        margin-bottom: 50px;
+    }
+
+    &-cards {
+        margin: 0 auto;
+        margin-top: 40px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 50px;
+        margin-top: 30px;
+        padding-bottom: 50px;
+    }
+}
+
+.form {
+    display: flex;
+    gap: 30px;
+
+    &__input {
+        height: 60px;
+        width: 100%;
+        margin-bottom: 20px;
+        border-color: #000;
+        font-size: 18px;
+
+        &:focus {
+            box-shadow: none;
+        }
+    }
+
+    &__dropdown {
+        &-wrapper {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        &-toggle {
+            height: 60px;
+            width: 100%;
+            text-align-last: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-right: 1rem;
+            font-size: 18px;
+
+            &:focus {
+                box-shadow: none;
+            }
+
+            &:active {
+                box-shadow: none;
+            }
+        }
+
+        &-menu {
+            width: 100%;
+            text-align-last: left;
+        }
+    }
+
+    &__button {
+        background-color: #2787F5;
+        padding: 15px 40px;
+        border-color: #000;
+        font-size: 18px;
+        height: 60px;
+    }
+}
+
+#search__sub .input__sub {
+    min-height: 150px; /* Задайте желаемую высоту в пикселях */
+}

@@ -21,7 +21,7 @@ const OneCard: React.FC<CardProps> = ({id, title, category, price, src, onButton
 
   return (
     <Card className={styles.card}>
-      <Link className={styles['card__image-link']} to={`/subscription/${id}`}>
+      <Link className={styles['card__image-link']} to={`/subscriptions/${id}`}>
         <div className={styles['card__image-wrapper']}>
           <Image
             className={styles.card__image}

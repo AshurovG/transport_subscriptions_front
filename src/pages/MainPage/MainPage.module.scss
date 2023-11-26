@@ -1,98 +1,127 @@
-@import 'styles/variables.scss';
-@import 'styles/mixins.scss';
-
 .main__page {
+    position: relative;
+
     &-wrapper {
-        padding-top: 90px;
+        padding-top: 70px;
         max-width: 1240px;
         margin: 0 auto;
     }
 
+    &-image {
+        width: 100%;
+        padding-top: 60px;
+    }
+
     &-title {
-        font-size: 30px;
-        margin-bottom: 5px;
-        text-align: center;
+        font-size: 60px;
+        font-weight: bold;
+        color: #fff;
+        position: absolute;
+        top: 80px;
+        left: 50%;
+        transform: translateX(-50%);
     }
 
     &-subtitle {
-        font-size: 18px;
-        max-width: 500px;
+        font-size: 30px;
+        font-weight: bold;
+        color: #fff;
+        position: absolute;
+        top: 150px;
+        left: 50%;
+        transform: translateX(-50%);
         text-align: center;
-        margin: 0 auto;
-        color: gray;
-        margin-bottom: 50px;
     }
 
-    &-cards {
-        margin: 0 auto;
-        margin-top: 40px;
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 50px;
-        margin-top: 30px;
-        padding-bottom: 50px;
-    }
-}
-
-.form {
-    display: flex;
-    gap: 30px;
-
-    &__input {
-        height: 60px;
-        width: 100%;
-        margin-bottom: 20px;
-        border-color: #000;
-        font-size: 18px;
-
-        &:focus {
-            box-shadow: none;
-        }
+    &-part-title {
+        font-size: 30px;
+        font-weight: bold;
+        color: #3D348B;
+        margin-bottom: 25px;
     }
 
-    &__dropdown {
+    &-about {
         &-wrapper {
             display: flex;
-            gap: 10px;
-            width: 100%;
-            justify-content: space-between;
-            align-items: flex-end;
+            gap: 200px;
+        }
+        
+        &-info {
+            background-color: #e8eff6;
+            border-radius: 10px;
+            max-width: 600px;
+            padding: 30px;
+            font-size: 20px;
+            list-style-type: none;
+            // padding-left: 0;
         }
 
-        &-toggle {
-            height: 60px;
-            width: 100%;
-            text-align-last: left;
+        &-item {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 20px;
+
+            &::before {
+                content: "";
+                position: absolute;
+                top: 15px;
+                left: 0;
+                transform: translateY(-50%);
+                width: 8px;
+                height: 8px;
+                background-color: #2787F5;
+                border-radius: 50%;
+                margin-right: 10px;
+            }
+        }
+    }
+
+    &-stats {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 80px;
+
+        &-item {
+            background-color: #dce8f3;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        &-title {
+            font-size: 30px;
+            margin-top: 5px;
+        }
+
+        &-subtitle {
+            font-size: 20px;
+        }
+    }
+
+    &-categories {
+        padding-top: 70px;
+        padding-bottom: 70px;
+
+        &-cards {
+            color: #fff;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px 60px;
+        }
+
+        &-card {
+            background-color: #2787F5;
+            border-radius: 10px;
+            height: 180px;
+            padding: 0 20px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding-right: 1rem;
-            font-size: 18px;
-
-            &:focus {
-                box-shadow: none;
-            }
-
-            &:active {
-                box-shadow: none;
-            }
+            justify-content: center;
+            text-align: center;
         }
 
-        &-menu {
-            width: 100%;
-            text-align-last: left;
+        &-title {
+            font-size: 20px;
         }
     }
-
-    &__button {
-        background-color: #2787F5;
-        padding: 15px 40px;
-        border-color: #000;
-        font-size: 18px;
-        height: 60px;
-    }
-}
-
-#search__sub .input__sub {
-    min-height: 150px; /* Задайте желаемую высоту в пикселях */
 }

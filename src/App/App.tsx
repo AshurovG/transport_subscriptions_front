@@ -1,7 +1,7 @@
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom'
-// import styles from './App.module.scss'
 import React from 'react';
 import MainPage from 'pages/MainPage';
+import SubscriptionsPage from 'pages/SubscriptionsPage';
 import DetaliedPage from 'pages/DetaliedPage';
 import RegistrationPage from 'pages/RegistrationPage';
 import LoginPage from 'pages/LoginPage';
@@ -143,8 +143,9 @@ const getCurrentApplication = async (id: number) => {
     <div className='app'>
       <HashRouter>
           <Routes>
-              <Route path="/" element={<MainPage />} />
-              <Route path="/subscription">
+              <Route path='/' element={<MainPage/>}/>
+              <Route path="/subscriptions" element={<SubscriptionsPage />} />
+              <Route path="/subscriptions">
                 <Route path=":id" element={<DetaliedPage />} />
               </Route>
               {!isAuth && <Route path='/registration' element={<RegistrationPage/>}></Route>}

@@ -45,7 +45,7 @@ const MainPage: React.FC = () => {
             }))
 
             const newLinksMap = new Map<string, string>(linksMap); // Копирование старого Map
-            newLinksMap.set(jsonData.title, '/subscription/' + id);
+            newLinksMap.set(jsonData.title, '/subscriptions/' + id);
             dispatch(setLinksMapDataAction(newLinksMap))
         } catch {
             const sub = mockSubscriptions.find(item => item.id === Number(id));
@@ -58,7 +58,7 @@ const MainPage: React.FC = () => {
         getSubscription();
 
         return () => { // Возможно лучше обобщить для всех страниц в отдельный Slice !!!
-            dispatch(setLinksMapDataAction(new Map<string, string>([['Абонементы', '/']])))
+            dispatch(setLinksMapDataAction(new Map<string, string>([['Абонементы', '/subscriptions']])))
         }
     }, []);
 
