@@ -15,6 +15,8 @@ import {useDispatch} from "react-redux";
 import {useCategories, useCategoryValue, useTitleValue, useSubscriptions, usePriceValues,
      setCategoryValueAction, setTitleValueAction, setSubscriptionsAction, setPriceValuesAction} from "../../Slices/MainSlice";
 
+import { useLinksMapData, setLinksMapDataAction } from 'Slices/DetailedSlice';
+
 import { useSubscripitonsFromApplication, setSubscriptionsFromApplicationAction } from 'Slices/ApplicationsSlice';
 
 export type Subscription = {
@@ -65,10 +67,17 @@ const MainPage: React.FC = () => {
     const subscriptions = useSubscriptions();
     const priceValues = usePriceValues();
     const subscripitonsFromApplication = useSubscripitonsFromApplication();
+    const linksMap = useLinksMapData();
 
-    const linksMap = new Map<string, string>([
-        ['Абонементы', '/']
-    ]);
+    // const linksMap = new Map<string, string>([
+    //     ['Абонементы', '/']
+    // ]);
+
+    React.useEffect(() => {
+        dispatch(setLinksMapDataAction(new Map<string, string>([
+            ['Абонементы', '/']
+        ])))
+    }, [])
 
     const getSubscriptions = async () => {
         let url = 'http://localhost:8000/subscriptions'

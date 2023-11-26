@@ -46,7 +46,6 @@ export type SubscriptionsTableProps = {
 
 const ApplicationsTable: React.FC<SubscriptionsTableProps> = ({applications, className}) => {
   const dispatch = useDispatch();
-  // const subscripions = useSubscripitonsFromApplication()
   const [isModalWindowOpened, setIsModalWindowOpened] = useState(false);
   const [currentSubscriptions, setCurrentSubscriptions] = useState<SubscriptionData[]>([])
 

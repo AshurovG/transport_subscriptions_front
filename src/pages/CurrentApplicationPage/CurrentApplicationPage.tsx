@@ -4,11 +4,13 @@ import { toast } from 'react-toastify';
 import styles from './CurrentApplicationPage.module.scss'
 import Header from 'components/Header'
 import Button from 'react-bootstrap/Button'
+import BreadCrumbs from 'components/BreadCrumbs';
 import { useCurrentApplicationId } from 'Slices/ApplicationsSlice'
 import SubscriptionsTable from 'components/SubscriptionsTable'
 import { useDispatch } from 'react-redux'
 import { useCurrentApplicationDate, useSubscripitonsFromApplication,
   setCurrentApplicationDateAction, setSubscriptionsFromApplicationAction, setCurrentApplicationIdAction } from 'Slices/ApplicationsSlice'
+import { useLinksMapData, setLinksMapDataAction } from 'Slices/DetailedSlice';
 
 
 export type ReceivedSubscriptionData = {
@@ -26,6 +28,13 @@ const CurrentApplicationPage = () => {
   const subscriptions = useSubscripitonsFromApplication();
   const applicationDate = useCurrentApplicationDate();
   const currentApplicationId = useCurrentApplicationId();
+  const linksMap = useLinksMapData();
+
+  React.useEffect(() => {
+    dispatch(setLinksMapDataAction(new Map<string, string>([
+      ['Текущая заявка', '/application']
+  ])))
+  }, [])
 
   const sendApplication = async () => {
     try {
@@ -71,6 +80,7 @@ const CurrentApplicationPage = () => {
     <div className={styles.application__page}>
       <Header/>
       <div className={styles['application__page-wrapper']}>
+        <BreadCrumbs links={linksMap}></BreadCrumbs>
         <h1 className={styles['application__page-title']}>
           Текущая заявка
         </h1>

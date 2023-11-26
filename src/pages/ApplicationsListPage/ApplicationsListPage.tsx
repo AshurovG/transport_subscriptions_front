@@ -4,8 +4,10 @@ import styles from './ApplicationsListPage.module.scss'
 import Header from 'components/Header'
 import ModalWindow from 'components/ModalWindow'
 import ApplicationsTable from 'components/ApplicationsTable'
+import BreadCrumbs from 'components/BreadCrumbs'
 import { useDispatch } from 'react-redux'
 import { setApplicationsAction, useApplications } from 'Slices/ApplicationsSlice'
+import { useLinksMapData, setLinksMapDataAction } from 'Slices/DetailedSlice';
 
 export type ReceivedApplicationData = {
     id: number;
@@ -18,6 +20,7 @@ export type ReceivedApplicationData = {
 const ApplicationsListPage = () => {
     const dispatch = useDispatch();
     const applications = useApplications();
+    const linksMap = useLinksMapData();
     const [isModalWindowOpened, setIsModalWindowOpened] = useState(false);
 
     const getAllApplications = async () => {
@@ -40,6 +43,9 @@ const ApplicationsListPage = () => {
     }
 
     React.useEffect(() => {
+        dispatch(setLinksMapDataAction(new Map<string, string>([
+            ['Заявки', '/applications']
+        ])))
         getAllApplications()
     }, [])
     
@@ -47,6 +53,7 @@ const ApplicationsListPage = () => {
         <div className={styles.applications__page}>
             <Header/>
             <div className={styles['applications__page-wrapper']}>
+                <BreadCrumbs links={linksMap}></BreadCrumbs>
                 <h1 className={styles['applications__page-title']}>История ваших заявок</h1>
                 <h5 className={styles['applications__page-subtitle']}>
                     На этой странице расположена вся история ваших заявок. Вы можете посмотреть информацию о каждой заявке, а также добавленные в нее абонементы!

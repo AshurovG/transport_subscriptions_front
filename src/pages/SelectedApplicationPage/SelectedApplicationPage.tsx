@@ -4,6 +4,9 @@ import axios from 'axios';
 import styles from './SelectedApplicationPage.module.scss'
 import Header from 'components/Header'
 import SubscriptionsTable from 'components/SubscriptionsTable'
+import BreadCrumbs from 'components/BreadCrumbs';
+import { useDispatch } from 'react-redux';
+import { useLinksMapData, setLinksMapDataAction } from 'Slices/DetailedSlice';
 
 export type ReceivedSubscriptionData = {
     id: number;
@@ -19,6 +22,8 @@ const SelectedApplicationPage = () => {
     const params = useParams();
     const id = params.id === undefined ? '' : params.id;
     const [currentSubsription, setCurrentSubscription] = React.useState([])
+    const dispatch = useDispatch();
+    const linksMap = useLinksMapData();
 
     const getCurrentApplication = async () => {
         try {
@@ -27,7 +32,6 @@ const SelectedApplicationPage = () => {
             withCredentials: true,
           })
 
-          console.log(response.data)
           const newArr = response.data.subscriptions.map((raw: ReceivedSubscriptionData) => ({
             id: raw.id,
             title: raw.title,
@@ -37,20 +41,24 @@ const SelectedApplicationPage = () => {
             categoryTitle: raw.category
         }));
         setCurrentSubscription(newArr)
-        console.log('newArr is', newArr)
         } catch(error) {
           throw error;
         }
       }
 
     React.useEffect(() => {
+        const newLinksMap = new Map<string, string>(linksMap); // Копирование старого Map
+        newLinksMap.set(id, '/applications/' + id);
+        dispatch(setLinksMapDataAction(newLinksMap))
         getCurrentApplication();
+
     }, [])
 
     return (
         <div className={styles.application__page}>
             <Header/>
             <div className={styles['application__page-wrapper']}>
+                <BreadCrumbs links={linksMap}></BreadCrumbs>
                 <h1 className={styles['application__page-title']}>
                     Добавленные абонементы
                 </h1>
