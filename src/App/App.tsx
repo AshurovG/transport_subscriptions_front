@@ -37,14 +37,6 @@ export type ReceivedSubscriptionData = {
   category: string;
 }
 
-export type ReceivedApplicationData = {
-  id: number;
-  status: string;
-  creation_date: string;
-  publication_date: string;
-  approving_date: string;
-}
-
 function App() {
   const dispatch = useDispatch();
   const isAuth = useIsAuth();
@@ -72,25 +64,6 @@ function App() {
     } 
     catch {
       console.log('Пользоатель не авторизован!!!')
-    }
-  }
-
-  const getAllApplications = async () => {
-    try {
-      const response = await axios('http://localhost:8000/applications', {
-        method: 'GET',
-        withCredentials: true
-      })
-      const newArr = response.data.map((raw: ReceivedApplicationData) => ({
-        id: raw.id,
-        status: raw.status,
-        creationDate: raw.creation_date,
-        publicationDate: raw.publication_date,
-        approvingDate: raw.approving_date,
-    }));
-    dispatch(setApplicationsAction(newArr))
-    } catch(error) {
-      throw error
     }
   }
 
@@ -158,14 +131,9 @@ const getCurrentApplication = async (id: number) => {
   }
 }
 
-  // React.useEffect(() => {
-    
-  // }, [isAuth])
-
   React.useEffect(() => {
     if (cookies.get("session_id")) {
       getInitialUserInfo();
-      getAllApplications();
     }
     getCategories();
     getSubscriptions();

@@ -1,19 +1,47 @@
 import React, { useState } from 'react'
+import axios from 'axios'
 import styles from './ApplicationsListPage.module.scss'
 import Header from 'components/Header'
 import ModalWindow from 'components/ModalWindow'
 import ApplicationsTable from 'components/ApplicationsTable'
 import { useDispatch } from 'react-redux'
-import { useApplications } from 'Slices/ApplicationsSlice'
+import { setApplicationsAction, useApplications } from 'Slices/ApplicationsSlice'
+
+export type ReceivedApplicationData = {
+    id: number;
+    status: string;
+    creation_date: string;
+    publication_date: string;
+    approving_date: string;
+  }
 
 const ApplicationsListPage = () => {
     const dispatch = useDispatch();
     const applications = useApplications();
     const [isModalWindowOpened, setIsModalWindowOpened] = useState(false);
 
-    // const handleBackdropClick = () => {
-    //    console.log('back click !!!')
-    // };
+    const getAllApplications = async () => {
+        try {
+          const response = await axios('http://localhost:8000/applications', {
+            method: 'GET',
+            withCredentials: true
+          })
+          const newArr = response.data.map((raw: ReceivedApplicationData) => ({
+            id: raw.id,
+            status: raw.status,
+            creationDate: raw.creation_date,
+            publicationDate: raw.publication_date,
+            approvingDate: raw.approving_date,
+        }));
+        dispatch(setApplicationsAction(newArr))
+        } catch(error) {
+          throw error
+        }
+    }
+
+    React.useEffect(() => {
+        getAllApplications()
+    }, [])
     
     return (
         <div className={styles.applications__page}>
