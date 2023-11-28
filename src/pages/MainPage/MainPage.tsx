@@ -10,9 +10,12 @@ const MainPage = () => {
     return (
         <div className={styles.main__page}>
             <Header/>
-            <img src={image} className={styles['main__page-image']} alt="main image" />
-            <h1 className={styles['main__page-title']}>Travel pass</h1>
-            <h4 className={styles['main__page-subtitle']}>Система по приобретению абонементов на транспорт</h4>
+            <div className={styles['main__page-intro']}>
+                <h1 className={styles['main__page-title']}>Travel pass</h1>
+                <h4 className={styles['main__page-subtitle']}>Система по приобретению абонементов на транспорт</h4>
+            </div>
+            {/* <img src={image} className={styles['main__page-image']} alt="main image" /> */}
+            
             <div className={styles['main__page-wrapper']}>
                 <div className={styles['main__page-about']}>
                     <h2 className={styles['main__page-part-title']}>О компании</h2>

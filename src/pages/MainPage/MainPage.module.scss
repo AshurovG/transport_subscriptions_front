@@ -1,3 +1,6 @@
+@import 'styles/variables.scss';
+@import 'styles/mixins.scss';
+
 .main__page {
     position: relative;
 
@@ -7,29 +10,38 @@
         margin: 0 auto;
     }
 
+    &-intro {
+        width: 100%;
+        // height: 250px;
+        padding: 50px;
+        padding: 180px 0;
+        background-color: $brand;
+    }
+
     &-image {
         width: 100%;
-        padding-top: 60px;
     }
 
     &-title {
         font-size: 60px;
         font-weight: bold;
         color: #fff;
-        position: absolute;
-        top: 80px;
-        left: 50%;
-        transform: translateX(-50%);
+        text-align: center;
+        padding-bottom: 20px;
+        // position: absolute;
+        // top: 80px;
+        // left: 50%;
+        // transform: translateX(-50%);
     }
 
     &-subtitle {
         font-size: 30px;
         font-weight: bold;
         color: #fff;
-        position: absolute;
-        top: 150px;
-        left: 50%;
-        transform: translateX(-50%);
+        // position: absolute;
+        // top: 150px;
+        // left: 50%;
+        // transform: translateX(-50%);
         text-align: center;
     }
 
@@ -107,6 +119,7 @@
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 20px 60px;
+            
         }
 
         &-card {
@@ -123,5 +136,127 @@
         &-title {
             font-size: 20px;
         }
+    }
+}
+
+
+
+@include tablet {
+    .main__page-wrapper {
+      max-width: 1100px;
+    }
+}
+  
+@include largeTablet {
+    .main__page-wrapper {
+      max-width: 900px;
+    }
+}
+  
+@include mediumTablet {
+    .main__page {
+        &-wrapper {
+            max-width: 800px;
+        }
+    
+        &-about {
+            &-wrapper {
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            &-info {
+                max-width: 100%;
+            }
+        }
+
+        &-stats {
+            gap: 15px;
+            text-align: center;
+          }
+    }
+}
+  
+@include smallTablet {
+    .main__page-wrapper {
+      max-width: 700px;
+    }
+}
+
+@include mobileLandscape {
+    .main__page {
+        &-wrapper {
+            max-width: 600px;
+        }
+    
+        &-categories {
+            &-cards {
+                gap: 10px;
+            }
+        }
+    }
+
+
+}
+  
+@include mobile {
+    .main__page {
+        &-wrapper {
+            max-width: 500px;
+        }
+
+        &-title {
+            font-size: 46x;
+        }
+        
+        &-subtitle {
+            font-size: 23px;
+        }
+    }
+
+    
+}
+  
+@include smallMobile {
+    .main__page {
+        &-wrapper {
+            max-width: 450px;
+        }
+      
+        &-categories {
+            &-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            &-title {
+                font-size: 14px;
+            }
+        }
+    }
+}
+  
+@include extraSmallMobile {
+    .main__page-wrapper {
+      max-width: 380px;
+    }
+}
+  
+@include ultraSmallMobile {
+    .main__page {
+        &-wrapper {
+            max-width: 330px;
+        }
+
+        &-categories {
+            &-card {
+                height: 150px;
+            }
+        }
+    }
+}
+  
+@include tinyMobile {
+    .main__page-wrapper {
+      max-width: 290px;
     }
 }

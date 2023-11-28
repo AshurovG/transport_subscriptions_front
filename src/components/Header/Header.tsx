@@ -5,6 +5,7 @@ import styles from './Header.module.scss'
 import ProfileIcon from 'components/Icons/ProfileIcon';
 import ApplicationIcon from 'components/Icons/ApplicationIcon';
 import ProfileWindow from "components/ProfileWindow";
+import BurgerIcon from 'components/Icons/BurgerIcon';
 import { motion, AnimatePresence } from "framer-motion";
 import axios, {AxiosResponse} from 'axios';
 import {useDispatch} from "react-redux";
@@ -18,6 +19,7 @@ const cookies = new Cookies();
 const Header: React.FC = () => {
     const dispatch = useDispatch();
     const [isProfileButtonClicked, setIsProfileButtonClicked] = useState(false);
+    const [isBurgerMenuOpened, setIsBurgerMenuOpened] = useState(false)
     const isUserAuth = useIsAuth();
     const subscriptionsFromApplications = useSubscripitonsFromApplication();
     let user = useUser();
@@ -80,6 +82,15 @@ const Header: React.FC = () => {
                         </div>
                     }
                     {isUserAuth ? <ProfileIcon className={styles['header__profile-icon']} onClick={handleProfileButtonClick}/> : <Link to='/registration' className={styles.header__profile}><ProfileIcon/></Link>}
+                    {isBurgerMenuOpened === false
+                        ? <BurgerIcon className={styles.burger__icon} color='accent' onClick={() => setIsBurgerMenuOpened(true)} />
+                        : <div className={styles.cancel__icon} onClick={() => setIsBurgerMenuOpened(false)}></div>}
+                    {isBurgerMenuOpened &&
+                    <div className={styles.burger__menu}>
+                        <Link className={styles['burger__menu-item']} to={'/subscriptions'}>Виды абонементов</Link>
+                        <Link className={styles['burger__menu-item']} to={`/applications`}>Мои заявки</Link>
+                        <Link className={styles['burger__menu-item']} to={`/`}>Поддержка</Link>
+                    </div>}
                 </div>
 
                 <AnimatePresence>
