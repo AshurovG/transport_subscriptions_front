@@ -184,19 +184,22 @@ const SubscriptionsPage: React.FC = () => {
                 <BreadCrumbs links={linksMap}></BreadCrumbs>
 
                 <h1 className={styles['main__page-title']}>
-                    Список всех доступных абонементов на транспорт, которые вы можете приобрести
+                    Список всех доступных абонементов на транспорт 
                 </h1>
                 <h5 className={styles['main__page-subtitle']}>
                     Также вы может найти абонемент по определенным фильтрам, которые представлены ниже!
                 </h5>
 
                 <Form className={styles['form']} onSubmit={handleFormSubmit}>
-                    <div className='w-100'>
-                        <Form.Group controlId="search__sub.input__sub">
+                    <div className={styles.form__wrapper}>
+                        {/* <Form.Group controlId="search__sub.input__sub"> */}
+                        <div className={styles['form__input-block']}>
                             <Form.Control className={styles.form__input} value={titleValue} onChange={handleTitleValueChange} type="text" placeholder="Введите название абонемента..." />
-                        </Form.Group>
+                            <Button className={styles.form__button} onClick={() => handleSearchButtonClick()}>Найти</Button>
+                        </div>
+                        {/* </Form.Group> */}
                         <div className={styles['form__dropdown-wrapper']}>
-                            <Dropdown className={styles.form__dropdown} style={{minWidth: '40%'}} onSelect={handleCategorySelect}>
+                            <Dropdown className={styles.form__dropdown} onSelect={handleCategorySelect}>
                                 <Dropdown.Toggle
                                     className={styles['form__dropdown-toggle']}
                                     style={{
@@ -222,8 +225,8 @@ const SubscriptionsPage: React.FC = () => {
                                 title="Диапазон цен:"
                             />
                         </div>
+                        <Button className={styles['form__mobile-button']} onClick={() => handleSearchButtonClick()}>Найти</Button>
                     </div>
-                    <Button className={styles.form__button} onClick={() => handleSearchButtonClick()}>Найти</Button>
                 </Form>
 
                 <div className={styles["main__page-cards"]}>

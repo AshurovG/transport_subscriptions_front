@@ -53,6 +53,8 @@ function App() {
           "Content-type": "application/json; charset=UTF-8"
         },
       })
+
+      console.log(response.data)
       dispatch(setIsAuthAction(true))
       dispatch(setUserAction({
         email: response.data.email,

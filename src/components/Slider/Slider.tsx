@@ -3,7 +3,7 @@ import { useState } from "react";
 import Slider from "react-slider";
 import debounce from "lodash.debounce";
 
-import "./Slider.css";
+import "./Slider.scss";
 
 export type SliderProps = {
   minimum: number;
@@ -37,7 +37,7 @@ const SliderFilter: React.FC<SliderProps> = ({
   return (
     <div className="filter">
       <div className="filter__title">{title}</div>
-      <div>
+      <div className="filter__block">
         <div className="filter__range">
           {values[0]}₽ - {values[1]}₽
         </div>
