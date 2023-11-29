@@ -91,7 +91,7 @@ const CurrentApplicationPage = () => {
           </h5>
 
           <div className={styles['application__page-info']}>
-            <h3 className={styles['application__page-info-title']}>Дата создания заявки: <b>{applicationDate}</b></h3>
+            <h3 className={styles['application__page-info-title']}>Дата создания заявки: <br/><b>{applicationDate}</b></h3>
             <h3 className={styles['application__page-info-title']}>Добавленные абонементы:</h3>
             <SubscriptionsTable subscriptions={subscriptions} className={styles['application__page-info-table']}/>
 

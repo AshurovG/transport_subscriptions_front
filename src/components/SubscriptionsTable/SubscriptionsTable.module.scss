@@ -13,7 +13,7 @@ td {
 }
 
 .table {
-    width: 70vw;
+    width: 100%;
 
     &__container {
         max-height: 400px;
@@ -21,17 +21,13 @@ td {
         border-radius: 10px;
     }
 
-    &__action {
-        display: flex;
-        justify-content: center;
-    }
-
     &__btn:hover {
         background-color: #0b5ed7 !important;
     }
 }
 
-.test {
-    border-radius: 10px;
-    z-index: 100000;
+@include mediumTablet {
+    .table {
+        min-width: 100%;
+    }
 }
