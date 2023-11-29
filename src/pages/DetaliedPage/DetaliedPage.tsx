@@ -23,7 +23,7 @@ export type ReceivedSubscriptionData = {
 }
 
 
-const MainPage: React.FC = () => {
+const DetailedPage: React.FC = () => {
     const dispatch = useDispatch();
     const subscription = useSubscription();
     const linksMap = useLinksMapData();
@@ -63,21 +63,21 @@ const MainPage: React.FC = () => {
     }, []);
 
     return (
-        <div className='main__page'>
+        <div className='detailed__page'>
             <Header/>
-            <div className={styles.content} style={{paddingTop: "90px"}}>
+            <div className={styles['detailed__page-wrapper']} style={{paddingTop: "90px"}}>
                 <BreadCrumbs links={linksMap}/>
-                <div className='d-flex gap-5'>
+                <div className={styles['detailed__page-container']}>
                     <Image
-                        style={{ width: '45%' }}
+                        className={styles['detailed__page-image']}
                         src={subscription?.src ? subscription?.src : "https://www.solaredge.com/us/sites/nam/files/Placeholders/Placeholder-4-3.jpg"}
                         rounded
                     />
-                    <div style={{width: '55%'}}>
-                            <h1 className='mb-4' style={{fontSize: 30}}>{subscription?.categoryTitle} "{subscription?.title}"</h1>
-                        <h4>Цена на данный абонемент:  <strong>{subscription?.price}р.</strong></h4>
-                        <div className={styles.content__description}>
-                            <h4>Описание:</h4>
+                    <div className={styles['detailed__page-info']}>
+                            <h1 className={styles['detailed__page-title']}>{subscription?.categoryTitle} "{subscription?.title}"</h1>
+                        <h4 className={styles['detailed__page-article']}>Цена на данный абонемент:  <strong>{subscription?.price}р.</strong></h4>
+                        <div className={styles['detailed__page-description']}>
+                            <h4 className={styles['detailed__page-article']}>Описание:</h4>
                             <p>{subscription?.info}</p>
                         </div>
                     </div>
@@ -87,4 +87,4 @@ const MainPage: React.FC = () => {
     )
 };
   
-export default MainPage;
+export default DetailedPage;
