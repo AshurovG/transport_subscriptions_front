@@ -74,7 +74,8 @@ tr {
 
     &__delete-btns {
         display: flex;
-        justify-content: flex-start;
+        justify-content: center;
+        margin-top: 15px;
         gap: 10px;
     }
 
@@ -88,6 +89,7 @@ tr {
 
     &__btn {
         width: 150px;
+        background-color: $brand;
     }
 
     &__users {

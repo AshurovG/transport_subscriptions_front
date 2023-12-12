@@ -219,7 +219,7 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
     setCurrentImage(subscription.src)
   }
 
-  const handleBuildingSelect = (eventKey: string | null) => {
+  const handleCategorySelect = (eventKey: string | null) => {
     if (eventKey !== null) {
       const selectedCategory = categories.find(category => category.id === parseInt(eventKey, 10));
       if (selectedCategory && selectedCategory.id !== categoryValue?.id && selectedCategory) {
@@ -234,10 +234,6 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
       setSelectedImage(file);
     }
   };
-
-  // React.useEffect(() => {
-  //   setCategoryValue(categories[1])
-  // }, [])
 
   return (
     <>
@@ -275,7 +271,7 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
           <h3 className={styles.modal__title}>Заполните данные</h3>
           <Form onSubmit={(event: React.FormEvent<HTMLFormElement>) => handleSubscriptionFormSubmit(event)}
           className={styles['form']}>
-            <Dropdown className={styles['dropdown']} onSelect={handleBuildingSelect}>
+            <Dropdown className={styles['dropdown']} onSelect={handleCategorySelect}>
               <Dropdown.Toggle
                   className={styles['dropdown__toggle']}
                   style={{
@@ -289,7 +285,6 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
               </Dropdown.Toggle>
               <Dropdown.Menu className={styles['dropdown__menu']}>
                 {categories
-                  .filter(category => category.title !== 'Все категории')
                   .map(category => (
                     <Dropdown.Item className={styles['dropdown__menu-item']} key={category.id} eventKey={category.id}>
                       {category.title}
@@ -325,13 +320,13 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
           </div>
         </ModalWindow>
 
-        <ModalWindow handleBackdropClick={() => setIsDeleteModalWindowOpened(false)} active={isDeleteModalWindowOpened} className={styles.modal}>
+        {/* <ModalWindow handleBackdropClick={() => setIsDeleteModalWindowOpened(false)} active={isDeleteModalWindowOpened} className={styles.modal}>
           <h3 className={styles.modal__title}>Вы уверены, что хотите удалить данную комнату?</h3>
           <div className={styles['modal__delete-btns']}>
             <Button onClick={() => {deleteSubscription()}} className={styles.modal__btn}>Подтвердить</Button>
             <Button onClick={() => setIsDeleteModalWindowOpened(false)} className={styles.modal__btn}>Закрыть</Button>
           </div>
-        </ModalWindow>
+        </ModalWindow> */}
 
         <ModalWindow handleBackdropClick={() => {setIsImageModalWindowOpened(false); setSelectedImage(null)}} active={isImageModalWindowOpened } className={styles.modal}>
           <h3 className={styles.modal__title}>Выберите картинку</h3>
