@@ -15,7 +15,16 @@ import {useCategories, useCategoryValue, useTitleValue, useSubscriptions, usePri
   setCategoryValueAction, setTitleValueAction, setSubscriptionsAction, setPriceValuesAction} from "../../Slices/MainSlice";
 import { useDispatch } from 'react-redux';
 import ImageIcon from 'components/Icons/ImageIcon';
-// import { EventData } from '../../../types';
+
+export type ReceivedSubscriptionData = {
+  id: number;
+  title: string;
+  price: number;
+  info: string;
+  src: string;
+  id_category: number;
+  category: string;
+}
 
 export type CategoryData = {
   id: number;
@@ -63,6 +72,7 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
   const [subscriptionPriceValue, setSubscriptionPriceValue] = useState('')
   const [currentSubscriptionId, setCurrentSubscriptionId] = useState<number>()
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [currentImage, setCurrentImage] = useState('')
 
   const [isValid, setIsValid] = useState(false)
 
@@ -159,10 +169,23 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
             withCredentials: true,
           }
         );
+        const updatedSubscriptions = subscriptions.map(subscription => {
+          if (subscription.id === currentSubscriptionId) {
+            return {
+              ...subscription,
+              src: response.data
+            };
+          }
+          return subscription;
+        });
+        dispatch(setSubscriptionsAction(updatedSubscriptions))
+        console.log(updatedSubscriptions)
+        setSelectedImage(null)
 
-        console.log('Image uploaded successfully:', response.data);
       } catch (error) {
         console.error('Error uploading image:', error);
+      } finally {
+        setIsImageModalWindowOpened(false)
       }
     }
   };
@@ -190,10 +213,10 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
     setIsDeleteModalWindowOpened(true)
   }
 
-  const handleImageButtonClick = (id: number) => {
-    setCurrentSubscriptionId(id)
+  const handleImageButtonClick = (subscription: SubscriptionData) => {
+    setCurrentSubscriptionId(subscription.id)
     setIsImageModalWindowOpened(true)
-    console.log('id is', id)
+    setCurrentImage(subscription.src)
   }
 
   const handleBuildingSelect = (eventKey: string | null) => {
@@ -239,7 +262,7 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
                 ))}
                 <td className={styles.table__action}>
                   <EditIcon onClick={() => handleEditButtonClick(row)}/>
-                  <ImageIcon onClick={() => handleImageButtonClick(row.id)}/>
+                  <ImageIcon onClick={() => handleImageButtonClick(row)}/>
                   <BasketIcon onClick={() => handleDeleteButtonClick(row.id)}/>
                 </td>
               </tr>
@@ -310,12 +333,21 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
           </div>
         </ModalWindow>
 
-        <ModalWindow handleBackdropClick={() => setIsImageModalWindowOpened(false)} active={isImageModalWindowOpened } className={styles.modal}>
+        <ModalWindow handleBackdropClick={() => {setIsImageModalWindowOpened(false); setSelectedImage(null)}} active={isImageModalWindowOpened } className={styles.modal}>
           <h3 className={styles.modal__title}>Выберите картинку</h3>
-          <div>
-            <input type="file" onChange={handleImageChange} />
-            <button onClick={handleUpload}>Upload</button>
+          <h4 className={styles.modal__subtitle}>Текущее изображение</h4>
+          <div className={styles.dropzone__container}>
+          <div className="dropzone__wrapper">
+          <img className={styles.dropzone__image} src={currentImage} alt="" />
+          {selectedImage && <p className={styles.dropzone__filename}>Вы загрузили: <b>{selectedImage.name}</b></p>}
+            <label className={styles.dropzone__btn} htmlFor="upload">
+              <span className={styles['dropzone__btn-text']}>Загрузите изображение</span>
+            </label>
+            <input className={styles.dropzone__input} id="upload" type="file" onChange={handleImageChange} />
           </div>
+          </div>
+          <Button className={styles.dropzone__button} onClick={handleUpload}>Сохранить</Button>
+          
         </ModalWindow>
       </div>
     </>
