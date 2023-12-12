@@ -8,10 +8,11 @@ import LoginPage from 'pages/LoginPage';
 import CurrentApplicationPage from 'pages/CurrentApplicationPage';
 import ApplicationsListPage from 'pages/ApplicationsListPage';
 import SelectedApplicationPage from 'pages/SelectedApplicationPage';
+import AdminSubscriptionsPage from 'pages/AdminSubscriptionsPage';
 import axios, {AxiosResponse} from 'axios';
 import Cookies from "universal-cookie";
 import {useDispatch} from "react-redux";
-import {setUserAction, setIsAuthAction, useIsAuth} from "../Slices/AuthSlice";
+import {setUserAction, setIsAuthAction, useIsAuth, useUser} from "../Slices/AuthSlice";
 import {setCategoriesAction, setSubscriptionsAction} from "Slices/MainSlice";
 import { setCurrentApplicationIdAction } from 'Slices/ApplicationsSlice'
 import { ToastContainer } from 'react-toastify';
@@ -41,6 +42,7 @@ export type ReceivedSubscriptionData = {
 function App() {
   const dispatch = useDispatch();
   const isAuth = useIsAuth();
+  const user = useUser();
 
   const getInitialUserInfo = async () => {
     console.log(cookies.get("session_id"))
@@ -146,15 +148,16 @@ const getCurrentApplication = async (id: number) => {
       <HashRouter>
           <Routes>
               <Route path='/' element={<MainPage/>}/>
-              <Route path="/subscriptions" element={<SubscriptionsPage />} />
+              {(!isAuth || (isAuth && !user.isSuperuser)) && <Route path="/subscriptions" element={<SubscriptionsPage />} />}
+              {isAuth && user.isSuperuser && <Route path="/subscriptions" element={<AdminSubscriptionsPage />} />}
               <Route path="/subscriptions">
                 <Route path=":id" element={<DetaliedPage />} />
               </Route>
               {!isAuth && <Route path='/registration' element={<RegistrationPage/>}></Route>}
               {!isAuth && <Route path='/login' element={<LoginPage/>}></Route>}
-              {isAuth && <Route path='/application' element={<CurrentApplicationPage/>}/>}
-              {isAuth && <Route path='/applications' element={<ApplicationsListPage/>}></Route>}
-              {isAuth && <Route path="/applications">
+              {isAuth && !user.isSuperuser && <Route path='/application' element={<CurrentApplicationPage/>}/>}
+              {isAuth && !user.isSuperuser && <Route path='/applications' element={<ApplicationsListPage/>}></Route>}
+              {isAuth && !user.isSuperuser && <Route path="/applications">
                 <Route path=":id" element={<SelectedApplicationPage />} />
               </Route>}
               <Route path="*" element={<Navigate to="/" replace />} />

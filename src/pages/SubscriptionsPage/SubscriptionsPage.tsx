@@ -41,12 +41,12 @@ export type ReceivedSubscriptionData = {
 export type ReceivedCategoryData = {
     id: number,
     title: string,
-    status: string
 }
 
 export type CategoryData = {
     id: number,
     title: string,
+    status: string
 }
 
 export type ReceivedUserData = {

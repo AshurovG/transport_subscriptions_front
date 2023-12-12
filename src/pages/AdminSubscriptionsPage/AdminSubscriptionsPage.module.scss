@@ -1,0 +1,25 @@
+@import 'styles/variables.scss';
+@import 'styles/mixins.scss';
+
+.admin__page {
+    &-wrapper {
+        padding-top: 90px;
+        max-width: 1240px;
+        margin: 0 auto;
+    }
+
+    &-title {
+        font-size: 30px;
+        margin-bottom: 25px;
+        text-align: center;
+    }
+
+    &-subtitle {
+        font-size: 18px;
+        max-width: 500px;
+        text-align: center;
+        margin: 0 auto;
+        color: gray;
+        margin-bottom: 50px;
+    }
+}
