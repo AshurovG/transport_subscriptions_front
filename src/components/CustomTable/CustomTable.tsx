@@ -14,6 +14,7 @@ import ArrowDownIcon from 'components/Icons/ArrowDownIcon';
 import {useCategories, useCategoryValue, useTitleValue, useSubscriptions, usePriceValues,
   setCategoryValueAction, setTitleValueAction, setSubscriptionsAction, setPriceValuesAction} from "../../Slices/MainSlice";
 import { useDispatch } from 'react-redux';
+import ImageIcon from 'components/Icons/ImageIcon';
 // import { EventData } from '../../../types';
 
 export type CategoryData = {
@@ -54,12 +55,14 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
   const [isAddModalWindowOpened, setIsAddModalWindowOpened] = useState(false)
   const [isEditModalWindowOpened, setIsEditModalWindowOpened] = useState(false)
   const [isDeleteModalWindowOpened, setIsDeleteModalWindowOpened] = useState(false)
+  const [isImageModalWindowOpened, setIsImageModalWindowOpened] = useState(false)
 
   const [subscriptionTitleValue, setSubscriptionTitleValue] = useState('')
   const [categoryValue, setCategoryValue] = useState<CategoryData | undefined>(categories[1])
   const [subscriptionInfoValue, setSubscriptionInfoValue] = useState('')
   const [subscriptionPriceValue, setSubscriptionPriceValue] = useState('')
   const [currentSubscriptionId, setCurrentSubscriptionId] = useState<number>()
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
   const [isValid, setIsValid] = useState(false)
 
@@ -122,7 +125,47 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
       throw e
     }
   }
+  
+  const deleteSubscription = async () => {
+    try {
+      await axios(`http://localhost:8000/subscriptions/${currentSubscriptionId}/delete`, {
+        method: 'DELETE',
+        withCredentials: true,
 
+      })
+
+      dispatch(setSubscriptionsAction(subscriptions.filter((subscription) => {
+        return subscription.id !== currentSubscriptionId 
+      })))
+      setIsDeleteModalWindowOpened(false)
+    } catch(e) {
+      throw e
+    }
+  }
+
+  const handleUpload = async () => {
+    if (selectedImage) {
+      try {
+        const formData = new FormData();
+        formData.append('file', selectedImage);
+
+        const response = await axios.post(
+          `http://localhost:8000/subscriptions/${currentSubscriptionId}/image/post`,
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+            withCredentials: true,
+          }
+        );
+
+        console.log('Image uploaded successfully:', response.data);
+      } catch (error) {
+        console.error('Error uploading image:', error);
+      }
+    }
+  };
 
   const handleSubscriptionFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -131,10 +174,6 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
     } else if(currentSubscriptionId) {
       putSubscription(currentSubscriptionId)
     }
-  }
-
-  const handleDeleteSubscriptionConfirmClick = () => {
-    console.log('confirm deleting')
   }
 
   const handleEditButtonClick = (subscription: SubscriptionData) => {
@@ -146,12 +185,30 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
     setCategoryValue(categories.find(category => category.title === subscription.categoryTitle))
   }
 
+  const handleDeleteButtonClick = (id: number) => {
+    setCurrentSubscriptionId(id)
+    setIsDeleteModalWindowOpened(true)
+  }
+
+  const handleImageButtonClick = (id: number) => {
+    setCurrentSubscriptionId(id)
+    setIsImageModalWindowOpened(true)
+    console.log('id is', id)
+  }
+
   const handleBuildingSelect = (eventKey: string | null) => {
     if (eventKey !== null) {
       const selectedCategory = categories.find(category => category.id === parseInt(eventKey, 10));
       if (selectedCategory && selectedCategory.id !== categoryValue?.id && selectedCategory) {
         setCategoryValue(selectedCategory)
       }
+    }
+  };
+
+  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setSelectedImage(file);
     }
   };
 
@@ -165,7 +222,6 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
       <div className={`${styles.table__add} ${className}`}>
       <span className={`${styles['table__add-text']}`}>Хотите добавить новый абонемент ?</span><AddButton onClick={() => setIsAddModalWindowOpened(true)}/>
       </div>
-      
       <Table>
           <thead>
             <tr>
@@ -183,7 +239,8 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
                 ))}
                 <td className={styles.table__action}>
                   <EditIcon onClick={() => handleEditButtonClick(row)}/>
-                  <BasketIcon onClick={() => setIsDeleteModalWindowOpened(true)}/>
+                  <ImageIcon onClick={() => handleImageButtonClick(row.id)}/>
+                  <BasketIcon onClick={() => handleDeleteButtonClick(row.id)}/>
                 </td>
               </tr>
             ))}
@@ -240,8 +297,24 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
         <ModalWindow handleBackdropClick={() => setIsDeleteModalWindowOpened(false)} active={isDeleteModalWindowOpened} className={styles.modal}>
           <h3 className={styles.modal__title}>Вы уверены, что хотите удалить данную комнату?</h3>
           <div className={styles['modal__delete-btns']}>
-            <Button onClick={handleDeleteSubscriptionConfirmClick} className={styles.modal__btn}>Подтвердить</Button>
+            <Button onClick={() => {deleteSubscription()}} className={styles.modal__btn}>Подтвердить</Button>
             <Button onClick={() => setIsDeleteModalWindowOpened(false)} className={styles.modal__btn}>Закрыть</Button>
+          </div>
+        </ModalWindow>
+
+        <ModalWindow handleBackdropClick={() => setIsDeleteModalWindowOpened(false)} active={isDeleteModalWindowOpened} className={styles.modal}>
+          <h3 className={styles.modal__title}>Вы уверены, что хотите удалить данную комнату?</h3>
+          <div className={styles['modal__delete-btns']}>
+            <Button onClick={() => {deleteSubscription()}} className={styles.modal__btn}>Подтвердить</Button>
+            <Button onClick={() => setIsDeleteModalWindowOpened(false)} className={styles.modal__btn}>Закрыть</Button>
+          </div>
+        </ModalWindow>
+
+        <ModalWindow handleBackdropClick={() => setIsImageModalWindowOpened(false)} active={isImageModalWindowOpened } className={styles.modal}>
+          <h3 className={styles.modal__title}>Выберите картинку</h3>
+          <div>
+            <input type="file" onChange={handleImageChange} />
+            <button onClick={handleUpload}>Upload</button>
           </div>
         </ModalWindow>
       </div>
