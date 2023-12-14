@@ -68,12 +68,13 @@ const Header: React.FC = () => {
 
                 <div className={styles.header__blocks}>
                     <Link className={styles.header__block} to='/subscriptions'>Виды абонементов</Link>
-                    {isUserAuth && <Link className={styles.header__block} to='/applications'>Мои заявки</Link>}
-                    <Link className={styles.header__block} to='/'>Поддержка</Link>
+                    {isUserAuth && !user.isSuperuser ? <Link className={styles.header__block} to='/applications'>Мои заявки</Link>
+                    : isUserAuth && <Link className={styles.header__block} to='/applications'>Заявки</Link>}
+                    {/* {!user.isSuperuser &&  <Link className={styles.header__block} to='/'>Поддержка</Link>} */}
                 </div>
 
                 <div className={styles.header__icons}>
-                    {isUserAuth && 
+                    {isUserAuth && !user.isSuperuser &&
                         <div className={styles['application__icon-wrapper']}>
                             <Link to={'/application'}>
                                 <div className={styles['application__icon-circle']}>{subscriptionsFromApplications.length}</div>

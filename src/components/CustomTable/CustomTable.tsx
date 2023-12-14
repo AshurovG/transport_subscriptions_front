@@ -1,4 +1,5 @@
 import React, { useState, ChangeEvent } from 'react'
+import { toast } from 'react-toastify';
 import axios from 'axios';
 // import cn from 'classnames';
 import styles from './CustomTable.module.scss'
@@ -97,8 +98,9 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
         src: '',
         categoryTitle: categoryValue ? categoryValue.title : ''
       }]))
+      toast.success('Абонемент успешно добавлен!')
     } catch(e) {
-      throw e
+      toast.error('Абонемент с таким названием уже существует!')
     }
   }
 
@@ -131,8 +133,9 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
       });
 
       dispatch(setSubscriptionsAction(updatedSubscriptions))
+      toast.success('Информация успешно обновлена!')
     } catch(e) {
-      throw e
+      toast.error('Абонемент с таким названием уже существует!')
     }
   }
   
@@ -148,6 +151,7 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
         return subscription.id !== currentSubscriptionId 
       })))
       setIsDeleteModalWindowOpened(false)
+      toast.success('Абонемент успешно удален!')
     } catch(e) {
       throw e
     }
@@ -181,6 +185,7 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
         dispatch(setSubscriptionsAction(updatedSubscriptions))
         console.log(updatedSubscriptions)
         setSelectedImage(null)
+        toast.success('Изображение успешно загружено')
 
       } catch (error) {
         console.error('Error uploading image:', error);
@@ -286,7 +291,7 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
               <Dropdown.Menu className={styles['dropdown__menu']}>
                 {categories
                   .map(category => (
-                    <Dropdown.Item className={styles['dropdown__menu-item']} key={category.id} eventKey={category.id}>
+                    category.title !== 'Все категории' && <Dropdown.Item className={styles['dropdown__menu-item']} key={category.id} eventKey={category.id}>
                       {category.title}
                     </Dropdown.Item>
                   ))}
@@ -330,7 +335,7 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
 
         <ModalWindow handleBackdropClick={() => {setIsImageModalWindowOpened(false); setSelectedImage(null)}} active={isImageModalWindowOpened } className={styles.modal}>
           <h3 className={styles.modal__title}>Выберите картинку</h3>
-          <h4 className={styles.modal__subtitle}>Текущее изображение</h4>
+          {currentImage && <h4 className={styles.modal__subtitle}>Текущее изображение</h4>}
           <div className={styles.dropzone__container}>
           <div className="dropzone__wrapper">
           <img className={styles.dropzone__image} src={currentImage} alt="" />
@@ -341,7 +346,7 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
             <input className={styles.dropzone__input} id="upload" type="file" onChange={handleImageChange} />
           </div>
           </div>
-          <Button className={styles.dropzone__button} onClick={handleUpload}>Сохранить</Button>
+          <Button disabled={selectedImage ? false : true} className={styles.dropzone__button} onClick={handleUpload}>Сохранить</Button>
           
         </ModalWindow>
       </div>

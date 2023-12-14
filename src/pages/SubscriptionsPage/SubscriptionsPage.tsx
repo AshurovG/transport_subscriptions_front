@@ -9,6 +9,7 @@ import { ChangeEvent } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import SliderFilter from 'components/Slider';
 import BreadCrumbs from 'components/BreadCrumbs';
+import Loader from 'components/Loader';
 import { toast } from 'react-toastify';
 import { mockSubscriptions } from '../../../consts';
 import {useDispatch} from "react-redux";
@@ -68,6 +69,7 @@ const SubscriptionsPage: React.FC = () => {
     const priceValues = usePriceValues();
     const subscripitonsFromApplication = useSubscripitonsFromApplication();
     const linksMap = useLinksMapData();
+    const [isLoading, setIsLoading] = React.useState(false)
 
     // const linksMap = new Map<string, string>([
     //     ['Абонементы', '/']
@@ -234,6 +236,16 @@ const SubscriptionsPage: React.FC = () => {
                         <OneCard id={subscription.id} src={subscription.src} onButtonClick={() => postSubscriptionToApplication(subscription.id)} title={subscription.title} category={subscription.categoryTitle} price={Number(subscription.price)}></OneCard>
                     ))}
                 </div>
+
+                {/* {isLoading ? <div className={styles.loader__wrapper}>
+                    <Loader className={styles.loader} size='l' />
+                 </div>
+                 : <div className={styles["main__page-cards"]}>
+                    {subscriptions.map((subscription: Subscription) => (
+                        <OneCard id={subscription.id} src={subscription.src} onButtonClick={() => postSubscriptionToApplication(subscription.id)} title={subscription.title} category={subscription.categoryTitle} price={Number(subscription.price)}></OneCard>
+                    ))}
+                    </div>
+                 } */}
             </div>
         </div>
     )

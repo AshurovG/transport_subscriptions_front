@@ -3,7 +3,7 @@ import styles from './AdminSubscriptionsPage.module.scss'
 import {useDispatch} from "react-redux";
 import {useCategories, useCategoryValue, useTitleValue, useSubscriptions, usePriceValues,
      setCategoryValueAction, setTitleValueAction, setSubscriptionsAction, setPriceValuesAction, setCategoriesAction} from "../../Slices/MainSlice";
-
+import { toast } from 'react-toastify';
 import axios from 'axios';
 import Form from 'react-bootstrap/Form';
 import { Dropdown } from 'react-bootstrap';
@@ -15,6 +15,7 @@ import ArrowDownIcon from 'components/Icons/ArrowDownIcon';
 import EditIcon from 'components/Icons/EditIcon';
 import BasketIcon from 'components/Icons/BasketIcon';
 import AddButton from 'components/Icons/AddButton';
+
 
 
 
@@ -53,7 +54,7 @@ const AdminSubscriptionsPage = () => {
     const dispatch = useDispatch()
     const subscriptions = useSubscriptions()
     const categories = useCategories()
-    const [categoryValue, setCategoryValue] = useState<CategoryData | undefined>(categories[0])
+    const [categoryValue, setCategoryValue] = useState<CategoryData | undefined>(categories[1])
     const [newCategoryValue, setNewCategoryValue] = useState('')
     const [isAddModalWindowOpened, setIsAddModalWindowOpened] = useState(false)
     const [isEditModalWindowOpened, setIsEditModalWindowOpened] = useState(false)
@@ -70,7 +71,9 @@ const AdminSubscriptionsPage = () => {
           })
           setIsAddModalWindowOpened(false)
           dispatch(setCategoriesAction([...categories, response.data]))
+          toast.success('Категория успешно добавлена!')
         } catch(e) {
+          toast.error('Такая категория уже существует!')
           throw e
         }
     }
@@ -102,7 +105,9 @@ const AdminSubscriptionsPage = () => {
             })
           }
           setIsEditModalWindowOpened(false)
+          toast.success('Информация успешно обновлена!')
         } catch(e) {
+          toast.error('Такая категория уже существует!')
           throw e
         }
     }
@@ -121,8 +126,9 @@ const AdminSubscriptionsPage = () => {
             return category.id !== categoryValue?.id
           })))
 
-          setCategoryValue(categories[0])
+          setCategoryValue(categories[1])
           setNewCategoryValue('')
+          toast.success('Категория успешно удалена')
         } catch(e) {
           throw e
         }
@@ -189,7 +195,7 @@ const AdminSubscriptionsPage = () => {
                             <Dropdown.Menu className={styles['dropdown__menu']}>
                                 {categories
                                 .map(category => (
-                                    <Dropdown.Item className={styles['dropdown__menu-item']} key={category.id} eventKey={category.id}>
+                                    category.title !== 'Все категории' && <Dropdown.Item className={styles['dropdown__menu-item']} key={category.id} eventKey={category.id}>
                                     {category.title}
                                     </Dropdown.Item>
                                 ))}
@@ -227,7 +233,7 @@ const AdminSubscriptionsPage = () => {
             </ModalWindow>
 
             <ModalWindow handleBackdropClick={() => setIsDeleteModalWindowOpened(false)} active={isDeleteModalWindowOpened} className={styles.modal}>
-            <h3 className={styles.modal__title}>Вы уверены, что хотите удалить данную комнату?</h3>
+            <h3 className={styles.modal__title}>Вы уверены, что хотите удалить данную категорию?</h3>
             <div className={styles['modal__delete-btns']}>
                 <Button onClick={() => deleteCategory()} className={styles.modal__btn}>Подтвердить</Button>
                 <Button onClick={() => setIsDeleteModalWindowOpened(false)} className={styles.modal__btn}>Закрыть</Button>
