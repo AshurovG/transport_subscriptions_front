@@ -13,8 +13,8 @@ import Loader from 'components/Loader';
 import { toast } from 'react-toastify';
 import { mockSubscriptions } from '../../../consts';
 import {useDispatch} from "react-redux";
-import {useCategories, useCategoryValue, useTitleValue, useSubscriptions, usePriceValues,
-     setCategoryValueAction, setTitleValueAction, setSubscriptionsAction, setPriceValuesAction} from "../../Slices/MainSlice";
+import {useCategories, useCategoryValue, useTitleValue, useSubscriptions, usePriceValues, useIsSubscriptionsLoading,
+     setCategoryValueAction, setTitleValueAction, setSubscriptionsAction, setPriceValuesAction, setIsSubscriptionsLoadingAction} from "../../Slices/MainSlice";
 
 import { useLinksMapData, setLinksMapDataAction } from 'Slices/DetailedSlice';
 
@@ -69,7 +69,8 @@ const SubscriptionsPage: React.FC = () => {
     const priceValues = usePriceValues();
     const subscripitonsFromApplication = useSubscripitonsFromApplication();
     const linksMap = useLinksMapData();
-    const [isLoading, setIsLoading] = React.useState(false)
+    const isLoading = useIsSubscriptionsLoading()
+    // const [isLoading, setIsLoading] = React.useState(false)
 
     // const linksMap = new Map<string, string>([
     //     ['Абонементы', '/']
@@ -82,6 +83,7 @@ const SubscriptionsPage: React.FC = () => {
     }, [])
 
     const getSubscriptions = async () => {
+        
         let url = 'http://localhost:8000/subscriptions'
         if (titleValue) {
             url += `?title=${titleValue}`
@@ -130,6 +132,8 @@ const SubscriptionsPage: React.FC = () => {
             else {
                 dispatch(setSubscriptionsAction(mockSubscriptions));
             }
+        } finally {
+            dispatch(setIsSubscriptionsLoadingAction(false))
         }
     };
 
@@ -155,6 +159,7 @@ const SubscriptionsPage: React.FC = () => {
     }
 
     const handleSearchButtonClick = () => {
+        dispatch(setIsSubscriptionsLoadingAction(true))
         getSubscriptions();
     }
 
@@ -237,7 +242,7 @@ const SubscriptionsPage: React.FC = () => {
                     ))}
                 </div>
 
-                {/* {isLoading ? <div className={styles.loader__wrapper}>
+                {isLoading ? <div className={styles.loader__wrapper}>
                     <Loader className={styles.loader} size='l' />
                  </div>
                  : <div className={styles["main__page-cards"]}>
@@ -245,7 +250,7 @@ const SubscriptionsPage: React.FC = () => {
                         <OneCard id={subscription.id} src={subscription.src} onButtonClick={() => postSubscriptionToApplication(subscription.id)} title={subscription.title} category={subscription.categoryTitle} price={Number(subscription.price)}></OneCard>
                     ))}
                     </div>
-                 } */}
+                 }
             </div>
         </div>
     )

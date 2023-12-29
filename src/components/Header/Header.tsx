@@ -64,10 +64,11 @@ const Header: React.FC = () => {
     return (
         <div className={styles.header}>
             <div className={styles.header__wrapper}>
-                <Link to='/' className={styles.header__logo}>TRAVEL PASS</Link>
+                <Link to='/' className={styles.header__logo}>Travel Pass</Link>
 
                 <div className={styles.header__blocks}>
                     <Link className={styles.header__block} to='/subscriptions'>Виды абонементов</Link>
+                    {isUserAuth && user.isSuperuser && <Link className={styles.header__block} to={'/admin'}>Администрирование</Link>}
                     {isUserAuth && !user.isSuperuser ? <Link className={styles.header__block} to='/applications'>Мои заявки</Link>
                     : isUserAuth && <Link className={styles.header__block} to='/applications'>Заявки</Link>}
                     {/* {!user.isSuperuser &&  <Link className={styles.header__block} to='/'>Поддержка</Link>} */}
@@ -76,13 +77,13 @@ const Header: React.FC = () => {
                 <div className={styles.header__icons}>
                     {isUserAuth && !user.isSuperuser &&
                         <div className={styles['application__icon-wrapper']}>
-                            <Link to={'/application'}>
-                                <div className={styles['application__icon-circle']}>{subscriptionsFromApplications.length}</div>
+                            {subscriptionsFromApplications.length !== 0 &&<Link to={'/application'}>
+                                {/* <div className={styles['application__icon-circle']}>{subscriptionsFromApplications.length}</div> */}
                                 <ApplicationIcon/>
-                            </Link>
+                            </Link>}
                         </div>
                     }
-                    {isUserAuth ? <ProfileIcon className={styles['header__profile-icon']} onClick={handleProfileButtonClick}/> : <Link to='/registration' className={styles.header__profile}><ProfileIcon/></Link>}
+                    {isUserAuth ? <ProfileIcon className={styles['header__profile-icon']} onClick={handleProfileButtonClick}/> : <Link to='/login' className={styles.header__profile}><ProfileIcon/></Link>}
                     {isBurgerMenuOpened === false
                         ? <BurgerIcon className={styles.burger__icon} color='accent' onClick={() => setIsBurgerMenuOpened(true)} />
                         : <div className={styles.cancel__icon} onClick={() => setIsBurgerMenuOpened(false)}></div>}

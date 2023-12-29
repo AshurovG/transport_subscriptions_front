@@ -242,9 +242,9 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
 
   return (
     <>
+    <span className={`${styles['table__add-text']}`}>Хотите добавить новый абонемент ?</span><AddButton onClick={() => setIsAddModalWindowOpened(true)}/>
       <div className={`${styles.table__container} ${className}`}>
       <div className={`${styles.table__add} ${className}`}>
-      <span className={`${styles['table__add-text']}`}>Хотите добавить новый абонемент ?</span><AddButton onClick={() => setIsAddModalWindowOpened(true)}/>
       </div>
       <Table>
           <thead>

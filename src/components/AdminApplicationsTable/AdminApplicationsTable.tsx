@@ -73,12 +73,14 @@ const AdminApplicationsTable: React.FC<SubscriptionsTableProps> = ({className}) 
         creationDate: raw.creation_date,
         publicationDate: raw.publication_date,
         approvingDate: raw.approving_date,
-    }));
-    dispatch(setApplicationsAction(newArr))
+      }));
+      dispatch(setApplicationsAction(newArr))
     } catch(error) {
       throw error
     }
-  }
+   }
+   
+   setInterval(getAllApplications, 5000);
 
   const getCurrentApplication = async (id: number) => {
     try {
@@ -132,6 +134,7 @@ const AdminApplicationsTable: React.FC<SubscriptionsTableProps> = ({className}) 
         }
         return application;
       });
+      getAllApplications()
 
       dispatch(setApplicationsAction(updatedApplications))
     } catch(e) {
@@ -182,11 +185,11 @@ const AdminApplicationsTable: React.FC<SubscriptionsTableProps> = ({className}) 
               <td>{application.publicationDate ? application.publicationDate : '-'}</td>
               <td>{application.approvingDate ? application.approvingDate : '-'}</td>
               <td className={styles.table__action}>
-                {/* <Link to={`/applications/${application.id}`}>
-                <Button>Подробнее</Button>
-                </Link> */}
+                <Link to={`/applications/${application.id}`}>
+                  <Button>Подробнее</Button>
+                </Link>
                 {/* <Link to={`/applications/${application.id}`}> */}
-                  <Button onClick={() => handleDetailedButtonClick(application.id)}>Подробнее</Button>
+                  {/* <Button onClick={() => handleDetailedButtonClick(application.id)}>Подробнее</Button> */}
                   {application.status === 'Проверяется' && <><CancelIcon onClick={() => handleCancelButtonClick(application.id)}></CancelIcon>
                   <AcceptIcon onClick={() => handleAcceptButtonClick(application.id)}></AcceptIcon></>}
                 {/* </Link> */}

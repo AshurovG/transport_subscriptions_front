@@ -98,11 +98,11 @@ const ApplicationsTable: React.FC<SubscriptionsTableProps> = ({applications, cla
               <td>{application.publicationDate ? application.publicationDate : '-'}</td>
               <td>{application.approvingDate ? application.approvingDate : '-'}</td>
               <td className={styles.table__action}>
-                {/* <Link to={`/applications/${application.id}`}>
-                <Button>Подробнее</Button>
-                </Link> */}
+                <Link to={`/applications/${application.id}`}>
+                  <Button>Подробнее</Button>
+                </Link> 
                 {/* <Link to={`/applications/${application.id}`}> */}
-                  <Button onClick={() => handleDetailedButtonClick(application.id)}>Подробнее</Button>
+                  {/* <Button onClick={() => handleDetailedButtonClick(application.id)}>Подробнее</Button> */}
                 {/* </Link> */}
               </td>
             </tr>

@@ -13,7 +13,7 @@ import axios, {AxiosResponse} from 'axios';
 import Cookies from "universal-cookie";
 import {useDispatch} from "react-redux";
 import {setUserAction, setIsAuthAction, useIsAuth, useUser} from "../Slices/AuthSlice";
-import {setCategoriesAction, setSubscriptionsAction} from "Slices/MainSlice";
+import {useIsSubscriptionsLoading, setIsSubscriptionsLoadingAction, setCategoriesAction, setSubscriptionsAction} from "Slices/MainSlice";
 import { setCurrentApplicationIdAction } from 'Slices/ApplicationsSlice'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -44,6 +44,7 @@ function App() {
   const dispatch = useDispatch();
   const isAuth = useIsAuth();
   const user = useUser();
+  const isLoading = useIsSubscriptionsLoading();
 
   const getInitialUserInfo = async () => {
     console.log(cookies.get("session_id"))
@@ -111,6 +112,8 @@ function App() {
     }
     catch {
       dispatch(setSubscriptionsAction(mockSubscriptions));
+    } finally {
+      dispatch(setIsSubscriptionsLoadingAction(false))
     }
 };
 
@@ -137,6 +140,7 @@ const getCurrentApplication = async (id: number) => {
 }
 
   React.useEffect(() => {
+    dispatch(setIsSubscriptionsLoadingAction(true))
     if (cookies.get("session_id")) {
       getInitialUserInfo();
     }
@@ -149,8 +153,8 @@ const getCurrentApplication = async (id: number) => {
       <HashRouter>
           <Routes>
               <Route path='/' element={<MainPage/>}/>
-              {(!isAuth || (isAuth && !user.isSuperuser)) && <Route path="/subscriptions" element={<SubscriptionsPage />} />}
-              {isAuth && user.isSuperuser && <Route path="/subscriptions" element={<AdminSubscriptionsPage />} />}
+              <Route path="/subscriptions" element={<SubscriptionsPage />} />
+              {isAuth && user.isSuperuser && <Route path="/admin" element={<AdminSubscriptionsPage />} />}
               {isAuth && user.isSuperuser && <Route path="/applications" element={<AdminApplicationsPage />} />}
               <Route path="/subscriptions">
                 <Route path=":id" element={<DetaliedPage />} />
@@ -159,7 +163,7 @@ const getCurrentApplication = async (id: number) => {
               {!isAuth && <Route path='/login' element={<LoginPage/>}></Route>}
               {isAuth && !user.isSuperuser && <Route path='/application' element={<CurrentApplicationPage/>}/>}
               {isAuth && !user.isSuperuser && <Route path='/applications' element={<ApplicationsListPage/>}></Route>}
-              {isAuth && !user.isSuperuser && <Route path="/applications">
+              {isAuth && <Route path="/applications">
                 <Route path=":id" element={<SelectedApplicationPage />} />
               </Route>}
               <Route path="*" element={<Navigate to="/" replace />} />

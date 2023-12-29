@@ -59,6 +59,7 @@ const AdminSubscriptionsPage = () => {
     const [isAddModalWindowOpened, setIsAddModalWindowOpened] = useState(false)
     const [isEditModalWindowOpened, setIsEditModalWindowOpened] = useState(false)
     const [isDeleteModalWindowOpened, setIsDeleteModalWindowOpened] = useState(false)
+    const [isSubscriptionsShow, setIsSubscriptionsShow] = useState(true)
 
     const postCategory = async () => {
         try {
@@ -177,7 +178,11 @@ const AdminSubscriptionsPage = () => {
         <Header/>
 
         <div className={styles['admin__page-wrapper']}>
-        <div className={styles['admin__page-categories']}>
+          <div className={styles['admin__page-action']}>
+            <Button onClick={() => setIsSubscriptionsShow(true)} className={styles['admin__page-action-btn']}>Абонементы</Button>
+            <Button onClick={() => setIsSubscriptionsShow(false)} className={styles['admin__page-action-btn']}>Категории</Button>
+          </div>
+        {!isSubscriptionsShow && <div className={styles['admin__page-categories']}>
                     <h1 className={styles['admin__page-title']}>Управление категориями</h1>
                     <div className={styles['admin__page-categories-content']}>
                         <Dropdown className={styles['dropdown']} onSelect={handleCategorySelect}>
@@ -209,15 +214,14 @@ const AdminSubscriptionsPage = () => {
                             </td>
                         </div>
                     </div>
-                </div>
-            <h1 className={styles['admin__page-title']}>Список абонементов</h1>
+                </div>}
+            {isSubscriptionsShow && <><h1 className={styles['admin__page-title']}>Список абонементов</h1>
 
             <div className={styles['admin__page-title']}>
                 <CustomTable className={styles['admin__page-table']} data={subscriptions} 
                 columns={columns} flag={2} ></CustomTable>
-                
-                
             </div>
+            </>}
                     
         </div>
         <ModalWindow handleBackdropClick={() => {setIsAddModalWindowOpened(false); setIsEditModalWindowOpened(false); newCategoryValue && setNewCategoryValue('')}}

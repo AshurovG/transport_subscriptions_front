@@ -5,7 +5,7 @@ interface UserData {
   email: string;
   fullname: string;
   phoneNumber: string;
-  isSuperuser: boolean
+  isSuperuser: boolean;
 }
 
 interface DataState {

@@ -21,6 +21,8 @@ interface DataState {
   titleValue: string;
   subscriptions: SubscriptionData[];
   priceValues: number[];
+  isSubscriptionsLoading: boolean;
+  isMainPage: boolean;
 }
 
 const dataSlice = createSlice({
@@ -30,7 +32,9 @@ const dataSlice = createSlice({
     categoryValue: 'Все категории',
     titleValue: '',
     subscriptions: [],
-    priceValues: [0, 10000]
+    priceValues: [0, 10000],
+    isSubscriptionsLoading: false,
+    isMainPage: false
   } as DataState,
   reducers: {
     setCategories(state, action: PayloadAction<CategoryData[]>) {
@@ -48,6 +52,12 @@ const dataSlice = createSlice({
     },
     setPriceValues(state, action: PayloadAction<number[]>) {
       state.priceValues = action.payload
+    },
+    setIsSubscriptionsLoading(state, action: PayloadAction<boolean>) {
+      state.isSubscriptionsLoading = action.payload
+    },
+    setIsMainPage(state, action: PayloadAction<boolean>) {
+      state.isMainPage = action.payload
     }
   },
 });
@@ -68,13 +78,20 @@ export const useSubscriptions = () =>
 export const usePriceValues = () =>
   useSelector((state: { mainData: DataState }) => state.mainData.priceValues);
 
-// Action, который будем применять в различных обработках
+export const useIsSubscriptionsLoading = () =>
+  useSelector((state: { mainData: DataState }) => state.mainData.isSubscriptionsLoading);
+
+export const useIsMainPage = () =>
+  useSelector((state: { mainData: DataState }) => state.mainData.isMainPage);
+
 export const {
     setCategories: setCategoriesAction,
     setCategoryValue: setCategoryValueAction,
     setTitleValue: setTitleValueAction,
     setSubscriptions: setSubscriptionsAction,
-    setPriceValues: setPriceValuesAction
+    setPriceValues: setPriceValuesAction,
+    setIsSubscriptionsLoading: setIsSubscriptionsLoadingAction,
+    setIsMainPage: setIsMainPageAction
 } = dataSlice.actions;
 
 export default dataSlice.reducer;

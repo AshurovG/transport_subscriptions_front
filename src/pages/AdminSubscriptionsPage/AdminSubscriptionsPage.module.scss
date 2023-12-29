@@ -24,6 +24,20 @@
         margin-bottom: 50px;
     }
 
+    &-action {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        margin-bottom: 15px;
+
+        &-btn {
+            width: 150px;
+            height: 50px;
+            background-color: #2787F5;
+        }
+    }
+
     &-categories {
         margin-top: 50px;
         max-height: 40px;
