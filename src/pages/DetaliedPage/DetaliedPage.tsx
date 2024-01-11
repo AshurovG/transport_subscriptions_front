@@ -49,6 +49,10 @@ const DetailedPage: React.FC = () => {
             dispatch(setLinksMapDataAction(newLinksMap))
         } catch {
             const sub = mockSubscriptions.find(item => item.id === Number(id));
+            const newLinksMap = new Map<string, string>(linksMap); // Копирование старого Map
+            if (sub)
+                newLinksMap.set(sub?.title, '/subscriptions/' + id);
+            dispatch(setLinksMapDataAction(newLinksMap))
             if (sub) {
                 dispatch(setSubscriptionAction(sub))
             }
