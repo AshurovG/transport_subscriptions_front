@@ -14,7 +14,7 @@ import { toast } from 'react-toastify';
 import { mockSubscriptions } from '../../../consts';
 import {useDispatch} from "react-redux";
 import {useCategories, useCategoryValue, useTitleValue, useSubscriptions, usePriceValues, useIsSubscriptionsLoading,
-     setCategoryValueAction, setTitleValueAction, setSubscriptionsAction, setPriceValuesAction, setIsSubscriptionsLoadingAction} from "../../Slices/MainSlice";
+     setCategoryValueAction, setTitleValueAction, setSubscriptionsAction, setPriceValuesAction, setIsSubscriptionsLoadingAction, setIsMainPageAction} from "../../Slices/MainSlice";
 
 import { useLinksMapData, setLinksMapDataAction } from 'Slices/DetailedSlice';
 
@@ -80,6 +80,12 @@ const SubscriptionsPage: React.FC = () => {
         dispatch(setLinksMapDataAction(new Map<string, string>([
             ['Абонементы', '/subscriptions']
         ])))
+
+        dispatch(setIsMainPageAction(true))
+
+        return () => {
+            dispatch(setIsMainPageAction(false))
+        }
     }, [])
 
     const getSubscriptions = async () => {

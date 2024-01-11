@@ -7,6 +7,7 @@ import Button from 'react-bootstrap/Button'
 import BreadCrumbs from 'components/BreadCrumbs';
 import { useCurrentApplicationId } from 'Slices/ApplicationsSlice'
 import SubscriptionsTable from 'components/SubscriptionsTable'
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux'
 import { useCurrentApplicationDate, useSubscripitonsFromApplication,
   setCurrentApplicationDateAction, setSubscriptionsFromApplicationAction, setCurrentApplicationIdAction } from 'Slices/ApplicationsSlice'
@@ -24,6 +25,7 @@ export type ReceivedSubscriptionData = {
 }
 
 const CurrentApplicationPage = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const subscriptions = useSubscripitonsFromApplication();
   const applicationDate = useCurrentApplicationDate();
@@ -70,10 +72,12 @@ const CurrentApplicationPage = () => {
 
   const handleSendButtonClick = () => {
     sendApplication();
+    navigate('/subscriptions')
   }
 
   const handleDeleteButtonClick = () => {
     deleteApplication();
+    navigate('/subscriptions')
   }
 
   return (

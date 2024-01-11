@@ -18,6 +18,7 @@ interface ApplicationData {
   creationDate: string;
   publicationDate: string;
   approvingDate: string;
+  activeDate: string;
 }
 
 interface SubscriptionData {
@@ -86,6 +87,7 @@ const ApplicationsTable: React.FC<SubscriptionsTableProps> = ({applications, cla
             <th>Дата создания</th>
             <th>Дата формирования</th>
             <th>Дата завершения</th>
+            <th>Начало действия</th>
             <th></th>
           </tr>
         </thead>
@@ -97,6 +99,7 @@ const ApplicationsTable: React.FC<SubscriptionsTableProps> = ({applications, cla
               <td>{application.creationDate}</td>
               <td>{application.publicationDate ? application.publicationDate : '-'}</td>
               <td>{application.approvingDate ? application.approvingDate : '-'}</td>
+              <td>{application.activeDate ? application.activeDate : '-'}</td>
               <td className={styles.table__action}>
                 <Link to={`/applications/${application.id}`}>
                   <Button>Подробнее</Button>

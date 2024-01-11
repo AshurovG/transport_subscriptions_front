@@ -22,6 +22,8 @@ interface ApplicationData {
   creationDate: string;
   publicationDate: string;
   approvingDate: string;
+  activeDate: string;
+  userEmail: string
 }
 
 interface SubscriptionData {
@@ -53,6 +55,8 @@ export type ReceivedApplicationData = {
   creation_date: string;
   publication_date: string;
   approving_date: string;
+  active_date: string;
+  user: string;
 }
 
 const AdminApplicationsTable: React.FC<SubscriptionsTableProps> = ({className}) => {
@@ -67,20 +71,23 @@ const AdminApplicationsTable: React.FC<SubscriptionsTableProps> = ({className}) 
         method: 'GET',
         withCredentials: true
       })
-      const newArr = response.data.map((raw: ReceivedApplicationData) => ({
-        id: raw.id,
-        status: raw.status,
-        creationDate: raw.creation_date,
-        publicationDate: raw.publication_date,
-        approvingDate: raw.approving_date,
+      const newArr = response.data.map((row: ReceivedApplicationData) => ({
+        id: row.id,
+        status: row.status,
+        creationDate: row.creation_date,
+        publicationDate: row.publication_date,
+        approvingDate: row.approving_date,
+        activeDate: row.active_date,
+        userEmail: row.user
       }));
-      dispatch(setApplicationsAction(newArr))
+
+      dispatch(setApplicationsAction(newArr.filter((application: ApplicationData) => {
+        return applications.includes(application)
+      })));
     } catch(error) {
       throw error
     }
    }
-   
-   setInterval(getAllApplications, 5000);
 
   const getCurrentApplication = async (id: number) => {
     try {
@@ -105,8 +112,9 @@ const AdminApplicationsTable: React.FC<SubscriptionsTableProps> = ({className}) 
 
   const putApplication = async (id: number, isAccepted: boolean) => {
     try {
+      let response: any;
       if (isAccepted) {
-        await axios(`http://localhost:8000/applications/${id}/adminput`, {
+        response = await axios(`http://localhost:8000/applications/${id}/adminput`, {
           method: 'PUT',
           data: {
             status: "Принято"
@@ -115,7 +123,7 @@ const AdminApplicationsTable: React.FC<SubscriptionsTableProps> = ({className}) 
         })
         toast.success('Заявка успешно принята!')
       } else {
-        await axios(`http://localhost:8000/applications/${id}/adminput`, {
+        response = await axios(`http://localhost:8000/applications/${id}/adminput`, {
           method: 'PUT',
           data: {
             status: "Отказано"
@@ -129,13 +137,14 @@ const AdminApplicationsTable: React.FC<SubscriptionsTableProps> = ({className}) 
         if (application.id === id) {
           return {
             ...application,
+            approvingDate: response.data.approving_date,
+            activeDate: response.data.active_date,
             status: isAccepted ? 'Принято' : 'Отказано'
           };
         }
         return application;
       });
-      getAllApplications()
-
+      // getAllApplications()
       dispatch(setApplicationsAction(updatedApplications))
     } catch(e) {
       throw e
@@ -156,9 +165,15 @@ const AdminApplicationsTable: React.FC<SubscriptionsTableProps> = ({className}) 
     putApplication(id, false)
   }
 
-  React.useEffect(() => {
-    getAllApplications()
-  }, [])
+  // React.useEffect(() => {
+  //   getAllApplications()
+  //   // const intervalId = setInterval(getAllApplications, 5000);
+ 
+  //   return () => {
+  //       clearInterval(intervalId);
+  //   };
+  // }, []);
+ 
 
   return (
     <>
@@ -171,6 +186,8 @@ const AdminApplicationsTable: React.FC<SubscriptionsTableProps> = ({className}) 
             <th>Дата создания</th>
             <th>Дата формирования</th>
             <th>Дата завершения</th>
+            <th>Начало действия</th>
+            <th>Покупатель</th>
             <th>Действие</th>
           </tr>
         </thead>
@@ -184,6 +201,8 @@ const AdminApplicationsTable: React.FC<SubscriptionsTableProps> = ({className}) 
               <td>{application.creationDate}</td>
               <td>{application.publicationDate ? application.publicationDate : '-'}</td>
               <td>{application.approvingDate ? application.approvingDate : '-'}</td>
+              <td>{application.activeDate ? application.activeDate : '-'}</td>
+              <td>{application.userEmail}</td>
               <td className={styles.table__action}>
                 <Link to={`/applications/${application.id}`}>
                   <Button>Подробнее</Button>

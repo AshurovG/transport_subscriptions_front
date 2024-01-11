@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import styles from './Header.module.scss'
 import ProfileIcon from 'components/Icons/ProfileIcon';
 import ApplicationIcon from 'components/Icons/ApplicationIcon';
@@ -10,6 +10,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import axios, {AxiosResponse} from 'axios';
 import {useDispatch} from "react-redux";
 import {useUser, useIsAuth, setIsAuthAction, setUserAction} from "../../Slices/AuthSlice";
+import { useIsMainPage } from 'Slices/MainSlice';
 import Cookies from "universal-cookie";
 import { toast } from 'react-toastify';
 import { useSubscripitonsFromApplication } from 'Slices/ApplicationsSlice';
@@ -18,10 +19,12 @@ const cookies = new Cookies();
 
 const Header: React.FC = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [isProfileButtonClicked, setIsProfileButtonClicked] = useState(false);
     const [isBurgerMenuOpened, setIsBurgerMenuOpened] = useState(false)
     const isUserAuth = useIsAuth();
     const subscriptionsFromApplications = useSubscripitonsFromApplication();
+    const isMainPage = useIsMainPage()
     let user = useUser();
 
     const handleProfileButtonClick = () => {
@@ -77,10 +80,10 @@ const Header: React.FC = () => {
                 <div className={styles.header__icons}>
                     {isUserAuth && !user.isSuperuser &&
                         <div className={styles['application__icon-wrapper']}>
-                            {subscriptionsFromApplications.length !== 0 &&<Link to={'/application'}>
-                                {/* <div className={styles['application__icon-circle']}>{subscriptionsFromApplications.length}</div> */}
-                                <ApplicationIcon/>
-                            </Link>}
+                            {/* <div className={styles['application__icon-circle']}>{subscriptionsFromApplications.length}</div> */}
+                            {isMainPage && 
+                                <ApplicationIcon onClick={() => navigate('/application')}/>
+                            }
                         </div>
                     }
                     {isUserAuth ? <ProfileIcon className={styles['header__profile-icon']} onClick={handleProfileButtonClick}/> : <Link to='/login' className={styles.header__profile}><ProfileIcon/></Link>}

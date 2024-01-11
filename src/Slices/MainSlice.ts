@@ -58,11 +58,11 @@ const dataSlice = createSlice({
     },
     setIsMainPage(state, action: PayloadAction<boolean>) {
       state.isMainPage = action.payload
+      console.log('edit', action.payload)
     }
   },
 });
 
-// Состояние, которое будем отображать в компонентах
 export const useCategories = () =>
   useSelector((state: { mainData: DataState }) => state.mainData.categories);
 

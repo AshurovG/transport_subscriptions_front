@@ -16,6 +16,8 @@ interface ApplicationData {
   creationDate: string;
   publicationDate: string;
   approvingDate: string;
+  activeDate: string;
+  userEmail: string;
 }
 
 interface DataState {

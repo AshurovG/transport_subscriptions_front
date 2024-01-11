@@ -15,6 +15,7 @@ export type ReceivedApplicationData = {
     creation_date: string;
     publication_date: string;
     approving_date: string;
+    active_date: string;
   }
 
 const ApplicationsListPage = () => {
@@ -35,6 +36,7 @@ const ApplicationsListPage = () => {
             creationDate: raw.creation_date,
             publicationDate: raw.publication_date,
             approvingDate: raw.approving_date,
+            activeDate: raw.active_date
         }));
         dispatch(setApplicationsAction(newArr))
         } catch(error) {
