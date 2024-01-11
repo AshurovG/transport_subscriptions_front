@@ -4,15 +4,12 @@ import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form';
 import Header from 'components/Header';
-import BreadCrumbs from 'components/BreadCrumbs';
-import Image from "react-bootstrap/Image"
 import styles from './LoginPage.module.scss'
 import axios, { AxiosResponse } from 'axios';
 import { ChangeEvent } from 'react';
 import {useDispatch} from "react-redux";
 import { setUserAction, setIsAuthAction } from "../../Slices/AuthSlice";
 import {toast } from 'react-toastify';
-import { isElement } from 'react-dom/test-utils';
 
 
 

@@ -5,11 +5,10 @@ import styles from './CurrentApplicationPage.module.scss'
 import Header from 'components/Header'
 import Button from 'react-bootstrap/Button'
 import BreadCrumbs from 'components/BreadCrumbs';
-import { useCurrentApplicationId } from 'Slices/ApplicationsSlice'
 import SubscriptionsTable from 'components/SubscriptionsTable'
 import { useDispatch } from 'react-redux'
 import { useCurrentApplicationDate, useSubscripitonsFromApplication,
-  setCurrentApplicationDateAction, setSubscriptionsFromApplicationAction, setCurrentApplicationIdAction } from 'Slices/ApplicationsSlice'
+  setCurrentApplicationDateAction, setSubscriptionsFromApplicationAction } from 'Slices/ApplicationsSlice'
 import { useLinksMapData, setLinksMapDataAction } from 'Slices/DetailedSlice';
 
 
@@ -27,7 +26,6 @@ const CurrentApplicationPage = () => {
   const dispatch = useDispatch();
   const subscriptions = useSubscripitonsFromApplication();
   const applicationDate = useCurrentApplicationDate();
-  const currentApplicationId = useCurrentApplicationId();
   const linksMap = useLinksMapData();
 
   React.useEffect(() => {
@@ -38,7 +36,7 @@ const CurrentApplicationPage = () => {
 
   const sendApplication = async () => {
     try {
-      const response = await axios(`http://localhost:8000/applications/send`, {
+      await axios(`http://localhost:8000/applications/send`, {
         method: 'PUT',
         withCredentials: true
       })
@@ -53,7 +51,7 @@ const CurrentApplicationPage = () => {
 
   const deleteApplication = async () => {
     try {
-      const response = await axios(`http://localhost:8000/applications/delete`, {
+      await axios(`http://localhost:8000/applications/delete`, {
       method: 'DELETE',
       withCredentials: true
     })

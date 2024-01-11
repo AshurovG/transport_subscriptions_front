@@ -17,8 +17,7 @@ import { setCurrentApplicationIdAction } from 'Slices/ApplicationsSlice'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { mockSubscriptions } from '../../consts';
-import { setApplicationsAction, setCurrentApplicationDateAction, setSubscriptionsFromApplicationAction } from 'Slices/ApplicationsSlice'
-import { useCurrentApplicationId } from 'Slices/ApplicationsSlice'
+import { setCurrentApplicationDateAction, setSubscriptionsFromApplicationAction } from 'Slices/ApplicationsSlice'
 
 const cookies = new Cookies();
 

@@ -3,12 +3,10 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import styles from './SubscriptionsTable.module.scss'
 import Table from 'react-bootstrap/Table';
-import Button from 'react-bootstrap/Button';
 import cn from 'classnames';
 import { useDispatch } from 'react-redux';
 import BasketIcon from 'components/Icons/BasketIcon';
-import { useCurrentApplicationDate, useSubscripitonsFromApplication,
-  setCurrentApplicationDateAction, setSubscriptionsFromApplicationAction, setCurrentApplicationIdAction } from 'Slices/ApplicationsSlice'
+import { useSubscripitonsFromApplication, setSubscriptionsFromApplicationAction } from 'Slices/ApplicationsSlice'
 
 interface SubscriptionData {
   id: number,
@@ -31,7 +29,7 @@ const SubscriptionsTable: React.FC<SubscriptionsTableProps> = ({subscriptions, c
 
   const deleteSubscriptionFromApplication = async (id: number) => {
     try {
-      const response = axios(`http://localhost:8000/application_subscription/${id}/delete`, {
+      axios(`http://localhost:8000/application_subscription/${id}/delete`, {
         method: 'DELETE',
         withCredentials: true
       })

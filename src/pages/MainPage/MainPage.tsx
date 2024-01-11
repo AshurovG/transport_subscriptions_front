@@ -1,7 +1,5 @@
-import React from 'react'
 import Header from 'components/Header'
 import styles from './MainPage.module.scss'
-import image from '../../assets/main.jpg'
 import { useCategories } from 'Slices/MainSlice'
 
 const MainPage = () => {

@@ -1,16 +1,12 @@
 import React from 'react'
 import { useState } from 'react';
 import axios from 'axios';
-import { toast } from 'react-toastify';
 import styles from './ApplicationsTable.module.scss'
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import ModalWindow from 'components/ModalWindow'
 import cn from 'classnames';
-import { useDispatch } from 'react-redux';
-import { useCurrentApplicationDate, useSubscripitonsFromApplication,
-  setCurrentApplicationDateAction, setSubscriptionsFromApplicationAction, setCurrentApplicationIdAction } from 'Slices/ApplicationsSlice'
-import { Link } from 'react-router-dom';
+
 
 interface ApplicationData {
   id: number;
@@ -45,7 +41,6 @@ export type SubscriptionsTableProps = {
 };
 
 const ApplicationsTable: React.FC<SubscriptionsTableProps> = ({applications, className}) => {
-  const dispatch = useDispatch();
   const [isModalWindowOpened, setIsModalWindowOpened] = useState(false);
   const [currentSubscriptions, setCurrentSubscriptions] = useState<SubscriptionData[]>([])
 
@@ -114,7 +109,7 @@ const ApplicationsTable: React.FC<SubscriptionsTableProps> = ({applications, cla
       <ModalWindow handleBackdropClick={() => setIsModalWindowOpened(false)} className={styles.modal} active={isModalWindowOpened}>
       <h3 className={styles.modal__title}>Добавленные абонементы</h3>
       <div className={styles.modal__list}>
-        {currentSubscriptions.map((subscription: SubscriptionData, index: number) => (
+        {currentSubscriptions.map((subscription: SubscriptionData) => (
           <div className={styles['modal__list-item']}>
             <div className={styles['modal__list-item-title']}>
               {subscription.categoryTitle} "{subscription.title}"

@@ -7,7 +7,7 @@ import ApplicationIcon from 'components/Icons/ApplicationIcon';
 import ProfileWindow from "components/ProfileWindow";
 import BurgerIcon from 'components/Icons/BurgerIcon';
 import { motion, AnimatePresence } from "framer-motion";
-import axios, {AxiosResponse} from 'axios';
+import axios from 'axios';
 import {useDispatch} from "react-redux";
 import {useUser, useIsAuth, setIsAuthAction, setUserAction} from "../../Slices/AuthSlice";
 import Cookies from "universal-cookie";
@@ -30,8 +30,7 @@ const Header: React.FC = () => {
 
     const logout = async () => {
         try {
-            console.log(cookies.get('session_id'))
-            const response: AxiosResponse = await axios('http://localhost:8000/logout',
+            await axios('http://localhost:8000/logout',
             {
                 method: "POST",
                 withCredentials: true,
@@ -69,7 +68,6 @@ const Header: React.FC = () => {
                 <div className={styles.header__blocks}>
                     <Link className={styles.header__block} to='/subscriptions'>Виды абонементов</Link>
                     {isUserAuth && <Link className={styles.header__block} to='/applications'>Мои заявки</Link>}
-                    <Link className={styles.header__block} to='/'>Поддержка</Link>
                 </div>
 
                 <div className={styles.header__icons}>
@@ -89,7 +87,6 @@ const Header: React.FC = () => {
                     <div className={styles.burger__menu}>
                         <Link className={styles['burger__menu-item']} to={'/subscriptions'}>Виды абонементов</Link>
                         <Link className={styles['burger__menu-item']} to={`/applications`}>Мои заявки</Link>
-                        <Link className={styles['burger__menu-item']} to={`/`}>Поддержка</Link>
                     </div>}
                 </div>
 
