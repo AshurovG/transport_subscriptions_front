@@ -3,10 +3,10 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import styles from './SubscriptionsTable.module.scss'
 import Table from 'react-bootstrap/Table';
-import Button from 'react-bootstrap/Button';
 import cn from 'classnames';
 import { useDispatch } from 'react-redux';
 import BasketIcon from 'components/Icons/BasketIcon';
+import { useNavigate } from 'react-router-dom';
 import { useCurrentApplicationDate, useSubscripitonsFromApplication,
   setCurrentApplicationDateAction, setSubscriptionsFromApplicationAction, setCurrentApplicationIdAction } from 'Slices/ApplicationsSlice'
 
@@ -28,6 +28,7 @@ export type SubscriptionsTableProps = {
 const SubscriptionsTable: React.FC<SubscriptionsTableProps> = ({subscriptions, className, flag}) => {
   const dispatch = useDispatch();
   const subscripions = useSubscripitonsFromApplication()
+  const navigate = useNavigate()
 
   const deleteSubscriptionFromApplication = async (id: number) => {
     try {
@@ -48,6 +49,9 @@ const SubscriptionsTable: React.FC<SubscriptionsTableProps> = ({subscriptions, c
 
   const handleDeleteButtonClick = (id: number) => {
     deleteSubscriptionFromApplication(id)
+    if (subscripions.length === 1) {
+      navigate('/subscriptions')
+    }
   }
 
   return (

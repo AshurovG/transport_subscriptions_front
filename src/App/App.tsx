@@ -5,7 +5,6 @@ import SubscriptionsPage from 'pages/SubscriptionsPage';
 import DetaliedPage from 'pages/DetaliedPage';
 import RegistrationPage from 'pages/RegistrationPage';
 import LoginPage from 'pages/LoginPage';
-import CurrentApplicationPage from 'pages/CurrentApplicationPage';
 import ApplicationsListPage from 'pages/ApplicationsListPage';
 import SelectedApplicationPage from 'pages/SelectedApplicationPage';
 import AdminSubscriptionsPage from 'pages/AdminSubscriptionsPage';
@@ -19,7 +18,6 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { mockSubscriptions } from '../../consts';
 import { setApplicationsAction, setCurrentApplicationDateAction, setSubscriptionsFromApplicationAction } from 'Slices/ApplicationsSlice'
-import { useCurrentApplicationId } from 'Slices/ApplicationsSlice'
 import AdminApplicationsPage from 'pages/AdminApplicationsPage/AdminApplicationsPage';
 
 const cookies = new Cookies();
@@ -161,7 +159,6 @@ const getCurrentApplication = async (id: number) => {
               </Route>
               {!isAuth && <Route path='/registration' element={<RegistrationPage/>}></Route>}
               {!isAuth && <Route path='/login' element={<LoginPage/>}></Route>}
-              {isAuth && !user.isSuperuser && <Route path='/application' element={<CurrentApplicationPage/>}/>}
               {isAuth && !user.isSuperuser && <Route path='/applications' element={<ApplicationsListPage/>}></Route>}
               {isAuth && <Route path="/applications">
                 <Route path=":id" element={<SelectedApplicationPage />} />

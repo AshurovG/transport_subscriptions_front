@@ -18,12 +18,11 @@ import { useIsMainPage } from 'Slices/MainSlice';
 import {useDispatch} from "react-redux";
 import {useCategories, useCategoryValue, useTitleValue, useSubscriptions, usePriceValues, useIsSubscriptionsLoading,
      setCategoryValueAction, setTitleValueAction, setSubscriptionsAction, setPriceValuesAction, setIsSubscriptionsLoadingAction, setIsMainPageAction} from "../../Slices/MainSlice";
-
 import {useUser, useIsAuth, setIsAuthAction, setUserAction} from "../../Slices/AuthSlice";
 
 import { useLinksMapData, setLinksMapDataAction } from 'Slices/DetailedSlice';
 
-import { useSubscripitonsFromApplication, setSubscriptionsFromApplicationAction } from 'Slices/ApplicationsSlice';
+import { useSubscripitonsFromApplication, setSubscriptionsFromApplicationAction, useCurrentApplicationId } from 'Slices/ApplicationsSlice';
 
 export type Subscription = {
     id: number,
@@ -77,6 +76,7 @@ const SubscriptionsPage: React.FC = () => {
     const isLoading = useIsSubscriptionsLoading()
     const isMainPage = useIsMainPage()
     const navigate = useNavigate()
+    const currentApplicationId = useCurrentApplicationId()
 
     let user = useUser();
     const isUserAuth = useIsAuth();
@@ -200,14 +200,19 @@ const SubscriptionsPage: React.FC = () => {
         }
     };
 
+    const handleClick = (id: number) => {
+        navigate(`/applications/${id}`, { state: { flag: false } });
+    };
+
     return (
         <div className={styles['main__page']}>
             <Header/>
             <div className={styles['main__page-wrapper']}>
                 {isUserAuth && !user.isSuperuser &&
                         <div className={styles['application__icon-wrapper']}>
-                            {isMainPage && 
-                                <ApplicationIcon onClick={() => navigate('/application')}/>
+                            {isMainPage &&
+                                // <ApplicationIcon onClick={() => navigate('/application')}/>
+                                <ApplicationIcon onClick={() => {currentApplicationId !== null && handleClick(currentApplicationId)}}/>
                             }
                         </div>
                     }

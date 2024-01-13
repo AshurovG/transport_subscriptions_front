@@ -11,6 +11,7 @@ import { useDispatch } from 'react-redux';
 import { useCurrentApplicationDate, useSubscripitonsFromApplication,
   setCurrentApplicationDateAction, setSubscriptionsFromApplicationAction, setCurrentApplicationIdAction } from 'Slices/ApplicationsSlice'
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 interface ApplicationData {
   id: number;
@@ -46,34 +47,12 @@ export type SubscriptionsTableProps = {
 };
 
 const ApplicationsTable: React.FC<SubscriptionsTableProps> = ({applications, className}) => {
-  const dispatch = useDispatch();
   const [isModalWindowOpened, setIsModalWindowOpened] = useState(false);
   const [currentSubscriptions, setCurrentSubscriptions] = useState<SubscriptionData[]>([])
+  const navigate = useNavigate()
 
-  const getCurrentApplication = async (id: number) => {
-    try {
-      const response = await axios(`http://localhost:8000/applications/${id}`, {
-        method: 'GET',
-        withCredentials: true,
-      })
-      const newArr = response.data.subscriptions.map((raw: ReceivedSubscriptionData) => ({
-        id: raw.id,
-        title: raw.title,
-        price: raw.price,
-        info: raw.info,
-        src: raw.src,
-        categoryTitle: raw.category
-    }));
-    setCurrentSubscriptions(newArr)
-    console.log('newArr is', newArr)
-    } catch(error) {
-      throw error;
-    }
-  }
-
-  const handleDetailedButtonClick = (id: number) => {
-    getCurrentApplication(id);
-    setIsModalWindowOpened(true)
+  const handleClick = (id: number) => {
+    navigate(`/applications/${id}`, { state: { flag: true } });
   };
 
   return (
@@ -101,9 +80,13 @@ const ApplicationsTable: React.FC<SubscriptionsTableProps> = ({applications, cla
               <td>{application.approvingDate ? application.approvingDate : '-'}</td>
               <td>{application.activeDate ? application.activeDate : '-'}</td>
               <td className={styles.table__action}>
-                <Link to={`/applications/${application.id}`}>
-                  <Button>Подробнее</Button>
-                </Link> 
+                {/* <Link 
+                to={{
+                  pathname: `/applications/${application.id}`,
+                  state: { flag: true }, // Здесь передаем пропс
+                }}> */}
+                  <Button onClick={() => handleClick(application.id)}>Подробнее</Button>
+                {/* </Link>  */}
                 {/* <Link to={`/applications/${application.id}`}> */}
                   {/* <Button onClick={() => handleDetailedButtonClick(application.id)}>Подробнее</Button> */}
                 {/* </Link> */}
