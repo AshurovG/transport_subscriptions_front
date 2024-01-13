@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -10,11 +11,15 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import SliderFilter from 'components/Slider';
 import BreadCrumbs from 'components/BreadCrumbs';
 import Loader from 'components/Loader';
+import ApplicationIcon from 'components/Icons/ApplicationIcon';
 import { toast } from 'react-toastify';
 import { mockSubscriptions } from '../../../consts';
+import { useIsMainPage } from 'Slices/MainSlice';
 import {useDispatch} from "react-redux";
 import {useCategories, useCategoryValue, useTitleValue, useSubscriptions, usePriceValues, useIsSubscriptionsLoading,
      setCategoryValueAction, setTitleValueAction, setSubscriptionsAction, setPriceValuesAction, setIsSubscriptionsLoadingAction, setIsMainPageAction} from "../../Slices/MainSlice";
+
+import {useUser, useIsAuth, setIsAuthAction, setUserAction} from "../../Slices/AuthSlice";
 
 import { useLinksMapData, setLinksMapDataAction } from 'Slices/DetailedSlice';
 
@@ -70,6 +75,11 @@ const SubscriptionsPage: React.FC = () => {
     const subscripitonsFromApplication = useSubscripitonsFromApplication();
     const linksMap = useLinksMapData();
     const isLoading = useIsSubscriptionsLoading()
+    const isMainPage = useIsMainPage()
+    const navigate = useNavigate()
+
+    let user = useUser();
+    const isUserAuth = useIsAuth();
     // const [isLoading, setIsLoading] = React.useState(false)
 
     // const linksMap = new Map<string, string>([
@@ -194,10 +204,17 @@ const SubscriptionsPage: React.FC = () => {
         <div className={styles['main__page']}>
             <Header/>
             <div className={styles['main__page-wrapper']}>
+                {isUserAuth && !user.isSuperuser &&
+                        <div className={styles['application__icon-wrapper']}>
+                            {isMainPage && 
+                                <ApplicationIcon onClick={() => navigate('/application')}/>
+                            }
+                        </div>
+                    }
                 <BreadCrumbs links={linksMap}></BreadCrumbs>
 
                 <h1 className={styles['main__page-title']}>
-                    Список всех доступных абонементов на транспорт 
+                    Список всех доступных абонементов на транспорт
                 </h1>
                 <h5 className={styles['main__page-subtitle']}>
                     Также вы может найти абонемент по определенным фильтрам, которые представлены ниже!

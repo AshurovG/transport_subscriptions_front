@@ -81,9 +81,9 @@ const Header: React.FC = () => {
                     {isUserAuth && !user.isSuperuser &&
                         <div className={styles['application__icon-wrapper']}>
                             {/* <div className={styles['application__icon-circle']}>{subscriptionsFromApplications.length}</div> */}
-                            {isMainPage && 
+                            {/* {isMainPage && 
                                 <ApplicationIcon onClick={() => navigate('/application')}/>
-                            }
+                            } */}
                         </div>
                     }
                     {isUserAuth ? <ProfileIcon className={styles['header__profile-icon']} onClick={handleProfileButtonClick}/> : <Link to='/login' className={styles.header__profile}><ProfileIcon/></Link>}
