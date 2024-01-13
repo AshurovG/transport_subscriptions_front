@@ -24,6 +24,7 @@ thead {
         border-radius: 10px;
     }
 
+
     padding: 20px;
 
     &__head {
@@ -32,6 +33,10 @@ thead {
 
     &__btn:hover {
         background-color: #0b5ed7 !important;
+    }
+
+    &__button {
+        background-color: #2787F5;
     }
 }
 

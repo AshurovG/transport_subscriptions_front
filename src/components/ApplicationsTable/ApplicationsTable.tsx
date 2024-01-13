@@ -58,7 +58,7 @@ const ApplicationsTable: React.FC<SubscriptionsTableProps> = ({applications, cla
   return (
     <>
     <div className={styles.table__container}>
-    <Table responsive borderless className={!className ? styles.table : cn(styles.table, className)}>
+    <Table hover responsive borderless className={!className ? styles.table : cn(styles.table, className)}>
         <thead>
           <tr className={styles.tableHead}>
             <th>№</th>
@@ -72,7 +72,7 @@ const ApplicationsTable: React.FC<SubscriptionsTableProps> = ({applications, cla
         </thead>
         <tbody>
           {applications.map((application: ApplicationData, index: number) => (
-            <tr key={application.id}>
+            <tr className={styles.table__row} key={application.id}>
               <td>{++index}</td>
               <td>{application.status}</td>
               <td>{application.creationDate}</td>
@@ -85,7 +85,7 @@ const ApplicationsTable: React.FC<SubscriptionsTableProps> = ({applications, cla
                   pathname: `/applications/${application.id}`,
                   state: { flag: true }, // Здесь передаем пропс
                 }}> */}
-                  <Button onClick={() => handleClick(application.id)}>Подробнее</Button>
+                  <Button className={styles.table__button} onClick={() => handleClick(application.id)}>Подробнее</Button>
                 {/* </Link>  */}
                 {/* <Link to={`/applications/${application.id}`}> */}
                   {/* <Button onClick={() => handleDetailedButtonClick(application.id)}>Подробнее</Button> */}

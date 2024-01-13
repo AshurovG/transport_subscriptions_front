@@ -56,7 +56,7 @@ const SubscriptionsTable: React.FC<SubscriptionsTableProps> = ({subscriptions, c
 
   return (
     <div className={styles.table__container}>
-      <Table responsive borderless className={!className ? styles.table : cn(styles.table, className)}>
+      <Table hover responsive borderless className={!className ? styles.table : cn(styles.table, className)}>
         <thead>
           <tr className={styles.tableHead}>
             <th>№</th>

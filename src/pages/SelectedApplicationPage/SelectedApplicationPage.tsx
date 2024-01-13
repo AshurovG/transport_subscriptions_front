@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, ChangeEvent } from 'react'
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import styles from './SelectedApplicationPage.module.scss'
@@ -13,6 +13,7 @@ import { useCurrentApplicationDate, useSubscripitonsFromApplication,
 import { Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { Form } from "react-bootstrap";
 
 export type ReceivedSubscriptionData = {
     id: number;
@@ -35,6 +36,8 @@ const SelectedApplicationPage = () => {
   const applicationDate = useCurrentApplicationDate();
   const navigate = useNavigate()
   const subscripitonsFromApplication = useSubscripitonsFromApplication()
+  const today = new Date().toISOString().split('T')[0];
+  const [dateValue, setDateValue] = useState('')
   
   React.useEffect(() => {
     console.log('flag', flag)
@@ -63,8 +66,11 @@ const SelectedApplicationPage = () => {
 
   const sendApplication = async () => {
     try {
-      const response = await axios(`http://localhost:8000/applications/send`, {
+      await axios(`http://localhost:8000/applications/send`, {
         method: 'PUT',
+        data: {
+          active_date: dateValue
+        },
         withCredentials: true
       })
 
@@ -95,7 +101,7 @@ const SelectedApplicationPage = () => {
 
   React.useEffect(() => {
       const newLinksMap = new Map<string, string>(linksMap); // Копирование старого Map
-      newLinksMap.set(id, '/applications/' + id);
+      newLinksMap.set('Текущая заявка', '/applications/' + id);
       dispatch(setLinksMapDataAction(newLinksMap))
       getCurrentApplication();
 
@@ -110,6 +116,11 @@ const SelectedApplicationPage = () => {
     deleteApplication();
     navigate('/subscriptions')
   }
+
+  const handleDateChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setDateValue(event.target.value);
+    console.log(event.target.value)
+  };
 
     return (
         <div className={styles.application__page}>
@@ -131,10 +142,18 @@ const SelectedApplicationPage = () => {
                 <div>
                   {!flag ? <>
                     <h3 className={styles['application__page-info-title']}>Дата создания заявки: <br/><b>{applicationDate}</b></h3>
-                    <h3 className={styles['application__page-info-title']}>Добавленные абонементы:</h3>
+                    {/* <h3 className={styles['application__page-text']}>Добавленные абонементы:</h3> */}
 
                   <SubscriptionsTable flag={false} subscriptions={subscripitonsFromApplication} className={styles['application__page-table']}/>
+                  <h3 className={styles['application__page-text']} style={{marginTop: 30}}>Дата начала действия абонемента:</h3>
                   <div className={styles['application__page-info-btns']}>
+                  <Form.Control
+                    className={styles['application__page-input']}
+                    type="date"
+                    defaultValue={today}
+                    min={today}
+                    onChange={handleDateChange}
+                  />
                     <Button onClick={() => handleSendButtonClick()} className={styles['application__page-info-btn']}>Отправить</Button>
                     <Button onClick={() => handleDeleteButtonClick()} className={styles['application__page-info-btn']}>Удалить</Button>
                   </div>

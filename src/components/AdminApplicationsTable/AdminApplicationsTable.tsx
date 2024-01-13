@@ -8,8 +8,8 @@ import Button from 'react-bootstrap/Button';
 import ModalWindow from 'components/ModalWindow'
 import cn from 'classnames';
 import { useDispatch } from 'react-redux';
-import { useCurrentApplicationDate, useSubscripitonsFromApplication,
-  setCurrentApplicationDateAction, setSubscriptionsFromApplicationAction, setCurrentApplicationIdAction, useApplications, setApplicationsAction } from 'Slices/ApplicationsSlice'
+import { useApplications, setApplicationsAction } from 'Slices/ApplicationsSlice'
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import CancelIcon from 'components/Icons/CancelIcon';
 import AcceptIcon from 'components/Icons/AcceptIcon';
@@ -61,6 +61,7 @@ export type ReceivedApplicationData = {
 
 const AdminApplicationsTable: React.FC<SubscriptionsTableProps> = ({className}) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const applications = useApplications()
   const [isModalWindowOpened, setIsModalWindowOpened] = useState(false);
   const [currentSubscriptions, setCurrentSubscriptions] = useState<SubscriptionData[]>([])
@@ -164,21 +165,15 @@ const AdminApplicationsTable: React.FC<SubscriptionsTableProps> = ({className}) 
   const handleCancelButtonClick = (id: number) => {
     putApplication(id, false)
   }
-
-  // React.useEffect(() => {
-  //   getAllApplications()
-  //   // const intervalId = setInterval(getAllApplications, 5000);
  
-  //   return () => {
-  //       clearInterval(intervalId);
-  //   };
-  // }, []);
- 
+  const handleClick = (id: number) => {
+    navigate(`/applications/${id}`, { state: { flag: true } });
+  };
 
   return (
     <>
     <div className={styles.table__container}>
-    <Table responsive borderless className={!className ? styles.table : cn(styles.table, className)}>
+    <Table hover responsive borderless className={!className ? styles.table : cn(styles.table, className)}>
         <thead>
           <tr className={styles.tableHead}>
             <th>№</th>
@@ -204,9 +199,9 @@ const AdminApplicationsTable: React.FC<SubscriptionsTableProps> = ({className}) 
               <td>{application.activeDate ? application.activeDate : '-'}</td>
               <td>{application.userEmail}</td>
               <td className={styles.table__action}>
-                <Link to={`/applications/${application.id}`}>
-                  <Button>Подробнее</Button>
-                </Link>
+                {/* <Link to={`/applications/${application.id}`}> */}
+                <Button className={styles.table__button} onClick={() => handleClick(application.id)}>Подробнее</Button>
+                {/* </Link> */}
                 {/* <Link to={`/applications/${application.id}`}> */}
                   {/* <Button onClick={() => handleDetailedButtonClick(application.id)}>Подробнее</Button> */}
                   {application.status === 'Проверяется' && <><CancelIcon onClick={() => handleCancelButtonClick(application.id)}></CancelIcon>
