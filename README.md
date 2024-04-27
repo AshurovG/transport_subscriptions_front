@@ -1,5 +1,75 @@
-# Система для приобретения абонементов на транспорт (репозиторий фронтенда)
+# Система для приобретения абонементов на транспорт (репозиторий Frontend)
 
-Бэкенд: [https://github.com/AshurovG/transport_subscriptions_back](https://github.com/AshurovG/transport_subscriptions_back)
+## Ссылки
 
-Нативное приложение: [https://github.com/AshurovG/transport-subscriptions-native/tree/feature](https://github.com/AshurovG/transport-subscriptions-native/tree/feature)
+[Ссылка на Backend]
+[Ссылка на нативное приложение]
+Ограниченный функционал развернут на [Pages]
+
+## Стек технологий
+
+- Frontend: React, Typescript, Redux Toolkit, Vite, SCSS modules, Framer-motion, React Bootstrap.
+- Backend: Django (ORM), PostgreSQL, Redis, S3 Minio.
+- Нативное приложение: React Native, Typescript.
+
+## Функционал приложения
+
+- Просмотр главной страницы с основной информацией о приложении
+- Просмотр доступных для приобретения абонементов (с возможностью добавления абонементов в заявку-корзину - только для авторизованных пользователей)
+- Авториация и регистрация
+- Просмотр текущей заявки-корзины
+- Просмотр истории заявок конкретного пользователя
+- Редактирование абонементов - доступно только для модераторов (сотрудников транспортной компании)
+- Просмотр заявок всех пользователей, отклонении и принятие - доступно только для модераторов
+
+## Экраны приложения
+
+### Главная страница:
+
+![Описание изображения](src/markdownImages/page1.png)
+
+### Главная страница:
+
+![Описание изображения](src/markdownImages/page1.png)
+
+### Регистрация и вход
+
+![Описание изображения](src/markdownImages/page2.png)
+
+![Описание изображения](src/markdownImages/page3.png)
+
+### Страница абонементов
+
+![Описание изображения](src/markdownImages/page4.png)
+
+### Страница одного абонемента
+
+![Описание изображения](src/markdownImages/page5.png)
+
+### Страница текущей заявки-корзины
+
+![Описание изображения](src/markdownImages/page6.png)
+
+### Страница истории заявок пользователя
+
+![Описание изображения](src/markdownImages/page7.png)
+
+### Окно профиля пользователя
+
+![Описание изображения](src/markdownImages/window1.png)
+
+### Страница администрировения (редактирования абонементов и категорий)
+
+![Описание изображения](src/markdownImages/page8.png)
+
+### Окно редактирования / создания абонемента
+
+![Описание изображения](src/markdownImages/window2.png)
+
+### Страница заявок всех пользователей
+
+![Описание изображения](src/markdownImages/page9.png)
+
+[Ссылка на Backend]: https://github.com/AshurovG/transport_subscriptions_back
+[Ссылка на нативное приложение]: https://github.com/AshurovG/transport-subscriptions-native/tree/feature
+[Pages]: https://ashurovg.github.io/transport_subscriptions_front/
