@@ -1,12 +1,11 @@
-import React from 'react'
-import { useState } from 'react';
-import axios from 'axios';
-import styles from './ApplicationsTable.module.scss'
-import Table from 'react-bootstrap/Table';
-import Button from 'react-bootstrap/Button';
-import ModalWindow from 'components/ModalWindow'
-import cn from 'classnames';
-
+import React from "react";
+import { useState } from "react";
+import axios from "axios";
+import styles from "./ApplicationsTable.module.scss";
+import Table from "react-bootstrap/Table";
+import Button from "react-bootstrap/Button";
+import ModalWindow from "components/ModalWindow";
+import cn from "classnames";
 
 interface ApplicationData {
   id: number;
@@ -33,94 +32,114 @@ export type ReceivedSubscriptionData = {
   src: string;
   id_category: number;
   category: string;
-}
+};
 
 export type SubscriptionsTableProps = {
   applications: ApplicationData[];
   className?: string;
 };
 
-const ApplicationsTable: React.FC<SubscriptionsTableProps> = ({applications, className}) => {
+const ApplicationsTable: React.FC<SubscriptionsTableProps> = ({
+  applications,
+  className,
+}) => {
   const [isModalWindowOpened, setIsModalWindowOpened] = useState(false);
-  const [currentSubscriptions, setCurrentSubscriptions] = useState<SubscriptionData[]>([])
+  const [currentSubscriptions, setCurrentSubscriptions] = useState<
+    SubscriptionData[]
+  >([]);
 
   const getCurrentApplication = async (id: number) => {
     try {
       const response = await axios(`http://localhost:8000/applications/${id}`, {
-        method: 'GET',
+        method: "GET",
         withCredentials: true,
-      })
-      const newArr = response.data.subscriptions.map((raw: ReceivedSubscriptionData) => ({
-        id: raw.id,
-        title: raw.title,
-        price: raw.price,
-        info: raw.info,
-        src: raw.src,
-        categoryTitle: raw.category
-    }));
-    setCurrentSubscriptions(newArr)
-    console.log('newArr is', newArr)
-    } catch(error) {
+      });
+      const newArr = response.data.subscriptions.map(
+        (raw: ReceivedSubscriptionData) => ({
+          id: raw.id,
+          title: raw.title,
+          price: raw.price,
+          info: raw.info,
+          src: raw.src,
+          categoryTitle: raw.category,
+        })
+      );
+      setCurrentSubscriptions(newArr);
+      console.log("newArr is", newArr);
+    } catch (error) {
       throw error;
     }
-  }
+  };
 
   const handleDetailedButtonClick = (id: number) => {
     getCurrentApplication(id);
-    setIsModalWindowOpened(true)
+    setIsModalWindowOpened(true);
   };
 
   return (
     <>
-    <div className={styles.table__container}>
-    <Table responsive borderless className={!className ? styles.table : cn(styles.table, className)}>
-        <thead>
-          <tr className={styles.tableHead}>
-            <th>№</th>
-            <th>Статус</th>
-            <th>Дата создания</th>
-            <th>Дата формирования</th>
-            <th>Дата завершения</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {applications.map((application: ApplicationData, index: number) => (
-            <tr key={application.id}>
-              <td>{++index}</td>
-              <td>{application.status}</td>
-              <td>{application.creationDate}</td>
-              <td>{application.publicationDate ? application.publicationDate : '-'}</td>
-              <td>{application.approvingDate ? application.approvingDate : '-'}</td>
-              <td className={styles.table__action}>
-                {/* <Link to={`/applications/${application.id}`}>
-                <Button>Подробнее</Button>
-                </Link> */}
-                {/* <Link to={`/applications/${application.id}`}> */}
-                  <Button onClick={() => handleDetailedButtonClick(application.id)}>Подробнее</Button>
-                {/* </Link> */}
-              </td>
+      <div className={styles.table__container}>
+        <Table
+          responsive
+          borderless
+          className={!className ? styles.table : cn(styles.table, className)}
+        >
+          <thead>
+            <tr className={styles.tableHead}>
+              <th>№</th>
+              <th>Статус</th>
+              <th>Дата создания</th>
+              <th>Дата формирования</th>
+              <th>Дата завершения</th>
+              <th></th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
-    </div>
-
-      <ModalWindow handleBackdropClick={() => setIsModalWindowOpened(false)} className={styles.modal} active={isModalWindowOpened}>
-      <h3 className={styles.modal__title}>Добавленные абонементы</h3>
-      <div className={styles.modal__list}>
-        {currentSubscriptions.map((subscription: SubscriptionData) => (
-          <div className={styles['modal__list-item']}>
-            <div className={styles['modal__list-item-title']}>
-              {subscription.categoryTitle} "{subscription.title}"
-            </div>
-            <b>{subscription.price} ₽</b>
-          </div>
-        ))}
+          </thead>
+          <tbody>
+            {applications.map((application: ApplicationData, index: number) => (
+              <tr key={application.id}>
+                <td>{++index}</td>
+                <td>{application.status}</td>
+                <td>{application.creationDate}</td>
+                <td>
+                  {application.publicationDate
+                    ? application.publicationDate
+                    : "-"}
+                </td>
+                <td>
+                  {application.approvingDate ? application.approvingDate : "-"}
+                </td>
+                <td className={styles.table__action}>
+                  <Button
+                    onClick={() => handleDetailedButtonClick(application.id)}
+                  >
+                    Подробнее
+                  </Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
       </div>
+
+      <ModalWindow
+        handleBackdropClick={() => setIsModalWindowOpened(false)}
+        className={styles.modal}
+        active={isModalWindowOpened}
+      >
+        <h3 className={styles.modal__title}>Добавленные абонементы</h3>
+        <div className={styles.modal__list}>
+          {currentSubscriptions.map((subscription: SubscriptionData) => (
+            <div className={styles["modal__list-item"]}>
+              <div className={styles["modal__list-item-title"]}>
+                {subscription.categoryTitle} "{subscription.title}"
+              </div>
+              <b>{subscription.price} ₽</b>
+            </div>
+          ))}
+        </div>
       </ModalWindow>
     </>
   );
-}
+};
 
-export default ApplicationsTable
+export default ApplicationsTable;

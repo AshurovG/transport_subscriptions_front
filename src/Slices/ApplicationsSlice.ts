@@ -29,9 +29,9 @@ const dataSlice = createSlice({
   name: "data",
   initialState: {
     currentApplicationId: null,
-    currentApplicationDate: '',
+    currentApplicationDate: "",
     subscriptionsFromApplication: [],
-    applications: []
+    applications: [],
   } as DataState,
   reducers: {
     setCurrentApplicationId(state, action: PayloadAction<number>) {
@@ -40,34 +40,48 @@ const dataSlice = createSlice({
     setCurrentApplicationDate(state, action: PayloadAction<string>) {
       state.currentApplicationDate = action.payload;
     },
-    setSubscriptionsFromApplication(state, action: PayloadAction<SubscriptionData[]>) {
+    setSubscriptionsFromApplication(
+      state,
+      action: PayloadAction<SubscriptionData[]>
+    ) {
       state.subscriptionsFromApplication = action.payload;
     },
     setApplications(state, action: PayloadAction<ApplicationData[]>) {
       state.applications = action.payload;
-      console.log('applications is', action.payload)
-    }
+      console.log("applications is", action.payload);
+    },
   },
 });
 
 export const useCurrentApplicationId = () =>
-  useSelector((state: { applicationsData: DataState }) => state.applicationsData.currentApplicationId);
+  useSelector(
+    (state: { applicationsData: DataState }) =>
+      state.applicationsData.currentApplicationId
+  );
 
 export const useCurrentApplicationDate = () =>
-  useSelector((state: { applicationsData: DataState }) => state.applicationsData.currentApplicationDate);
+  useSelector(
+    (state: { applicationsData: DataState }) =>
+      state.applicationsData.currentApplicationDate
+  );
 
 export const useSubscripitonsFromApplication = () =>
-  useSelector((state: { applicationsData: DataState }) => state.applicationsData.subscriptionsFromApplication);
+  useSelector(
+    (state: { applicationsData: DataState }) =>
+      state.applicationsData.subscriptionsFromApplication
+  );
 
 export const useApplications = () =>
-  useSelector((state: { applicationsData: DataState }) => state.applicationsData.applications);
+  useSelector(
+    (state: { applicationsData: DataState }) =>
+      state.applicationsData.applications
+  );
 
 export const {
-    setCurrentApplicationId: setCurrentApplicationIdAction,
-    setCurrentApplicationDate: setCurrentApplicationDateAction,
-    setSubscriptionsFromApplication: setSubscriptionsFromApplicationAction,
-    setApplications: setApplicationsAction
-
+  setCurrentApplicationId: setCurrentApplicationIdAction,
+  setCurrentApplicationDate: setCurrentApplicationDateAction,
+  setSubscriptionsFromApplication: setSubscriptionsFromApplicationAction,
+  setApplications: setApplicationsAction,
 } = dataSlice.actions;
 
 export default dataSlice.reducer;

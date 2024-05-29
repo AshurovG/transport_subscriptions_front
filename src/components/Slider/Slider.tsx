@@ -8,7 +8,7 @@ import "./Slider.scss";
 export type SliderProps = {
   minimum: number;
   maximum: number;
-  currentValues: number[]
+  currentValues: number[];
   title?: string;
   onChangeValues: (values: number[]) => void;
 };

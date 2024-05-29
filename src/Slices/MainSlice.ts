@@ -27,28 +27,28 @@ const dataSlice = createSlice({
   name: "data",
   initialState: {
     categories: [],
-    categoryValue: 'Все категории',
-    titleValue: '',
+    categoryValue: "Все категории",
+    titleValue: "",
     subscriptions: [],
-    priceValues: [0, 10000]
+    priceValues: [0, 10000],
   } as DataState,
   reducers: {
     setCategories(state, action: PayloadAction<CategoryData[]>) {
-      state.categories = action.payload
+      state.categories = action.payload;
     },
     setCategoryValue(state, action: PayloadAction<string>) {
-      state.categoryValue = action.payload
+      state.categoryValue = action.payload;
     },
     setTitleValue(state, action: PayloadAction<string>) {
-      state.titleValue = action.payload
+      state.titleValue = action.payload;
     },
     setSubscriptions(state, action: PayloadAction<SubscriptionData[]>) {
-      console.log('pay is', action.payload)
-      state.subscriptions = action.payload
+      console.log("pay is", action.payload);
+      state.subscriptions = action.payload;
     },
     setPriceValues(state, action: PayloadAction<number[]>) {
-      state.priceValues = action.payload
-    }
+      state.priceValues = action.payload;
+    },
   },
 });
 
@@ -58,7 +58,7 @@ export const useCategories = () =>
 
 export const useCategoryValue = () =>
   useSelector((state: { mainData: DataState }) => state.mainData.categoryValue);
-  
+
 export const useTitleValue = () =>
   useSelector((state: { mainData: DataState }) => state.mainData.titleValue);
 
@@ -70,11 +70,11 @@ export const usePriceValues = () =>
 
 // Action, который будем применять в различных обработках
 export const {
-    setCategories: setCategoriesAction,
-    setCategoryValue: setCategoryValueAction,
-    setTitleValue: setTitleValueAction,
-    setSubscriptions: setSubscriptionsAction,
-    setPriceValues: setPriceValuesAction
+  setCategories: setCategoriesAction,
+  setCategoryValue: setCategoryValueAction,
+  setTitleValue: setTitleValueAction,
+  setSubscriptions: setSubscriptionsAction,
+  setPriceValues: setPriceValuesAction,
 } = dataSlice.actions;
 
 export default dataSlice.reducer;

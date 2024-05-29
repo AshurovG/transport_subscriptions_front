@@ -5,12 +5,12 @@ interface UserData {
   email: string;
   fullname: string;
   phoneNumber: string;
-  isSuperuser: boolean
+  isSuperuser: boolean;
 }
 
 interface DataState {
-    user: UserData,
-    isAuth: boolean,
+  user: UserData;
+  isAuth: boolean;
 }
 
 const dataSlice = createSlice({
@@ -21,13 +21,13 @@ const dataSlice = createSlice({
   } as DataState,
   reducers: {
     setUser(state, action: PayloadAction<UserData>) {
-      state.user = action.payload
-      console.log(`user is ${action.payload.email}`)
+      state.user = action.payload;
+      console.log(`user is ${action.payload.email}`);
     },
     setIsAuth(state, action: PayloadAction<boolean>) {
-      state.isAuth = action.payload
-      console.log(`is auth: ${action.payload}`)
-    }
+      state.isAuth = action.payload;
+      console.log(`is auth: ${action.payload}`);
+    },
   },
 });
 
@@ -37,9 +37,7 @@ export const useUser = () =>
 export const useIsAuth = () =>
   useSelector((state: { authData: DataState }) => state.authData.isAuth);
 
-export const {
-  setUser: setUserAction,
-  setIsAuth: setIsAuthAction,
-} = dataSlice.actions;
+export const { setUser: setUserAction, setIsAuth: setIsAuthAction } =
+  dataSlice.actions;
 
 export default dataSlice.reducer;
